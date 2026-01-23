@@ -2,7 +2,7 @@ title: Meta-analysis of continuous outcome data
 name: mpcont
 jus: '3.0'
 stage: 0
-compilerMode: aggressive
+compilerMode: tame
 children:
   - type: VariableSupplier
     persistentItems: false

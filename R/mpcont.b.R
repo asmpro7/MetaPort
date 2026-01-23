@@ -31,6 +31,8 @@ mpcontClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           metamodel$setState(OverallMeta)
           self$results$text$setContent(OverallMeta)
           
+          
+          
 
         },
         .plot=function(metamodel, ...) {
