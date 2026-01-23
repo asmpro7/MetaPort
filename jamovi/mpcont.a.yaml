@@ -1,0 +1,68 @@
+---
+name:  mpcont
+title: Meta-analysis of continuous outcome data
+menuGroup: MetaPort
+version: '1.0.0'
+jas: '1.2'
+
+options:
+    - name: data
+      type: Data
+
+    - name: mean.e
+      title: Mean in experimental group
+      type: Variable
+
+    - name: sd.e
+      title: Standard deviation in experimental group
+      type: Variable
+
+    - name: n.e
+      title: Total in experimental group
+      type: Variable
+      
+    - name: mean.c
+      title: Mean in control group
+      type: Variable
+
+    - name: sd.c
+      title: Standard deviation in control group
+      type: Variable
+      
+    - name: n.c
+      title: Total in control group
+      type: Variable
+      
+    - name: id
+      title: study labels
+      type: Variable
+      
+    - name: sm
+      title: Summary measure
+      type: List
+      options:
+        - title: mean difference
+          name:  MD
+        - title: standardised mean difference
+          name:  SMD
+      default: MD
+
+    - name: random
+      title: random effects meta-analysis
+      type: Bool
+      default: true
+      
+    - name: common
+      title: common effect meta-analysis
+      type: Bool
+      default: true
+    
+    - name: label.e
+      title: Label for experimental group
+      type: String
+      
+    - name: label.c
+      title: Label for control group
+      type: String
+      
+...

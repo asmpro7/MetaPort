@@ -1,0 +1,18 @@
+---
+name:  mpcont
+title: Meta-analysis of continuous outcome data
+jrs:   '1.1'
+
+items:
+    - name:  text
+      title: Results for Overall meta analysis
+      type:  Preformatted
+
+    - name: plot
+      title: Forest Plot
+      type: Image
+      width:  800
+      height: 1000
+      renderFun: .plot
+
+...
