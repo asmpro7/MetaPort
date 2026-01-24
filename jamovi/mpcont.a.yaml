@@ -65,4 +65,33 @@ options:
       title: Label for control group
       type: String
       
+    - name: LOO
+      title: leave-one-out Analysis
+      type: Bool
+      default: false
+      
+    - name: OUT
+      title: Outliers Analysis
+      type: Bool
+      default: false
+      
+    - name: baujat
+      title: Baujat Plot
+      type: Bool
+      default: false
+      
+    - name: InfluenceCharacteristics
+      title: Influence Characteristics Plot
+      type: Bool
+      default: false
+      
+    - name: ForestEffectSize
+      title: Forest Plot Sorted By Effect Size
+      type: Bool
+      default: false
+      
+    - name: ForestI2
+      title: Forest Plot Sorted By between-study heterogeneity
+      type: Bool
+      default: false
 ...

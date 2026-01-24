@@ -31,8 +31,20 @@ mpcontClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
           metamodel$setState(OverallMeta)
           self$results$text$setContent(OverallMeta)
           
+          # sensitivity analysis
+          LOO <- self$options$LOO
+          OUT <- self$options$OUT
+          baujat <- self$options$OUT
+          InfluenceCharacteristics <- self$options$InfluenceCharacteristics
+          ForestEffectSize <- self$options$ForestEffectSize
+          ForestI2 <- self$options$ForestI2
           
-          
+          if (LOO == TRUE) {
+          LOOResults <- meta::metainf(OverallMeta)
+          self$results$LOOText$setContent(LOOResults)
+          LOOData <- self$results$LOOPlot
+          LOOData$setState(LOOResults)
+          }
 
         },
         .plot=function(metamodel, ...) {
@@ -43,5 +55,12 @@ mpcontClass <- if (requireNamespace('jmvcore', quietly=TRUE)) R6::R6Class(
                  leftlabs = c("Study", "Mean", "SD", "Total", "Mean", "SD", "Total"),
                  col.diamond = "black",col.subgroup ="gray30", digits.sd = 2)
           TRUE
-        })
+        },
+        .LOOPlot=function(LOOData, ...) {
+          meta::forest(LOOData$state, rightcols = c("effect","ci","tau2","I2"),
+                       col.diamond = "black",col.subgroup ="gray30")
+          TRUE
+        }
+        
+        )
 )

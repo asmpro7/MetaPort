@@ -17,7 +17,13 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             random = TRUE,
             common = TRUE,
             label.e = NULL,
-            label.c = NULL, ...) {
+            label.c = NULL,
+            LOO = FALSE,
+            OUT = FALSE,
+            baujat = FALSE,
+            InfluenceCharacteristics = FALSE,
+            ForestEffectSize = FALSE,
+            ForestI2 = FALSE, ...) {
 
             super$initialize(
                 package="MetaPort",
@@ -67,6 +73,30 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..label.c <- jmvcore::OptionString$new(
                 "label.c",
                 label.c)
+            private$..LOO <- jmvcore::OptionBool$new(
+                "LOO",
+                LOO,
+                default=FALSE)
+            private$..OUT <- jmvcore::OptionBool$new(
+                "OUT",
+                OUT,
+                default=FALSE)
+            private$..baujat <- jmvcore::OptionBool$new(
+                "baujat",
+                baujat,
+                default=FALSE)
+            private$..InfluenceCharacteristics <- jmvcore::OptionBool$new(
+                "InfluenceCharacteristics",
+                InfluenceCharacteristics,
+                default=FALSE)
+            private$..ForestEffectSize <- jmvcore::OptionBool$new(
+                "ForestEffectSize",
+                ForestEffectSize,
+                default=FALSE)
+            private$..ForestI2 <- jmvcore::OptionBool$new(
+                "ForestI2",
+                ForestI2,
+                default=FALSE)
 
             self$.addOption(private$..mean.e)
             self$.addOption(private$..sd.e)
@@ -80,6 +110,12 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..common)
             self$.addOption(private$..label.e)
             self$.addOption(private$..label.c)
+            self$.addOption(private$..LOO)
+            self$.addOption(private$..OUT)
+            self$.addOption(private$..baujat)
+            self$.addOption(private$..InfluenceCharacteristics)
+            self$.addOption(private$..ForestEffectSize)
+            self$.addOption(private$..ForestI2)
         }),
     active = list(
         mean.e = function() private$..mean.e$value,
@@ -93,7 +129,13 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         random = function() private$..random$value,
         common = function() private$..common$value,
         label.e = function() private$..label.e$value,
-        label.c = function() private$..label.c$value),
+        label.c = function() private$..label.c$value,
+        LOO = function() private$..LOO$value,
+        OUT = function() private$..OUT$value,
+        baujat = function() private$..baujat$value,
+        InfluenceCharacteristics = function() private$..InfluenceCharacteristics$value,
+        ForestEffectSize = function() private$..ForestEffectSize$value,
+        ForestI2 = function() private$..ForestI2$value),
     private = list(
         ..mean.e = NA,
         ..sd.e = NA,
@@ -106,7 +148,13 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..random = NA,
         ..common = NA,
         ..label.e = NA,
-        ..label.c = NA)
+        ..label.c = NA,
+        ..LOO = NA,
+        ..OUT = NA,
+        ..baujat = NA,
+        ..InfluenceCharacteristics = NA,
+        ..ForestEffectSize = NA,
+        ..ForestI2 = NA)
 )
 
 mpcontResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -114,7 +162,9 @@ mpcontResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         text = function() private$.items[["text"]],
-        plot = function() private$.items[["plot"]]),
+        plot = function() private$.items[["plot"]],
+        LOOText = function() private$.items[["LOOText"]],
+        LOOPlot = function() private$.items[["LOOPlot"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -132,7 +182,18 @@ mpcontResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Forest Plot",
                 width=800,
                 height=1000,
-                renderFun=".plot"))}))
+                renderFun=".plot"))
+            self$add(jmvcore::Preformatted$new(
+                options=options,
+                name="LOOText",
+                title="leave-one-out Analysis"))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="LOOPlot",
+                title="leave-one-out Plot",
+                width=800,
+                height=1000,
+                renderFun=".LOOPlot"))}))
 
 mpcontBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "mpcontBase",
@@ -171,10 +232,18 @@ mpcontBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param common .
 #' @param label.e .
 #' @param label.c .
+#' @param LOO .
+#' @param OUT .
+#' @param baujat .
+#' @param InfluenceCharacteristics .
+#' @param ForestEffectSize .
+#' @param ForestI2 .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$LOOText} \tab \tab \tab \tab \tab a preformatted \cr
+#'   \code{results$LOOPlot} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' @export
@@ -191,7 +260,13 @@ mpcont <- function(
     random = TRUE,
     common = TRUE,
     label.e,
-    label.c) {
+    label.c,
+    LOO = FALSE,
+    OUT = FALSE,
+    baujat = FALSE,
+    InfluenceCharacteristics = FALSE,
+    ForestEffectSize = FALSE,
+    ForestI2 = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("mpcont requires jmvcore to be installed (restart may be required)")
@@ -227,7 +302,13 @@ mpcont <- function(
         random = random,
         common = common,
         label.e = label.e,
-        label.c = label.c)
+        label.c = label.c,
+        LOO = LOO,
+        OUT = OUT,
+        baujat = baujat,
+        InfluenceCharacteristics = InfluenceCharacteristics,
+        ForestEffectSize = ForestEffectSize,
+        ForestI2 = ForestI2)
 
     analysis <- mpcontClass$new(
         options = options,

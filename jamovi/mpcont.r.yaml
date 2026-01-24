@@ -14,7 +14,17 @@ items:
       width:  800
       height: 1000
       renderFun: .plot
-      
+
+    - name:  LOOText
+      title: leave-one-out Analysis
+      type:  Preformatted
+
+    - name:  LOOPlot
+      title: leave-one-out Plot
+      type:  Image
+      width:  800
+      height: 1000
+      renderFun: .LOOPlot
 
 
 ...

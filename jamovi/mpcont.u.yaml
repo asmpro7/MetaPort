@@ -86,3 +86,23 @@ children:
           - type: TextBox
             name: label.c
             format: string
+  - type: CollapseBox
+    label: Sensitivity and Influence Analysis
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: LOO
+          - type: CheckBox
+            name: OUT
+          - type: CheckBox
+            name: baujat
+          - type: CheckBox
+            name: InfluenceCharacteristics
+          - type: CheckBox
+            name: ForestEffectSize
+          - type: CheckBox
+            name: ForestI2
