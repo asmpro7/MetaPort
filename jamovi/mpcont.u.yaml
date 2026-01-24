@@ -57,27 +57,32 @@ children:
             name: id
             maxItemCount: 1
             isTarget: true
-  - type: LayoutBox
-    margin: large
+  - type: CollapseBox
+    label: Overall Meta-Analysis
+    collapsed: true
+    stretchFactor: 1
     children:
-      - type: ComboBox
-        name: sm
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: CheckBox
-        name: random
-      - type: CheckBox
-        name: common
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: TextBox
-        name: label.e
-        format: string
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: TextBox
-        name: label.c
-        format: string
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: ComboBox
+            name: sm
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: random
+          - type: CheckBox
+            name: common
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: TextBox
+            name: label.e
+            format: string
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: TextBox
+            name: label.c
+            format: string
