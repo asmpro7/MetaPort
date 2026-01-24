@@ -6,7 +6,7 @@
         `type`="article", 
         `author`="Sara Balduzzi and Gerta R\u00FCcker and Guido Schwarzer", 
         `year`=2019, 
-        `title`="How to perform a meta-analysis with R\":\" a practical tutorial", 
+        `title`="How to perform a meta-analysis with R: a practical tutorial", 
         `publisher`="Evidence-Based Mental Health", 
         `pages`="153-160", 
         `url`="https://http://10.1136/ebmental-2019-300117"), 
@@ -23,5 +23,5 @@
         `type`="software", 
         `author`="Mathias Harrer and Pim Cuijpers and Toshi Furukawa and David Daniel Ebert", 
         `year`=2019, 
-        `title`="dmetar\":\" Companion R Package For The Guide 'Doing Meta-Analysis in R'", 
-        `url`="http://dmetar.protectlab.org/"))
+        `title`="dmetar: Companion R Package For The Guide 'Doing Meta-Analysis in R", 
+        `url`="http://dmetar.protectlab.org"))
