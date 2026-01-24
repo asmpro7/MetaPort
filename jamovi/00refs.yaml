@@ -1,0 +1,30 @@
+---
+refs:
+    metaPackage:
+        type: 'article'
+        author: Sara Balduzzi and Gerta Rücker and Guido Schwarzer
+        year: 2019
+        title: How to perform a meta-analysis with R":" a practical tutorial
+        publisher: Evidence-Based Mental Health
+        pages: 153-160
+        url: https://http://10.1136/ebmental-2019-300117
+        
+    metaforPackage:
+        type: 'article'
+        author: Wolfgang Viechtbauer
+        year: 2010
+        title: Conducting meta-analyses in R with the metafor package
+        publisher: Journal of Statistical Software
+        volume: 36
+        pages: 1-48
+        url: https://http://doi.org/10.18637/jss.v036.i03
+          
+    dmetarPackage:
+        type: 'software'
+        author: Mathias Harrer and Pim Cuijpers and Toshi Furukawa and David Daniel Ebert
+        year: 2019
+        title: dmetar":" Companion R Package For The Guide 'Doing Meta-Analysis in R'
+        url: http://dmetar.protectlab.org/
+        
+
+...
