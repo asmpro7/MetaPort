@@ -1,8 +1,8 @@
 title: Meta-analysis of continuous outcome data
 name: mpcont
-jus: "3.0"
+jus: '3.0'
 stage: 0
-compilerMode: tame
+compilerMode: aggressive
 children:
   - type: VariableSupplier
     persistentItems: false
@@ -57,72 +57,63 @@ children:
             name: nC
             maxItemCount: 1
             isTarget: true
-
   - type: LayoutBox
     margin: large
     children:
-      - type: Label
-        label: Meta-Analysis Model
-        children:
-          - type: LayoutBox
-            margin: large
-            children:
-              - type: ComboBox
-                name: sm
-              - type: ComboBox
-                name: methodSmd
-          - type: LayoutBox
-            margin: large
-            children:
-              - type: Label
-                label: Model Options
-                children:
-                  - type: CheckBox
-                    name: common
-                  - type: CheckBox
-                    name: random
-                    children:
-                      - type: ComboBox
-                        name: methodTau
-          - type: LayoutBox
-            margin: large
-            children:
-              - type: CheckBox
-                name: prediction
-          - type: LayoutBox
-            margin: large
-            children:
-              - type: TextBox
-                name: confidenceLevel
-                format: number
-              - type: Label
-                label: Group Labels
-                children:
-                  - type: TextBox
-                    name: groupLabelE
-                    format: string
-                    width: large
-                  - type: TextBox
-                    name: groupLabelC
-                    format: string
-                    width: large
-  - type: CollapseBox
-    label: Sensitivity and Influence Analysis
-    collapsed: true
-    stretchFactor: 1
+      - type: ComboBox
+        name: sm
+  - type: LayoutBox
+    margin: large
     children:
-      - type: LayoutBox
-        margin: large
-        children:
-          - type: CheckBox
-            name: LOO
-          - type: CheckBox
-            name: OUT
-          - type: CheckBox
-            name: baujat
-          - type: CheckBox
-            name: InfluenceCharacteristics
-          - type: CheckBox
-            name: ForestEffectSize
-          - type: CheckBox
-            name: ForestI2
+      - type: ComboBox
+        name: methodSmd
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: CheckBox
+        name: random
+      - type: CheckBox
+        name: common
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: ComboBox
+        name: methodTau
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: CheckBox
+        name: prediction
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: TextBox
+        name: confidenceLevel
+        format: number
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: TextBox
+        name: groupLabelE
+        format: string
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: TextBox
+        name: groupLabelC
+        format: string
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: CheckBox
+        name: LOO
+      - type: CheckBox
+        name: OUT
+      - type: CheckBox
+        name: baujat
+      - type: CheckBox
+        name: InfluenceCharacteristics
+      - type: CheckBox
+        name: ForestEffectSize
+      - type: CheckBox
+        name: ForestI2
