@@ -169,13 +169,24 @@ mpcontClass <- if (requireNamespace('jmvcore', quietly = TRUE)) {
       .LOOPlot = function(LOOData, ...) {
         if (self$options$LOO == TRUE) {
           
-         meta::forest(
+         LOOForest <- meta::forest(
             LOOData$state,
             rightcols = c("effect", "ci", "tau2", "I2"),
             col.diamond = "black",
             col.subgroup = "gray30"
           )
          
+          calculated_height <- tryCatch({
+            res <- suppressMessages(suppressWarnings(LOOForest))
+            res$figheight$total_height * 72
+          }, finally = {
+            grDevices::dev.off()
+            if (old_dev > 1)
+              grDevices::dev.set(old_dev)
+          })
+          
+          self$results$LOOPlot$setSize(width = 800, height = calculated_height)
+          plot(LOOForest)
           
           TRUE
         } else {

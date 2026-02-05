@@ -8,4 +8,4 @@ Description: All necessary functions to add full meta-analysis
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Imports: jmvcore (>= 0.8.5), R6, meta (>= 8.2-1), metafor
+Imports: jmvcore (>= 0.8.5), R6, meta, metafor
