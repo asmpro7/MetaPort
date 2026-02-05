@@ -23,6 +23,7 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             confidenceLevel = 0.95,
             groupLabelE = "Experimental",
             groupLabelC = "Control",
+            forestPlot = TRUE,
             LOO = FALSE,
             metaRegressionEnabled = FALSE, ...) {
 
@@ -141,6 +142,10 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "groupLabelC",
                 groupLabelC,
                 default="Control")
+            private$..forestPlot <- jmvcore::OptionBool$new(
+                "forestPlot",
+                forestPlot,
+                default=TRUE)
             private$..LOO <- jmvcore::OptionBool$new(
                 "LOO",
                 LOO,
@@ -167,6 +172,7 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..confidenceLevel)
             self$.addOption(private$..groupLabelE)
             self$.addOption(private$..groupLabelC)
+            self$.addOption(private$..forestPlot)
             self$.addOption(private$..LOO)
             self$.addOption(private$..metaRegressionEnabled)
         }),
@@ -188,6 +194,7 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         confidenceLevel = function() private$..confidenceLevel$value,
         groupLabelE = function() private$..groupLabelE$value,
         groupLabelC = function() private$..groupLabelC$value,
+        forestPlot = function() private$..forestPlot$value,
         LOO = function() private$..LOO$value,
         metaRegressionEnabled = function() private$..metaRegressionEnabled$value),
     private = list(
@@ -208,6 +215,7 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..confidenceLevel = NA,
         ..groupLabelE = NA,
         ..groupLabelC = NA,
+        ..forestPlot = NA,
         ..LOO = NA,
         ..metaRegressionEnabled = NA)
 )
@@ -259,6 +267,8 @@ mpcontResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 width=800,
                 height=1000,
                 renderFun=".forestPlot",
+                visible="(forestPlot)",
+                requiresData=TRUE,
                 clearWith=list(
                     "meanE",
                     "sdE",
@@ -413,6 +423,7 @@ mpcontBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param confidenceLevel .
 #' @param groupLabelE .
 #' @param groupLabelC .
+#' @param forestPlot .
 #' @param LOO .
 #' @param metaRegressionEnabled .
 #' @return A results object containing:
@@ -445,6 +456,7 @@ mpcont <- function(
     confidenceLevel = 0.95,
     groupLabelE = "Experimental",
     groupLabelC = "Control",
+    forestPlot = TRUE,
     LOO = FALSE,
     metaRegressionEnabled = FALSE) {
 
@@ -490,6 +502,7 @@ mpcont <- function(
         confidenceLevel = confidenceLevel,
         groupLabelE = groupLabelE,
         groupLabelC = groupLabelC,
+        forestPlot = forestPlot,
         LOO = LOO,
         metaRegressionEnabled = metaRegressionEnabled)
 

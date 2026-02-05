@@ -149,6 +149,11 @@ options:
     type: String
     default: Control
     
+  - name: forestPlot
+    title: Forest Plot
+    type: Bool
+    default: true
+
   - name: LOO
     title: leave-one-out Analysis
     type: Bool

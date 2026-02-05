@@ -33,6 +33,8 @@ items:
       width:  800
       height: 1000
       renderFun: .forestPlot
+      visible: (forestPlot)
+      requiresData: true
       clearWith:
         - meanE
         - sdE
