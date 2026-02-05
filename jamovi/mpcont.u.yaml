@@ -113,6 +113,8 @@ children:
     margin: large
     children:
       - type: CheckBox
+        name: forestPlot
+      - type: CheckBox
         name: LOO
       - type: CheckBox
         name: metaRegressionEnabled
