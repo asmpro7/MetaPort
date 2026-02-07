@@ -6,7 +6,7 @@ jrs:   '1.1'
 items:
     - name:  text
       title: Results for Overall meta analysis
-      type:  Preformatted
+      type:  Html
       clearWith:
         - meanE
         - sdE
