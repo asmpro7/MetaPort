@@ -175,6 +175,20 @@ options:
     title: Subgroup Analysis
     type: Bool
     default: false
+        
+  - name: biasTest
+    title: Publication bias test
+    type: List
+    options:
+      - title: Egger regression
+        name: egger
+      - title: LFK index (Doi plot)
+        name: lfk
+    default: egger
 
+  - name: trimfill
+    title: Apply trim-and-fill
+    type: Bool
+    default: false
 
 
