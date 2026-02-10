@@ -176,15 +176,15 @@ options:
     type: Bool
     default: false
     
-  - name: biasEnabled
-    title: Publication bias
-    type: Bool
-    default: false
-
   - name: subgroupName
     title: Subgroup Name
     type: String
     default: Subgroup
+    
+  - name: biasEnabled
+    title: Publication bias
+    type: Bool
+    default: false
         
   - name: biasTest
     title: Publication bias test

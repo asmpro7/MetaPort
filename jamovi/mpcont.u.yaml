@@ -127,14 +127,17 @@ children:
         name: metaRegressionEnabled
       - type: CheckBox
         name: subgroupEnabled
-      - type: CheckBox
-        name: biasEnabled
   - type: LayoutBox
     margin: large
     children:
       - type: TextBox
         name: subgroupName
         format: string
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: CheckBox
+        name: biasEnabled
   - type: LayoutBox
     margin: large
     children:

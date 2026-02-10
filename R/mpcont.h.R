@@ -28,8 +28,8 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             LOO = FALSE,
             metaRegressionEnabled = FALSE,
             subgroupEnabled = FALSE,
-            biasEnabled = FALSE,
             subgroupName = "Subgroup",
+            biasEnabled = FALSE,
             biasTest = "egger",
             trimfill = FALSE, ...) {
 
@@ -170,14 +170,14 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "subgroupEnabled",
                 subgroupEnabled,
                 default=FALSE)
-            private$..biasEnabled <- jmvcore::OptionBool$new(
-                "biasEnabled",
-                biasEnabled,
-                default=FALSE)
             private$..subgroupName <- jmvcore::OptionString$new(
                 "subgroupName",
                 subgroupName,
                 default="Subgroup")
+            private$..biasEnabled <- jmvcore::OptionBool$new(
+                "biasEnabled",
+                biasEnabled,
+                default=FALSE)
             private$..biasTest <- jmvcore::OptionList$new(
                 "biasTest",
                 biasTest,
@@ -212,8 +212,8 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..LOO)
             self$.addOption(private$..metaRegressionEnabled)
             self$.addOption(private$..subgroupEnabled)
-            self$.addOption(private$..biasEnabled)
             self$.addOption(private$..subgroupName)
+            self$.addOption(private$..biasEnabled)
             self$.addOption(private$..biasTest)
             self$.addOption(private$..trimfill)
         }),
@@ -240,8 +240,8 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         LOO = function() private$..LOO$value,
         metaRegressionEnabled = function() private$..metaRegressionEnabled$value,
         subgroupEnabled = function() private$..subgroupEnabled$value,
-        biasEnabled = function() private$..biasEnabled$value,
         subgroupName = function() private$..subgroupName$value,
+        biasEnabled = function() private$..biasEnabled$value,
         biasTest = function() private$..biasTest$value,
         trimfill = function() private$..trimfill$value),
     private = list(
@@ -267,8 +267,8 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..LOO = NA,
         ..metaRegressionEnabled = NA,
         ..subgroupEnabled = NA,
-        ..biasEnabled = NA,
         ..subgroupName = NA,
+        ..biasEnabled = NA,
         ..biasTest = NA,
         ..trimfill = NA)
 )
@@ -619,8 +619,8 @@ mpcontBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param LOO .
 #' @param metaRegressionEnabled .
 #' @param subgroupEnabled .
-#' @param biasEnabled .
 #' @param subgroupName .
+#' @param biasEnabled .
 #' @param biasTest .
 #' @param trimfill .
 #' @return A results object containing:
@@ -671,8 +671,8 @@ mpcont <- function(
     LOO = FALSE,
     metaRegressionEnabled = FALSE,
     subgroupEnabled = FALSE,
-    biasEnabled = FALSE,
     subgroupName = "Subgroup",
+    biasEnabled = FALSE,
     biasTest = "egger",
     trimfill = FALSE) {
 
@@ -725,8 +725,8 @@ mpcont <- function(
         LOO = LOO,
         metaRegressionEnabled = metaRegressionEnabled,
         subgroupEnabled = subgroupEnabled,
-        biasEnabled = biasEnabled,
         subgroupName = subgroupName,
+        biasEnabled = biasEnabled,
         biasTest = biasTest,
         trimfill = trimfill)
 
