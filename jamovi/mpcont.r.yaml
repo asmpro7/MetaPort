@@ -147,6 +147,89 @@ items:
         - subgroupCovariate
       refs:
         - metaPackage
+        
+    - name: bias
+      title: Small-study effects / publication bias
+      type: Table
+      rows: 1
+      columns:
+        - name: method
+          title: Method
+          type: text
+
+        - name: statistic
+          title: Statistic
+          type: number
+
+        - name: p
+          title: p
+          type: number
+          format: zto,pvalue
+
+        - name: interpretation
+          title: Interpretation
+          type: text
+
+
+
+    - name: funnel
+      title: Funnel plot
+      type: Image
+      visible: (biasTest == 'egger')
+      width: 700
+      height: 500
+      renderFun: .funnelPlot
+
+
+    - name: doi
+      title: Doi plot
+      type: Image
+      visible: (biasTest == 'lfk')
+      width: 700
+      height: 500
+      renderFun: .doiPlot
+
+
+    - name: tf
+      title: Trim-and-fill (adjusted)
+      type: Table
+      visible: (trimfill)
+      rows: 1
+      columns:
+        - name: k0
+          title: Imputed studies
+          type: integer
+
+        - name: model
+          title: Model
+          type: text
+
+        - name: TE
+          title: Adjusted effect
+          type: number
+
+        - name: lci
+          title: Lower
+          type: number
+
+        - name: uci
+          title: Upper
+          type: number
+
+        - name: p
+          title: p
+          type: number
+          format: zto,pvalue
+
+
+
+    - name: funnel_tf
+      title: Funnel plot (trim-and-fill)
+      type: Image
+      visible: (trimfill)
+      width: 700
+      height: 500
+      renderFun: .funnelPlotTF
 
     - name:  meta_regression_text
       title: Meta-Regression Results
