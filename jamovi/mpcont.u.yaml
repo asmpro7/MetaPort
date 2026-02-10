@@ -130,6 +130,12 @@ children:
   - type: LayoutBox
     margin: large
     children:
+      - type: TextBox
+        name: subgroupName
+        format: string
+  - type: LayoutBox
+    margin: large
+    children:
       - type: ComboBox
         name: biasTest
   - type: LayoutBox

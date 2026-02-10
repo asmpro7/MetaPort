@@ -175,6 +175,11 @@ options:
     title: Subgroup Analysis
     type: Bool
     default: false
+
+  - name: subgroupName
+    title: Subgroup Name
+    type: String
+    default: Subgroup
         
   - name: biasTest
     title: Publication bias test

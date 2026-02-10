@@ -145,6 +145,7 @@ items:
         - common
         - confidenceLevel
         - subgroupCovariate
+        - subgroupName
       refs:
         - metaPackage
         

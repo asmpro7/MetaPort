@@ -28,6 +28,7 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             LOO = FALSE,
             metaRegressionEnabled = FALSE,
             subgroupEnabled = FALSE,
+            subgroupName = "Subgroup",
             biasTest = "egger",
             trimfill = FALSE, ...) {
 
@@ -168,6 +169,10 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "subgroupEnabled",
                 subgroupEnabled,
                 default=FALSE)
+            private$..subgroupName <- jmvcore::OptionString$new(
+                "subgroupName",
+                subgroupName,
+                default="Subgroup")
             private$..biasTest <- jmvcore::OptionList$new(
                 "biasTest",
                 biasTest,
@@ -202,6 +207,7 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..LOO)
             self$.addOption(private$..metaRegressionEnabled)
             self$.addOption(private$..subgroupEnabled)
+            self$.addOption(private$..subgroupName)
             self$.addOption(private$..biasTest)
             self$.addOption(private$..trimfill)
         }),
@@ -228,6 +234,7 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         LOO = function() private$..LOO$value,
         metaRegressionEnabled = function() private$..metaRegressionEnabled$value,
         subgroupEnabled = function() private$..subgroupEnabled$value,
+        subgroupName = function() private$..subgroupName$value,
         biasTest = function() private$..biasTest$value,
         trimfill = function() private$..trimfill$value),
     private = list(
@@ -253,6 +260,7 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..LOO = NA,
         ..metaRegressionEnabled = NA,
         ..subgroupEnabled = NA,
+        ..subgroupName = NA,
         ..biasTest = NA,
         ..trimfill = NA)
 )
@@ -421,7 +429,8 @@ mpcontResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "random",
                     "common",
                     "confidenceLevel",
-                    "subgroupCovariate"),
+                    "subgroupCovariate",
+                    "subgroupName"),
                 refs=list(
                     "metaPackage")))
             self$add(jmvcore::Table$new(
@@ -594,6 +603,7 @@ mpcontBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param LOO .
 #' @param metaRegressionEnabled .
 #' @param subgroupEnabled .
+#' @param subgroupName .
 #' @param biasTest .
 #' @param trimfill .
 #' @return A results object containing:
@@ -644,6 +654,7 @@ mpcont <- function(
     LOO = FALSE,
     metaRegressionEnabled = FALSE,
     subgroupEnabled = FALSE,
+    subgroupName = "Subgroup",
     biasTest = "egger",
     trimfill = FALSE) {
 
@@ -696,6 +707,7 @@ mpcont <- function(
         LOO = LOO,
         metaRegressionEnabled = metaRegressionEnabled,
         subgroupEnabled = subgroupEnabled,
+        subgroupName = subgroupName,
         biasTest = biasTest,
         trimfill = trimfill)
 

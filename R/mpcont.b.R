@@ -126,48 +126,11 @@ mpcontClass <- if (requireNamespace('jmvcore', quietly = TRUE)) {
           if (is.null(self$options$subgroupCovariate)) {
             jmvcore::reject("Please select a covariate for Subgroup analysis!")
           } else {
-            mean.e <- jmvcore::toNumeric(self$data[[self$options$meanE]])
-            sd.e <- jmvcore::toNumeric(self$data[[self$options$sdE]])
-            n.e <- jmvcore::toNumeric(self$data[[self$options$nE]])
-            mean.c <- jmvcore::toNumeric(self$data[[self$options$meanC]])
-            sd.c <- jmvcore::toNumeric(self$data[[self$options$sdC]])
-            n.c <- jmvcore::toNumeric(self$data[[self$options$nC]])
-            label.e <- self$options$groupLabelE
-            label.c <- self$options$groupLabelC
-            sm <- self$options$sm
-            method.tau <- self$options$methodTau
-            method.smd <- self$options$methodSmd
-            random <- self$options$random
-            common <- self$options$common
-            prediction <- self$options$prediction
-            level <- self$options$confidenceLevel
-            subCovariate <- self$options$subgroupCovariate
-            
-            studlab <- NULL
-            if (!is.null(self$options$studyLabel)) {
-              studlab <- self$data[[self$options$studyLabel]]
-            }
-            
-            subgroup_results <- meta::metacont(
-              n.e = n.e,
-              mean.e = mean.e,
-              sd.e = sd.e,
-              n.c = n.c,
-              mean.c = mean.c,
-              sd.c = sd.c,
-              studlab = studlab,
-              sm = sm,
-              method.tau = method.tau,
-              method.smd = method.smd,
-              common = common,
-              random = random,
-              prediction = prediction,
-              level.ma = level,
-              label.e = label.e,
-              label.c = label.c,
-              byvar = subCovariate
-            )
-            
+            subCovariate <- self$data[[self$options$subgroupCovariate]]
+            subCovariateName <- self$options$subgroupName
+            subgroup_results <- meta:::update.meta(self$model,
+                                                   subgroup = subCovariate,
+                                                   subgroup.name = subCovariateName)
             
             self$results$subgroup_text$setContent(
               subgroup_results
@@ -283,7 +246,7 @@ mpcontClass <- if (requireNamespace('jmvcore', quietly = TRUE)) {
         }
         
         par(bg = "white")
-        forest(image$state,
+        meta::forest(image$state,
                leftcols = c("studlab", "mean.e", "sd.e", "n.e", "mean.c", "sd.c", "n.c"),
                leftlabs = c("Study", "Mean", "SD", "Total", "Mean", "SD", "Total"),
                col.diamond = "black",col.subgroup ="gray30",
