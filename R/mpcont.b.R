@@ -119,7 +119,39 @@ mpcontClass <- if (requireNamespace('jmvcore', quietly = TRUE)) {
         # below
 
         private$.prepareLOOPlot()
-        private$.runPublicationBias()
+        if (isTRUE(self$options$biasEnabled)) {
+          private$.runPublicationBias()
+        } else {
+          
+          # clear BIAS table row (tables don't have clear())
+          self$results$bias$setRow(rowNo = 1, values = list(
+            method = "",
+            statistic = NA_real_,
+            p = NA_real_,
+            interpretation = ""
+          ))
+          
+          # clear bias images
+          self$results$funnel$setState(NULL)
+          self$results$doi$setState(NULL)
+          
+          # clear TRIMFILL table row
+          self$results$tf$setRow(rowNo = 1, values = list(
+            k0 = NA_integer_,
+            model = "",
+            TE = NA_real_,
+            lci = NA_real_,
+            uci = NA_real_,
+            p = NA_real_
+          ))
+          
+          # clear trimfill image
+          self$results$funnel_tf$setState(NULL)
+          
+          # clear stored models
+          private$.biasModel <- NULL
+          private$.tfModel <- NULL
+        }
         
         
         if (self$options$subgroupEnabled){

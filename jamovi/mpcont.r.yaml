@@ -152,6 +152,7 @@ items:
     - name: bias
       title: Small-study effects / publication bias
       type: Table
+      visible: (biasEnabled)
       rows: 1
       columns:
         - name: method
@@ -176,7 +177,7 @@ items:
     - name: funnel
       title: Funnel plot
       type: Image
-      visible: (biasTest == 'egger')
+      visible: (biasEnabled && biasTest == 'egger')
       width: 700
       height: 500
       renderFun: .funnelPlot
@@ -185,7 +186,7 @@ items:
     - name: doi
       title: Doi plot
       type: Image
-      visible: (biasTest == 'lfk')
+      visible: (biasEnabled && biasTest == 'lfk')
       width: 700
       height: 500
       renderFun: .doiPlot
@@ -194,7 +195,7 @@ items:
     - name: tf
       title: Trim-and-fill (adjusted)
       type: Table
-      visible: (trimfill)
+      visible: (biasEnabled && trimfill)
       rows: 1
       columns:
         - name: k0
@@ -227,7 +228,7 @@ items:
     - name: funnel_tf
       title: Funnel plot (trim-and-fill)
       type: Image
-      visible: (trimfill)
+      visible: (biasEnabled && trimfill)
       width: 700
       height: 500
       renderFun: .funnelPlotTF

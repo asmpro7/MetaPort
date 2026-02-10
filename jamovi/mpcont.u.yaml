@@ -127,6 +127,8 @@ children:
         name: metaRegressionEnabled
       - type: CheckBox
         name: subgroupEnabled
+      - type: CheckBox
+        name: biasEnabled
   - type: LayoutBox
     margin: large
     children:
