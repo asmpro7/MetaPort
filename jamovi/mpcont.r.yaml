@@ -171,7 +171,9 @@ items:
         - name: interpretation
           title: Interpretation
           type: text
-
+      refs:
+       - eggerTest
+       - lfkTest
 
 
     - name: funnel
@@ -181,6 +183,8 @@ items:
       width: 700
       height: 500
       renderFun: .funnelPlot
+      refs:
+       - eggerTest
 
 
     - name: doi
@@ -190,7 +194,8 @@ items:
       width: 700
       height: 500
       renderFun: .doiPlot
-
+      refs:
+       - lfkTest
 
     - name: tf
       title: Trim-and-fill (adjusted)

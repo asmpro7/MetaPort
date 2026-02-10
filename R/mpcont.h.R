@@ -464,7 +464,10 @@ mpcontResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     list(
                         `name`="interpretation", 
                         `title`="Interpretation", 
-                        `type`="text"))))
+                        `type`="text")),
+                refs=list(
+                    "eggerTest",
+                    "lfkTest")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="funnel",
@@ -472,7 +475,9 @@ mpcontResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(biasEnabled && biasTest == 'egger')",
                 width=700,
                 height=500,
-                renderFun=".funnelPlot"))
+                renderFun=".funnelPlot",
+                refs=list(
+                    "eggerTest")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="doi",
@@ -480,7 +485,9 @@ mpcontResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(biasEnabled && biasTest == 'lfk')",
                 width=700,
                 height=500,
-                renderFun=".doiPlot"))
+                renderFun=".doiPlot",
+                refs=list(
+                    "lfkTest")))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="tf",
