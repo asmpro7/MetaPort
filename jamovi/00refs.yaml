@@ -18,7 +18,7 @@ refs:
         volume: 36
         pages: 1-48
         url: https://http://doi.org/10.18637/jss.v036.i03
-        
+
     eggerTest:
         type: "article"
         author: "Matthias Egger, George Davey Smith, Martin Schneider, Christoph Minder"
@@ -27,8 +27,8 @@ refs:
         publisher: "BMJ (British Medical Journal)"
         volume: 315
         pages: "629–634"
-        doi: "10.1136/bmj.315.7109.629"        
-        
+        doi: "10.1136/bmj.315.7109.629"
+
     lfkTest:
         type: "article"
         author: "Luis Furuya-Kanamori, Jan J. Barendregt, Suhail A.R. Doi"
@@ -37,5 +37,4 @@ refs:
         publisher: "International Journal of Evidence-Based Healthcare"
         volume: 16
         pages: "1–9"
-        doi: "10.1097/XEB.0000000000000141"  
-
+        doi: "10.1097/XEB.0000000000000141"

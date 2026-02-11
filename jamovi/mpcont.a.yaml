@@ -84,11 +84,11 @@ options:
     title: Summary Measure
     type: List
     options:
-      - title: Mean Difference
+      - title: Mean Difference (MD)
         name: md
-      - title: Standardised Mean Difference
+      - title: Standardised Mean Difference (SMD)
         name: smd
-      - title: Ratio of Means
+      - title: Ratio of Means (ROM)
         name: rom
     default: md
 
@@ -97,12 +97,12 @@ options:
     type: List
     options:
       - title: Hedges' g
-        name: hedges
+        name: Hedges
       - title: Cohen's d
-        name: cohen
+        name: Cohen
       - title: Glass' delta
-        name: glass
-    default: hedges
+        name: Glass
+    default: Hedges
 
   - name: random
     title: Random Effects
@@ -115,26 +115,26 @@ options:
     default: true
 
   - name: methodTau
-    title: Tau2 Estimator
+    title: Heterogeneity Estimator
     type: List
     options:
-      - title: Restricted Maximum-Likelihood (REML)
-        name: reml
-      - title: DerSimonian-Laird (DL)
-        name: dl
-      - title: Paule-Mandel (PM)
-        name: pm
-      - title: Maximum-Likelihood (ML)
-        name: ml
-      - title: Hunter-Schmidt (HS)
-        name: hs
-      - title: Sidik-Jonkman (SJ)
-        name: sj
-      - title: Hedges (HE)
-        name: he
-      - title: Empirical Bayes (EB)
-        name: eb
-    default: reml
+      - title: Restricted Maximum-Likelihood
+        name: REML
+      - title: DerSimonian-Laird
+        name: DL
+      - title: Paule-Mandel
+        name: PM
+      - title: Maximum-Likelihood
+        name: ML
+      - title: Hunter-Schmidt
+        name: HS
+      - title: Sidik-Jonkman
+        name: SJ
+      - title: Hedges
+        name: HE
+      - title: Empirical Bayes
+        name: EB
+    default: REML
 
   - name: prediction
     title: Prediction Interval
@@ -155,7 +155,7 @@ options:
     title: Label (Control)
     type: String
     default: Control
-    
+
   - name: forestPlot
     title: Forest Plot
     type: Bool
@@ -175,17 +175,17 @@ options:
     title: Subgroup Analysis
     type: Bool
     default: false
-    
+
   - name: subgroupName
     title: Subgroup Name
     type: String
     default: Subgroup
-    
+
   - name: biasEnabled
     title: Publication bias
     type: Bool
     default: false
-        
+
   - name: biasTest
     title: Publication bias test
     type: List
@@ -195,10 +195,8 @@ options:
       - title: LFK index (Doi plot)
         name: lfk
     default: egger
-    
+
   - name: trimfill
     title: Apply trim-and-fill
     type: Bool
     default: false
-
-

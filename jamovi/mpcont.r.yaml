@@ -1,285 +1,277 @@
 ---
-name:  mpcont
+name: mpcont
 title: Meta-analysis of continuous outcome data
-jrs:   '1.1'
+jrs: "1.1"
 
 items:
-    - name:  text
-      title: Results for Overall meta analysis
-      type:  Html
-      clearWith:
-        - meanE
-        - sdE
-        - nE
-        - meanC
-        - sdC
-        - nC
-        - studyLabel
-        - groupLabelE
-        - groupLabelC
-        - sm
-        - methodTau
-        - methodSmd
-        - random
-        - common
-        - prediction
-        - confidenceLevel
-      refs:
-        - metaPackage
-        
-    - name: plot
-      title: Forest Plot
-      type: Image
-      width:  800
-      height: 1000
-      renderFun: .forestPlot
-      visible: (forestPlot)
-      requiresData: true
-      clearWith:
-        - meanE
-        - sdE
-        - nE
-        - meanC
-        - sdC
-        - nC
-        - studyLabel
-        - groupLabelE
-        - groupLabelC
-        - sm
-        - methodTau
-        - methodSmd
-        - random
-        - common
-        - prediction
-        - confidenceLevel
-      refs:
-        - metaPackage
-        
-    - name:  LOOText
-      title: leave-one-out Analysis
-      type:  Preformatted
-      visible: (LOO)
-      clearWith:
-        - meanE
-        - sdE
-        - nE
-        - meanC
-        - sdC
-        - nC
-        - studyLabel
-        - groupLabelE
-        - groupLabelC
-        - sm
-        - methodTau
-        - methodSmd
-        - random
-        - common
-        - confidenceLevel
-      refs:
-        - metaPackage
+  - name: text
+    title: Results for Overall meta analysis
+    type: Html
+    clearWith:
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - studyLabel
+      - groupLabelE
+      - groupLabelC
+      - sm
+      - methodTau
+      - methodSmd
+      - random
+      - common
+      - prediction
+      - confidenceLevel
+    refs:
+      - metaPackage
 
-    - name:  LOOPlot
-      title: leave-one-out Plot
-      type:  Image
-      width:  800
-      height: 1000
-      renderFun: .LOOPlot
-      visible: (LOO)
-      clearWith:
-        - meanE
-        - sdE
-        - nE
-        - meanC
-        - sdC
-        - nC
-        - studyLabel
-        - groupLabelE
-        - groupLabelC
-        - sm
-        - methodTau
-        - methodSmd
-        - random
-        - common
-        - confidenceLevel
-      refs:
-        - metaPackage
+  - name: plot
+    title: Forest Plot
+    type: Image
+    renderFun: .forestPlot
+    visible: (forestPlot)
+    requiresData: true
+    clearWith:
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - studyLabel
+      - groupLabelE
+      - groupLabelC
+      - sm
+      - methodTau
+      - methodSmd
+      - random
+      - common
+      - prediction
+      - confidenceLevel
+    refs:
+      - metaPackage
 
-    - name:  subgroup_text
-      title: Subgroup Results
-      type:  Preformatted
-      visible: (subgroupEnabled)
-      clearWith:
-        - meanE
-        - sdE
-        - meanC
-        - sdC
-        - studyLabel
-        - sm
-        - methodTau
-        - methodSmd
-        - random
-        - common
-        - confidenceLevel
-        - subgroupCovariate
+  - name: LOOText
+    title: leave-one-out Analysis
+    type: Preformatted
+    visible: (LOO)
+    clearWith:
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - studyLabel
+      - groupLabelE
+      - groupLabelC
+      - sm
+      - methodTau
+      - methodSmd
+      - random
+      - common
+      - confidenceLevel
+    refs:
+      - metaPackage
 
-      refs:
-        - metaPackage
+  - name: LOOPlot
+    title: leave-one-out Plot
+    type: Image
+    width: 800
+    height: 1000
+    renderFun: .LOOPlot
+    visible: (LOO)
+    clearWith:
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - studyLabel
+      - groupLabelE
+      - groupLabelC
+      - sm
+      - methodTau
+      - methodSmd
+      - random
+      - common
+      - confidenceLevel
+    refs:
+      - metaPackage
 
-    - name:  subgroup_plot
-      title: Subgroup Plot
-      type:  Image 
-      width:  700
-      height: 500
-      renderFun: .subgroup_plot_func
-      visible: (subgroupEnabled)
-      clearWith:
-        - meanE
-        - sdE
-        - meanC
-        - sdC
-        - studyLabel
-        - sm
-        - methodTau
-        - methodSmd
-        - random
-        - common
-        - confidenceLevel
-        - subgroupCovariate
-        - subgroupName
-      refs:
-        - metaPackage
-        
-    - name: bias
-      title: Small-study effects / publication bias
-      type: Table
-      visible: (biasEnabled)
-      rows: 1
-      columns:
-        - name: method
-          title: Method
-          type: text
+  - name: subgroup_text
+    title: Subgroup Results
+    type: Preformatted
+    visible: (subgroupEnabled)
+    clearWith:
+      - meanE
+      - sdE
+      - meanC
+      - sdC
+      - studyLabel
+      - sm
+      - methodTau
+      - methodSmd
+      - random
+      - common
+      - confidenceLevel
+      - subgroupCovariate
 
-        - name: statistic
-          title: Statistic
-          type: number
+    refs:
+      - metaPackage
 
-        - name: p
-          title: p
-          type: number
-          format: zto,pvalue
+  - name: subgroup_plot
+    title: Subgroup Plot
+    type: Image
+    width: 700
+    height: 500
+    renderFun: .subgroup_plot_func
+    visible: (subgroupEnabled)
+    clearWith:
+      - meanE
+      - sdE
+      - meanC
+      - sdC
+      - studyLabel
+      - sm
+      - methodTau
+      - methodSmd
+      - random
+      - common
+      - confidenceLevel
+      - subgroupCovariate
+      - subgroupName
+    refs:
+      - metaPackage
 
-        - name: interpretation
-          title: Interpretation
-          type: text
-      refs:
-       - eggerTest
-       - lfkTest
+  - name: bias
+    title: Small-study effects / publication bias
+    type: Table
+    visible: (biasEnabled)
+    rows: 1
+    columns:
+      - name: method
+        title: Method
+        type: text
 
+      - name: statistic
+        title: Statistic
+        type: number
 
-    - name: funnel
-      title: Funnel plot
-      type: Image
-      visible: (biasEnabled && biasTest == 'egger')
-      width: 700
-      height: 500
-      renderFun: .funnelPlot
-      refs:
-       - eggerTest
+      - name: p
+        title: p
+        type: number
+        format: zto,pvalue
 
+      - name: interpretation
+        title: Interpretation
+        type: text
+    refs:
+      - eggerTest
+      - lfkTest
 
-    - name: doi
-      title: Doi plot
-      type: Image
-      visible: (biasEnabled && biasTest == 'lfk')
-      width: 700
-      height: 500
-      renderFun: .doiPlot
-      refs:
-       - lfkTest
+  - name: funnel
+    title: Funnel plot
+    type: Image
+    visible: (biasEnabled && biasTest == 'egger')
+    width: 700
+    height: 500
+    renderFun: .funnelPlot
+    refs:
+      - eggerTest
 
-    - name: tf
-      title: Trim-and-fill (adjusted)
-      type: Table
-      visible: (biasEnabled && trimfill)
-      rows: 1
-      columns:
-        - name: k0
-          title: Imputed studies
-          type: integer
+  - name: doi
+    title: Doi plot
+    type: Image
+    visible: (biasEnabled && biasTest == 'lfk')
+    width: 700
+    height: 500
+    renderFun: .doiPlot
+    refs:
+      - lfkTest
 
-        - name: model
-          title: Model
-          type: text
+  - name: tf
+    title: Trim-and-fill (adjusted)
+    type: Table
+    visible: (biasEnabled && trimfill)
+    rows: 1
+    columns:
+      - name: k0
+        title: Imputed studies
+        type: integer
 
-        - name: TE
-          title: Adjusted effect
-          type: number
+      - name: model
+        title: Model
+        type: text
 
-        - name: lci
-          title: Lower
-          type: number
+      - name: TE
+        title: Adjusted effect
+        type: number
 
-        - name: uci
-          title: Upper
-          type: number
+      - name: lci
+        title: Lower
+        type: number
 
-        - name: p
-          title: p
-          type: number
-          format: zto,pvalue
+      - name: uci
+        title: Upper
+        type: number
 
+      - name: p
+        title: p
+        type: number
+        format: zto,pvalue
 
+  - name: funnel_tf
+    title: Funnel plot (trim-and-fill)
+    type: Image
+    visible: (biasEnabled && trimfill)
+    width: 700
+    height: 500
+    renderFun: .funnelPlotTF
 
-    - name: funnel_tf
-      title: Funnel plot (trim-and-fill)
-      type: Image
-      visible: (biasEnabled && trimfill)
-      width: 700
-      height: 500
-      renderFun: .funnelPlotTF
+  - name: meta_regression_text
+    title: Meta-Regression Results
+    type: Preformatted
+    visible: (metaRegressionEnabled)
+    clearWith:
+      - meanE
+      - sdE
+      - meanC
+      - sdC
+      - studyLabel
+      - sm
+      - methodTau
+      - methodSmd
+      - random
+      - common
+      - confidenceLevel
+      - MetaRegressionCovariate
 
-    - name:  meta_regression_text
-      title: Meta-Regression Results
-      type:  Preformatted
-      visible: (metaRegressionEnabled)
-      clearWith:
-        - meanE
-        - sdE
-        - meanC
-        - sdC
-        - studyLabel
-        - sm
-        - methodTau
-        - methodSmd
-        - random
-        - common
-        - confidenceLevel
-        - MetaRegressionCovariate
+    refs:
+      - metaPackage
 
-      refs:
-        - metaPackage
-
-    - name:  meta_regression_plot
-      title: Meta-Regression Plot
-      type:  Image 
-      width:  700
-      height: 500
-      renderFun: .meta_reg_plot_func
-      visible: (metaRegressionEnabled)
-      clearWith:
-        - meanE
-        - sdE
-        - meanC
-        - sdC
-        - studyLabel
-        - sm
-        - methodTau
-        - methodSmd
-        - random
-        - common
-        - confidenceLevel
-        - MetaRegressionCovariate
-      refs:
-        - metaPackage
-
-...
+  - name: meta_regression_plot
+    title: Meta-Regression Plot
+    type: Image
+    width: 700
+    height: 500
+    renderFun: .meta_reg_plot_func
+    visible: (metaRegressionEnabled)
+    clearWith:
+      - meanE
+      - sdE
+      - meanC
+      - sdC
+      - studyLabel
+      - sm
+      - methodTau
+      - methodSmd
+      - random
+      - common
+      - confidenceLevel
+      - MetaRegressionCovariate
+    refs:
+      - metaPackage

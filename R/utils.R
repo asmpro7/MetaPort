@@ -23,22 +23,23 @@ calcForestHeight <- function(expr) {
   res$figheight$total_height * 72
 }
 
-#' Capture and Style Output for Jamovi
+#' Capture and Style Output as HTML
 #'
-#' Captures the output of an expression (like `summary()`) and wraps it in a 
+#' Captures the output of an expression (like `summary()`) and wraps it in a
 #' styled HTML container. This ensures the output is 100% width and uses
 #' a consistent monospaced font.
 #'
-#' @param ... Expressions to be evaluated. Their output is captured via `capture.output`.
+#' @param ... Expressions to be evaluated. Their output is captured via
+#'   `capture.output`.
 #' @return A string containing the styled HTML.
 #' @noRd
-captureAndStyle <- function(...) {
+asHtml <- function(...) {
   # Capture the printed output of the expression(s)
   text <- capture.output(...)
   text <- paste0(text, collapse = "\n")
 
   # --- CSS Definitions ---
-  
+
   # Container style (Outer Box)
   divCss <- "
     background-color: #f8f9fa;
@@ -62,8 +63,9 @@ captureAndStyle <- function(...) {
   "
 
   # --- HTML Construction ---
-  
-  # 1. Scoped Style: Forces this specific result container to 100% width using :has()
+
+  # 1. Scoped Style: Forces this specific result container to 100% width using
+  # :has()
   # 2. Structure: DIV (Box) containing PRE (Text)
   htmlContent <- paste0(
     "<style>
