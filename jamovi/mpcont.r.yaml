@@ -104,6 +104,140 @@ items:
       refs:
         - metaPackage
 
+    - name:  subgroup_text
+      title: Subgroup Results
+      type:  Preformatted
+      visible: (subgroupEnabled)
+      clearWith:
+        - meanE
+        - sdE
+        - meanC
+        - sdC
+        - studyLabel
+        - sm
+        - methodTau
+        - methodSmd
+        - random
+        - common
+        - confidenceLevel
+        - subgroupCovariate
+
+      refs:
+        - metaPackage
+
+    - name:  subgroup_plot
+      title: Subgroup Plot
+      type:  Image 
+      width:  700
+      height: 500
+      renderFun: .subgroup_plot_func
+      visible: (subgroupEnabled)
+      clearWith:
+        - meanE
+        - sdE
+        - meanC
+        - sdC
+        - studyLabel
+        - sm
+        - methodTau
+        - methodSmd
+        - random
+        - common
+        - confidenceLevel
+        - subgroupCovariate
+        - subgroupName
+      refs:
+        - metaPackage
+        
+    - name: bias
+      title: Small-study effects / publication bias
+      type: Table
+      visible: (biasEnabled)
+      rows: 1
+      columns:
+        - name: method
+          title: Method
+          type: text
+
+        - name: statistic
+          title: Statistic
+          type: number
+
+        - name: p
+          title: p
+          type: number
+          format: zto,pvalue
+
+        - name: interpretation
+          title: Interpretation
+          type: text
+      refs:
+       - eggerTest
+       - lfkTest
+
+
+    - name: funnel
+      title: Funnel plot
+      type: Image
+      visible: (biasEnabled && biasTest == 'egger')
+      width: 700
+      height: 500
+      renderFun: .funnelPlot
+      refs:
+       - eggerTest
+
+
+    - name: doi
+      title: Doi plot
+      type: Image
+      visible: (biasEnabled && biasTest == 'lfk')
+      width: 700
+      height: 500
+      renderFun: .doiPlot
+      refs:
+       - lfkTest
+
+    - name: tf
+      title: Trim-and-fill (adjusted)
+      type: Table
+      visible: (biasEnabled && trimfill)
+      rows: 1
+      columns:
+        - name: k0
+          title: Imputed studies
+          type: integer
+
+        - name: model
+          title: Model
+          type: text
+
+        - name: TE
+          title: Adjusted effect
+          type: number
+
+        - name: lci
+          title: Lower
+          type: number
+
+        - name: uci
+          title: Upper
+          type: number
+
+        - name: p
+          title: p
+          type: number
+          format: zto,pvalue
+
+
+
+    - name: funnel_tf
+      title: Funnel plot (trim-and-fill)
+      type: Image
+      visible: (biasEnabled && trimfill)
+      width: 700
+      height: 500
+      renderFun: .funnelPlotTF
+
     - name:  meta_regression_text
       title: Meta-Regression Results
       type:  Preformatted

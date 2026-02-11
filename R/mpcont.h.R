@@ -14,6 +14,7 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             sdC = NULL,
             nC = NULL,
             MetaRegressionCovariate = NULL,
+            subgroupCovariate = NULL,
             sm = "md",
             methodSmd = "hedges",
             random = TRUE,
@@ -25,7 +26,12 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             groupLabelC = "Control",
             forestPlot = TRUE,
             LOO = FALSE,
-            metaRegressionEnabled = FALSE, ...) {
+            metaRegressionEnabled = FALSE,
+            subgroupEnabled = FALSE,
+            subgroupName = "Subgroup",
+            biasEnabled = FALSE,
+            biasTest = "egger",
+            trimfill = FALSE, ...) {
 
             super$initialize(
                 package="MetaPort",
@@ -89,6 +95,12 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "continuous"),
                 permitted=list(
                     "numeric"))
+            private$..subgroupCovariate <- jmvcore::OptionVariable$new(
+                "subgroupCovariate",
+                subgroupCovariate,
+                suggested=list(
+                    "nominal",
+                    "ordinal"))
             private$..sm <- jmvcore::OptionList$new(
                 "sm",
                 sm,
@@ -154,6 +166,29 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "metaRegressionEnabled",
                 metaRegressionEnabled,
                 default=FALSE)
+            private$..subgroupEnabled <- jmvcore::OptionBool$new(
+                "subgroupEnabled",
+                subgroupEnabled,
+                default=FALSE)
+            private$..subgroupName <- jmvcore::OptionString$new(
+                "subgroupName",
+                subgroupName,
+                default="Subgroup")
+            private$..biasEnabled <- jmvcore::OptionBool$new(
+                "biasEnabled",
+                biasEnabled,
+                default=FALSE)
+            private$..biasTest <- jmvcore::OptionList$new(
+                "biasTest",
+                biasTest,
+                options=list(
+                    "egger",
+                    "lfk"),
+                default="egger")
+            private$..trimfill <- jmvcore::OptionBool$new(
+                "trimfill",
+                trimfill,
+                default=FALSE)
 
             self$.addOption(private$..studyLabel)
             self$.addOption(private$..meanE)
@@ -163,6 +198,7 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..sdC)
             self$.addOption(private$..nC)
             self$.addOption(private$..MetaRegressionCovariate)
+            self$.addOption(private$..subgroupCovariate)
             self$.addOption(private$..sm)
             self$.addOption(private$..methodSmd)
             self$.addOption(private$..random)
@@ -175,6 +211,11 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..forestPlot)
             self$.addOption(private$..LOO)
             self$.addOption(private$..metaRegressionEnabled)
+            self$.addOption(private$..subgroupEnabled)
+            self$.addOption(private$..subgroupName)
+            self$.addOption(private$..biasEnabled)
+            self$.addOption(private$..biasTest)
+            self$.addOption(private$..trimfill)
         }),
     active = list(
         studyLabel = function() private$..studyLabel$value,
@@ -185,6 +226,7 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         sdC = function() private$..sdC$value,
         nC = function() private$..nC$value,
         MetaRegressionCovariate = function() private$..MetaRegressionCovariate$value,
+        subgroupCovariate = function() private$..subgroupCovariate$value,
         sm = function() private$..sm$value,
         methodSmd = function() private$..methodSmd$value,
         random = function() private$..random$value,
@@ -196,7 +238,12 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         groupLabelC = function() private$..groupLabelC$value,
         forestPlot = function() private$..forestPlot$value,
         LOO = function() private$..LOO$value,
-        metaRegressionEnabled = function() private$..metaRegressionEnabled$value),
+        metaRegressionEnabled = function() private$..metaRegressionEnabled$value,
+        subgroupEnabled = function() private$..subgroupEnabled$value,
+        subgroupName = function() private$..subgroupName$value,
+        biasEnabled = function() private$..biasEnabled$value,
+        biasTest = function() private$..biasTest$value,
+        trimfill = function() private$..trimfill$value),
     private = list(
         ..studyLabel = NA,
         ..meanE = NA,
@@ -206,6 +253,7 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..sdC = NA,
         ..nC = NA,
         ..MetaRegressionCovariate = NA,
+        ..subgroupCovariate = NA,
         ..sm = NA,
         ..methodSmd = NA,
         ..random = NA,
@@ -217,7 +265,12 @@ mpcontOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..groupLabelC = NA,
         ..forestPlot = NA,
         ..LOO = NA,
-        ..metaRegressionEnabled = NA)
+        ..metaRegressionEnabled = NA,
+        ..subgroupEnabled = NA,
+        ..subgroupName = NA,
+        ..biasEnabled = NA,
+        ..biasTest = NA,
+        ..trimfill = NA)
 )
 
 mpcontResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -228,6 +281,13 @@ mpcontResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot = function() private$.items[["plot"]],
         LOOText = function() private$.items[["LOOText"]],
         LOOPlot = function() private$.items[["LOOPlot"]],
+        subgroup_text = function() private$.items[["subgroup_text"]],
+        subgroup_plot = function() private$.items[["subgroup_plot"]],
+        bias = function() private$.items[["bias"]],
+        funnel = function() private$.items[["funnel"]],
+        doi = function() private$.items[["doi"]],
+        tf = function() private$.items[["tf"]],
+        funnel_tf = function() private$.items[["funnel_tf"]],
         meta_regression_text = function() private$.items[["meta_regression_text"]],
         meta_regression_plot = function() private$.items[["meta_regression_plot"]]),
     private = list(),
@@ -339,6 +399,137 @@ mpcontResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "metaPackage")))
             self$add(jmvcore::Preformatted$new(
                 options=options,
+                name="subgroup_text",
+                title="Subgroup Results",
+                visible="(subgroupEnabled)",
+                clearWith=list(
+                    "meanE",
+                    "sdE",
+                    "meanC",
+                    "sdC",
+                    "studyLabel",
+                    "sm",
+                    "methodTau",
+                    "methodSmd",
+                    "random",
+                    "common",
+                    "confidenceLevel",
+                    "subgroupCovariate"),
+                refs=list(
+                    "metaPackage")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="subgroup_plot",
+                title="Subgroup Plot",
+                width=700,
+                height=500,
+                renderFun=".subgroup_plot_func",
+                visible="(subgroupEnabled)",
+                clearWith=list(
+                    "meanE",
+                    "sdE",
+                    "meanC",
+                    "sdC",
+                    "studyLabel",
+                    "sm",
+                    "methodTau",
+                    "methodSmd",
+                    "random",
+                    "common",
+                    "confidenceLevel",
+                    "subgroupCovariate",
+                    "subgroupName"),
+                refs=list(
+                    "metaPackage")))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="bias",
+                title="Small-study effects / publication bias",
+                visible="(biasEnabled)",
+                rows=1,
+                columns=list(
+                    list(
+                        `name`="method", 
+                        `title`="Method", 
+                        `type`="text"),
+                    list(
+                        `name`="statistic", 
+                        `title`="Statistic", 
+                        `type`="number"),
+                    list(
+                        `name`="p", 
+                        `title`="p", 
+                        `type`="number", 
+                        `format`="zto,pvalue"),
+                    list(
+                        `name`="interpretation", 
+                        `title`="Interpretation", 
+                        `type`="text")),
+                refs=list(
+                    "eggerTest",
+                    "lfkTest")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="funnel",
+                title="Funnel plot",
+                visible="(biasEnabled && biasTest == 'egger')",
+                width=700,
+                height=500,
+                renderFun=".funnelPlot",
+                refs=list(
+                    "eggerTest")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="doi",
+                title="Doi plot",
+                visible="(biasEnabled && biasTest == 'lfk')",
+                width=700,
+                height=500,
+                renderFun=".doiPlot",
+                refs=list(
+                    "lfkTest")))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="tf",
+                title="Trim-and-fill (adjusted)",
+                visible="(biasEnabled && trimfill)",
+                rows=1,
+                columns=list(
+                    list(
+                        `name`="k0", 
+                        `title`="Imputed studies", 
+                        `type`="integer"),
+                    list(
+                        `name`="model", 
+                        `title`="Model", 
+                        `type`="text"),
+                    list(
+                        `name`="TE", 
+                        `title`="Adjusted effect", 
+                        `type`="number"),
+                    list(
+                        `name`="lci", 
+                        `title`="Lower", 
+                        `type`="number"),
+                    list(
+                        `name`="uci", 
+                        `title`="Upper", 
+                        `type`="number"),
+                    list(
+                        `name`="p", 
+                        `title`="p", 
+                        `type`="number", 
+                        `format`="zto,pvalue"))))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="funnel_tf",
+                title="Funnel plot (trim-and-fill)",
+                visible="(biasEnabled && trimfill)",
+                width=700,
+                height=500,
+                renderFun=".funnelPlotTF"))
+            self$add(jmvcore::Preformatted$new(
+                options=options,
                 name="meta_regression_text",
                 title="Meta-Regression Results",
                 visible="(metaRegressionEnabled)",
@@ -414,6 +605,7 @@ mpcontBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param sdC .
 #' @param nC .
 #' @param MetaRegressionCovariate .
+#' @param subgroupCovariate .
 #' @param sm .
 #' @param methodSmd .
 #' @param random .
@@ -426,15 +618,33 @@ mpcontBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param forestPlot .
 #' @param LOO .
 #' @param metaRegressionEnabled .
+#' @param subgroupEnabled .
+#' @param subgroupName .
+#' @param biasEnabled .
+#' @param biasTest .
+#' @param trimfill .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$LOOText} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$LOOPlot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$subgroup_text} \tab \tab \tab \tab \tab a preformatted \cr
+#'   \code{results$subgroup_plot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$bias} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$funnel} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$doi} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$tf} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$funnel_tf} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$meta_regression_text} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$meta_regression_plot} \tab \tab \tab \tab \tab an image \cr
 #' }
+#'
+#' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
+#'
+#' \code{results$bias$asDF}
+#'
+#' \code{as.data.frame(results$bias)}
 #'
 #' @export
 mpcont <- function(
@@ -447,6 +657,7 @@ mpcont <- function(
     sdC,
     nC,
     MetaRegressionCovariate,
+    subgroupCovariate,
     sm = "md",
     methodSmd = "hedges",
     random = TRUE,
@@ -458,7 +669,12 @@ mpcont <- function(
     groupLabelC = "Control",
     forestPlot = TRUE,
     LOO = FALSE,
-    metaRegressionEnabled = FALSE) {
+    metaRegressionEnabled = FALSE,
+    subgroupEnabled = FALSE,
+    subgroupName = "Subgroup",
+    biasEnabled = FALSE,
+    biasTest = "egger",
+    trimfill = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("mpcont requires jmvcore to be installed (restart may be required)")
@@ -471,6 +687,7 @@ mpcont <- function(
     if ( ! missing(sdC)) sdC <- jmvcore::resolveQuo(jmvcore::enquo(sdC))
     if ( ! missing(nC)) nC <- jmvcore::resolveQuo(jmvcore::enquo(nC))
     if ( ! missing(MetaRegressionCovariate)) MetaRegressionCovariate <- jmvcore::resolveQuo(jmvcore::enquo(MetaRegressionCovariate))
+    if ( ! missing(subgroupCovariate)) subgroupCovariate <- jmvcore::resolveQuo(jmvcore::enquo(subgroupCovariate))
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
@@ -481,7 +698,8 @@ mpcont <- function(
             `if`( ! missing(meanC), meanC, NULL),
             `if`( ! missing(sdC), sdC, NULL),
             `if`( ! missing(nC), nC, NULL),
-            `if`( ! missing(MetaRegressionCovariate), MetaRegressionCovariate, NULL))
+            `if`( ! missing(MetaRegressionCovariate), MetaRegressionCovariate, NULL),
+            `if`( ! missing(subgroupCovariate), subgroupCovariate, NULL))
 
 
     options <- mpcontOptions$new(
@@ -493,6 +711,7 @@ mpcont <- function(
         sdC = sdC,
         nC = nC,
         MetaRegressionCovariate = MetaRegressionCovariate,
+        subgroupCovariate = subgroupCovariate,
         sm = sm,
         methodSmd = methodSmd,
         random = random,
@@ -504,7 +723,12 @@ mpcont <- function(
         groupLabelC = groupLabelC,
         forestPlot = forestPlot,
         LOO = LOO,
-        metaRegressionEnabled = metaRegressionEnabled)
+        metaRegressionEnabled = metaRegressionEnabled,
+        subgroupEnabled = subgroupEnabled,
+        subgroupName = subgroupName,
+        biasEnabled = biasEnabled,
+        biasTest = biasTest,
+        trimfill = trimfill)
 
     analysis <- mpcontClass$new(
         options = options,

@@ -10,6 +10,7 @@ Imports:
     jmvcore (>= 0.8.5),
     meta (>= 8.2.1),
     metafor,
+    metasens,
     R6
 Remotes: 
     guido-s/meta@8.2-1
