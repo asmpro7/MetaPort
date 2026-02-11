@@ -17,7 +17,7 @@ mpcontClass <- if (requireNamespace('jmvcore', quietly = TRUE)) {
     active = list(
       model = function() {
         if (is.null(private$.model)) {
-          private$.model <- private$.computeModel()
+          private$.model <- private$.computeModel(self$data)
         }
         private$.model
       },
@@ -27,8 +27,24 @@ mpcontClass <- if (requireNamespace('jmvcore', quietly = TRUE)) {
             metafor::forest(
               self$model,
               new = FALSE,
-              leftcols = c("studlab", "mean.e", "sd.e", "n.e", "mean.c", "sd.c", "n.c"),
-              leftlabs = c("Study", "Mean", "SD", "Total", "Mean", "SD", "Total"),
+              leftcols = c(
+                "studlab",
+                "mean.e",
+                "sd.e",
+                "n.e",
+                "mean.c",
+                "sd.c",
+                "n.c"
+              ),
+              leftlabs = c(
+                "Study",
+                "Mean",
+                "SD",
+                "Total",
+                "Mean",
+                "SD",
+                "Total"
+              ),
               col.diamond = "black",
               col.subgroup = "gray30",
               digits.sd = 2
@@ -43,9 +59,8 @@ mpcontClass <- if (requireNamespace('jmvcore', quietly = TRUE)) {
       .forestPlotExpr = NULL,
       .biasModel = NULL,
       .tfModel   = NULL,
-      
-      .computeModel = function() {
-        # 1. Check availability of names
+
+      .checkRequiredColumns = function() {
         if (
           is.null(self$options$meanE) ||
             is.null(self$options$sdE) ||
@@ -54,25 +69,55 @@ mpcontClass <- if (requireNamespace('jmvcore', quietly = TRUE)) {
             is.null(self$options$sdC) ||
             is.null(self$options$nC)
         ) {
+          return(FALSE)
+        }
+        TRUE
+      },
+
+      .init = function() {
+        if (self$results$plot$isFilled()) {
+          return()
+        }
+
+        if (!self$options$forestPlot) {
+          return()
+        }
+
+        if (!private$.checkRequiredColumns()) {
+          return()
+        }
+
+        data <- self$readDataset(headerOnly = FALSE)
+
+        private$.model <- private$.computeModel(data)
+
+        expr <- self$forestPlotExpr
+
+        height <- calcForestHeight(expr)
+        self$results$plot$setSize(width = 800, height = height)
+      },
+
+      .computeModel = function(data) {
+        if (!private$.checkRequiredColumns()) {
           return(NULL)
         }
 
-        # 2. Extract and Validate Data
+        # 1. Extract and Validate Data
         # converting to numeric to strip attributes (jmvcore::toNumeric)
-        mean.e <- jmvcore::toNumeric(self$data[[self$options$meanE]])
-        sd.e <- jmvcore::toNumeric(self$data[[self$options$sdE]])
-        n.e <- jmvcore::toNumeric(self$data[[self$options$nE]])
-        mean.c <- jmvcore::toNumeric(self$data[[self$options$meanC]])
-        sd.c <- jmvcore::toNumeric(self$data[[self$options$sdC]])
-        n.c <- jmvcore::toNumeric(self$data[[self$options$nC]])
+        mean.e <- jmvcore::toNumeric(data[[self$options$meanE]])
+        sd.e <- jmvcore::toNumeric(data[[self$options$sdE]])
+        n.e <- jmvcore::toNumeric(data[[self$options$nE]])
+        mean.c <- jmvcore::toNumeric(data[[self$options$meanC]])
+        sd.c <- jmvcore::toNumeric(data[[self$options$sdC]])
+        n.c <- jmvcore::toNumeric(data[[self$options$nC]])
 
-        # 3. Optional study labels
+        # 2. Optional study labels
         studlab <- NULL
         if (!is.null(self$options$studyLabel)) {
-          studlab <- self$data[[self$options$studyLabel]]
+          studlab <- data[[self$options$studyLabel]]
         }
 
-        # 4. Options
+        # 3. Options
         label.e <- self$options$groupLabelE
         label.c <- self$options$groupLabelC
         sm <- self$options$sm
@@ -83,7 +128,7 @@ mpcontClass <- if (requireNamespace('jmvcore', quietly = TRUE)) {
         prediction <- self$options$prediction
         level <- self$options$confidenceLevel
 
-        # Pass data directly
+        # 4. Compute Model
         OverallMeta <- meta::metacont(
           n.e = n.e,
           mean.e = mean.e,
@@ -111,8 +156,12 @@ mpcontClass <- if (requireNamespace('jmvcore', quietly = TRUE)) {
           return(NULL)
         }
 
-        self$results$text$setContent(summary(self$model))
-        private$.prepareForestPlot()
+        # Use simple utility to style it (it handles capture internally)
+        html_content <- captureAndStyle(summary(self$model))
+
+        self$results$text$setContent(html_content)
+
+        # Sizing is now handled in .init
 
         # End of my part, it would be good if we could clear .run() function
         # and use separate methods/functions rather than listing all of them
@@ -195,38 +244,29 @@ mpcontClass <- if (requireNamespace('jmvcore', quietly = TRUE)) {
         
         #################################################
       },
-      .prepareForestPlot = function() {
-        if (!self$options$forestPlot || is.null(self$model)) {
-          return(NULL)
-        }
-        
-        # Dynamic height calculation
-        height <- calcForestHeight(self$forestPlotExpr)
-        
-        # Set size and state
-        self$results$plot$setSize(width = 800, height = height)
-        self$results$plot$setState(TRUE)
-      },
+
       .forestPlot = function(image, ...) {
-        if (!isTRUE(image$state)) {
+        # No state check needed due to requiresData: true in yaml
+        if (is.null(self$model)) {
           return(FALSE)
         }
-        
+
         grid::grid.newpage()
         grid::grid.rect(gp = grid::gpar(fill = "white", col = NA))
-        
+
         eval(self$forestPlotExpr)
-        
+
         TRUE
       },
+
       .prepareLOOPlot = function() {
         if (!self$options$LOO || is.null(self$model)) {
           return(NULL)
         }
-        
+
         LOOResults <- meta::metainf(self$model)
         self$results$LOOText$setContent(LOOResults)
-        
+
         LOOExpr <- quote(
           meta::forest(
             LOOResults,
@@ -236,19 +276,20 @@ mpcontClass <- if (requireNamespace('jmvcore', quietly = TRUE)) {
             new = FALSE
           )
         )
-        
+
         height <- calcForestHeight(LOOExpr)
         self$results$LOOPlot$setSize(width = 800, height = height)
-        self$results$LOOPlot$setState(LOOResults)  # Store data, not expression
+        self$results$LOOPlot$setState(LOOResults) # Store data, not expression
       },
+
       .LOOPlot = function(image, ...) {
         if (is.null(image$state)) {
           return(FALSE)
         }
-        
+
         grid::grid.newpage()
         grid::grid.rect(gp = grid::gpar(fill = "white", col = NA))
-        
+
         meta::forest(
           image$state,
           rightcols = c("effect", "ci", "tau2", "I2"),
@@ -256,9 +297,10 @@ mpcontClass <- if (requireNamespace('jmvcore', quietly = TRUE)) {
           col.subgroup = "gray30",
           new = FALSE
         )
-        
+
         TRUE
       },
+
       .meta_reg_plot_func = function(image, ...) {
         if (is.null(image$state)) {
           return(FALSE)
