@@ -47,7 +47,6 @@ mpcontClass <- {
       .forestPlotExpr = NULL,
       .biasModel = NULL,
       .tfModel = NULL,
-
       .checkRequiredColumns = function() {
         if (
           is.null(self$options$meanE) ||
@@ -61,7 +60,6 @@ mpcontClass <- {
         }
         TRUE
       },
-
       .init = function() {
         if (self$results$plot$isFilled()) {
           return()
@@ -84,7 +82,6 @@ mpcontClass <- {
         height <- calcForestHeight(expr)
         self$results$plot$setSize(width = 800, height = height)
       },
-
       .computeModel = function(data) {
         if (!private$.checkRequiredColumns()) {
           return(NULL)
@@ -138,7 +135,6 @@ mpcontClass <- {
 
         OverallMeta
       },
-
       .run = function() {
         if (is.null(self$model)) {
           return(NULL)
@@ -156,49 +152,51 @@ mpcontClass <- {
         # below
 
         private$.prepareLOOPlot()
-        if (isTRUE(self$options$biasEnabled)) {
+        if (is.null(self$results$bias$state) # Clear triggered by user changes
+        && isFALSE(self$options$biasTest == "disabled") # Don't run unless test is enabled
+        ) {
           private$.runPublicationBias()
-        } else {
-          # clear BIAS table row (tables don't have clear())
-          self$results$bias$setRow(
-            rowNo = 1,
-            values = list(
-              method = "",
-              statistic = NA_real_,
-              p = NA_real_,
-              interpretation = ""
-            )
-          )
+        } # Used clearWith, in analysis file to clear the table.
+        # else {
+        #   # clear BIAS table row (tables don't have clear())
+        #   self$results$bias$setRow(
+        #     rowNo = 1,
+        #     values = list(
+        #       method = "",
+        #       statistic = NA_real_,
+        #       p = NA_real_,
+        #       interpretation = ""
+        #     )
+        #   )
 
-          # clear bias images
-          self$results$funnel$setState(NULL)
-          self$results$doi$setState(NULL)
+        #   # clear bias images
+        #   self$results$funnel$setState(NULL)
+        #   self$results$doi$setState(NULL)
 
-          # clear TRIMFILL table row
-          self$results$tf$setRow(
-            rowNo = 1,
-            values = list(
-              k0 = NA_integer_,
-              model = "",
-              TE = NA_real_,
-              lci = NA_real_,
-              uci = NA_real_,
-              p = NA_real_
-            )
-          )
+        #   # clear TRIMFILL table row
+        #   self$results$tf$setRow(
+        #     rowNo = 1,
+        #     values = list(
+        #       k0 = NA_integer_,
+        #       model = "",
+        #       TE = NA_real_,
+        #       lci = NA_real_,
+        #       uci = NA_real_,
+        #       p = NA_real_
+        #     )
+        #   )
 
-          # clear trimfill image
-          self$results$funnel_tf$setState(NULL)
+        #   # clear trimfill image
+        #   self$results$funnel_tf$setState(NULL)
 
-          # clear stored models
-          private$.biasModel <- NULL
-          private$.tfModel <- NULL
-        }
+        #   # clear stored models
+        #   private$.biasModel <- NULL
+        #   private$.tfModel <- NULL
+        # }
 
-        if (self$options$subgroupEnabled) {
-          if (is.null(self$options$subgroupCovariate)) {
-            jmvcore::reject("Please select a covariate for Subgroup analysis!")
-          } else {
+        if (is.null(self$results$subgroup_text$state) # Cleared by user changes
+        && !is.null(self$options$subgroupCovariate)) # There is a subgroup covariate
+          {
             subCovariate <- self$data[[self$options$subgroupCovariate]]
             subCovariateName <- self$options$subgroupName
             subgroup_results <- meta:::update.meta(
@@ -213,31 +211,25 @@ mpcontClass <- {
             subgroup_plot <- self$results$subgroup_plot
             subgroup_plot$setState(subgroup_results)
           }
+
+
+        if (is.null(self$results$meta_regression_text$state) &&
+          !is.null(self$options$MetaRegressionCovariate)) {
+          model <- self$model
+          model$data$covariate <- jmvcore::toNumeric(self$data[[
+            self$options$MetaRegressionCovariate
+          ]])
+          meta_regression_results <- meta::metareg(model, ~covariate)
+          self$results$meta_regression_text$setContent(
+            meta_regression_results
+          )
+          meta_regression_plot <- self$results$meta_regression_plot
+          meta_regression_plot$setState(meta_regression_results)
         }
 
-        if (
-          self$options$metaRegressionEnabled &&
-            is.null(self$results$meta_regression_text$state)
-        ) {
-          if (is.null(self$options$MetaRegressionCovariate)) {
-            jmvcore::reject("Please select a covariate for meta-regression!")
-          } else {
-            model <- self$model
-            model$data$covariate <- jmvcore::toNumeric(self$data[[
-              self$options$MetaRegressionCovariate
-            ]])
-            meta_regression_results <- meta::metareg(model, ~covariate)
-            self$results$meta_regression_text$setContent(
-              meta_regression_results
-            )
-            meta_regression_plot <- self$results$meta_regression_plot
-            meta_regression_plot$setState(meta_regression_results)
-          }
-        }
 
         #################################################
       },
-
       .forestPlot = function(image, ...) {
         # No state check needed due to requiresData: true in yaml
         if (is.null(self$model)) {
@@ -251,12 +243,10 @@ mpcontClass <- {
 
         TRUE
       },
-
       .prepareLOOPlot = function() {
         if (!self$options$LOO || is.null(self$model)) {
-          return(NULL)
+          return(FALSE)
         }
-
         LOOResults <- meta::metainf(self$model)
         self$results$LOOText$setContent(LOOResults)
 
@@ -272,14 +262,13 @@ mpcontClass <- {
 
         height <- calcForestHeight(LOOExpr)
         self$results$LOOPlot$setSize(width = 800, height = height)
-        self$results$LOOPlot$setState(LOOResults) # Store data, not expression
+        self$results$LOOPlot$setState(LOOResults)
+        # Store data, not expression
       },
-
       .LOOPlot = function(image, ...) {
-        if (is.null(image$state)) {
+        if (is.null(image$state) || !is.null(self$results$LOOText$state)) {
           return(FALSE)
         }
-
         grid::grid.newpage()
         grid::grid.rect(gp = grid::gpar(fill = "white", col = NA))
 
@@ -293,7 +282,6 @@ mpcontClass <- {
 
         TRUE
       },
-
       .meta_reg_plot_func = function(image, ...) {
         if (is.null(image$state)) {
           return(FALSE)
@@ -399,7 +387,6 @@ mpcontClass <- {
 
         NULL
       },
-
       .fillEggerRow = function(TE, seTE) {
         method <- "Egger regression"
         stat <- NA_real_
@@ -491,7 +478,6 @@ mpcontClass <- {
 
         NULL
       },
-
       .lfkInterpret = function(lfk) {
         if (!is.finite(lfk)) {
           return("LFK not computable.")
@@ -509,7 +495,6 @@ mpcontClass <- {
         }
         "Major asymmetry, suggestive of small-study effects and/or publication bias (|LFK| > 2)."
       },
-
       .fillLFKRow = function(TE, seTE) {
         keep <- is.finite(TE) &
           is.finite(seTE) &
@@ -567,7 +552,6 @@ mpcontClass <- {
 
         NULL
       },
-
       .runTrimFill = function(TE, seTE) {
         rma <- metafor::rma(yi = TE, sei = seTE, method = "REML")
         tf <- metafor::trimfill(rma)
@@ -600,7 +584,6 @@ mpcontClass <- {
 
         NULL
       },
-
       .funnelPlot = function(image, ...) {
         # YAML renderFun: .funnelPlot
         if (is.null(image$state) || is.null(image$state$model)) {
@@ -611,7 +594,6 @@ mpcontClass <- {
         meta::funnel(image$state$model)
         TRUE
       },
-
       .doiPlot = function(image, ...) {
         if (
           is.null(image$state) ||
@@ -651,7 +633,6 @@ mpcontClass <- {
 
         TRUE
       },
-
       .funnelPlotTF = function(image, ...) {
         # YAML renderFun: .funnelPlotTF
         if (is.null(private$.tfModel)) {

@@ -66,12 +66,12 @@ options:
       - numeric
 
   - name: MetaRegressionCovariate
-    title: Meta-Regression Covariate
+    title: Meta-Regression covariate
     type: Variable
     suggested:
       - continuous
-    permitted:
-      - numeric
+      - nominal
+      - ordinal
 
   - name: subgroupCovariate
     title: Subgroup Covariate
@@ -166,35 +166,22 @@ options:
     type: Bool
     default: false
 
-  - name: metaRegressionEnabled
-    title: Meta-Regression
-    type: Bool
-    default: false
-
-  - name: subgroupEnabled
-    title: Subgroup Analysis
-    type: Bool
-    default: false
-
   - name: subgroupName
     title: Subgroup Name
     type: String
     default: Subgroup
 
-  - name: biasEnabled
-    title: Publication bias
-    type: Bool
-    default: false
-
   - name: biasTest
     title: Publication bias test
     type: List
     options:
+      - title: Disabled
+        name: disabled
       - title: Egger regression
         name: egger
       - title: LFK index (Doi plot)
         name: lfk
-    default: egger
+    default: disabled
 
   - name: trimfill
     title: Apply trim-and-fill

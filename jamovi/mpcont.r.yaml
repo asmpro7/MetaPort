@@ -73,6 +73,7 @@ items:
       - random
       - common
       - confidenceLevel
+      - LOO
     refs:
       - metaPackage
 
@@ -82,7 +83,7 @@ items:
     width: 800
     height: 1000
     renderFun: .LOOPlot
-    visible: (LOO)
+    # visible: (LOO)
     clearWith:
       - meanE
       - sdE
@@ -99,27 +100,33 @@ items:
       - random
       - common
       - confidenceLevel
+      - LOO
     refs:
       - metaPackage
 
   - name: subgroup_text
     title: Subgroup Results
     type: Preformatted
-    visible: (subgroupEnabled)
+    visible: (subgroupCovariate)
     clearWith:
       - meanE
       - sdE
+      - nE
       - meanC
       - sdC
+      - nC
       - studyLabel
+      - groupLabelE
+      - groupLabelC
       - sm
       - methodTau
       - methodSmd
       - random
       - common
       - confidenceLevel
+      - prediction
+      - subgroupName
       - subgroupCovariate
-
     refs:
       - metaPackage
 
@@ -129,28 +136,85 @@ items:
     width: 700
     height: 500
     renderFun: .subgroup_plot_func
-    visible: (subgroupEnabled)
+    visible: (subgroupCovariate)
     clearWith:
       - meanE
       - sdE
+      - nE
       - meanC
       - sdC
+      - nC
       - studyLabel
+      - groupLabelE
+      - groupLabelC
       - sm
       - methodTau
       - methodSmd
       - random
       - common
       - confidenceLevel
-      - subgroupCovariate
+      - prediction
       - subgroupName
+      - subgroupCovariate
     refs:
       - metaPackage
+
+  - name: meta_regression_text
+    title: Meta-Regression Results
+    type: Preformatted
+    visible: (MetaRegressionCovariate)
+    clearWith:
+      - meanE
+      - sdE
+      - meanC
+      - sdC
+      - studyLabel
+      - groupLabelE
+      - groupLabelC
+      - sm
+      - methodTau
+      - methodSmd
+      - random
+      - common
+      - confidenceLevel
+      - MetaRegressionCovariate
+    refs:
+      - metaPackage
+
+  - name: meta_regression_plot
+    title: Meta-Regression Plot
+    type: Image
+    width: 700
+    height: 500
+    renderFun: .meta_reg_plot_func
+    visible: (MetaRegressionCovariate)
+    clearWith:
+      - meanE
+      - sdE
+      - meanC
+      - sdC
+      - studyLabel
+      - groupLabelE
+      - groupLabelC
+      - sm
+      - methodTau
+      - methodSmd
+      - random
+      - common
+      - confidenceLevel
+      - MetaRegressionCovariate
+    refs:
+      - metaPackage
+
+  - name: PublicationBiasText
+    title: Publication Bias Results
+    type: Preformatted
+    visible: (biasTest != "disabled")
 
   - name: bias
     title: Small-study effects / publication bias
     type: Table
-    visible: (biasEnabled)
+    visible: (biasTest != "disabled")
     rows: 1
     columns:
       - name: method
@@ -169,6 +233,23 @@ items:
       - name: interpretation
         title: Interpretation
         type: text
+    clearWith:
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - studyLabel
+      - groupLabelE
+      - groupLabelC
+      - sm
+      - methodTau
+      - methodSmd
+      - random
+      - common
+      - biasTest
+      - trimfill
     refs:
       - eggerTest
       - lfkTest
@@ -176,17 +257,34 @@ items:
   - name: funnel
     title: Funnel plot
     type: Image
-    visible: (biasEnabled && biasTest == 'egger')
+    visible: (biasTest == 'egger')
     width: 700
     height: 500
     renderFun: .funnelPlot
+    clearWith:
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - studyLabel
+      - groupLabelE
+      - groupLabelC
+      - sm
+      - methodTau
+      - methodSmd
+      - random
+      - common
+      - biasTest
+      - trimfill
     refs:
       - eggerTest
 
   - name: doi
     title: Doi plot
     type: Image
-    visible: (biasEnabled && biasTest == 'lfk')
+    visible: (biasTest == 'lfk')
     width: 700
     height: 500
     renderFun: .doiPlot
@@ -196,7 +294,7 @@ items:
   - name: tf
     title: Trim-and-fill (adjusted)
     type: Table
-    visible: (biasEnabled && trimfill)
+    visible: (biasTest != "disabled" && trimfill)
     rows: 1
     columns:
       - name: k0
@@ -223,55 +321,43 @@ items:
         title: p
         type: number
         format: zto,pvalue
+    clearWith:
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - studyLabel
+      - groupLabelE
+      - groupLabelC
+      - sm
+      - methodTau
+      - methodSmd
+      - random
+      - common
+      - trimfill
 
   - name: funnel_tf
     title: Funnel plot (trim-and-fill)
     type: Image
-    visible: (biasEnabled && trimfill)
+    visible: (biasTest != "disabled" && trimfill)
     width: 700
     height: 500
     renderFun: .funnelPlotTF
-
-  - name: meta_regression_text
-    title: Meta-Regression Results
-    type: Preformatted
-    visible: (metaRegressionEnabled)
     clearWith:
       - meanE
       - sdE
+      - nE
       - meanC
       - sdC
+      - nC
       - studyLabel
+      - groupLabelE
+      - groupLabelC
       - sm
       - methodTau
       - methodSmd
       - random
       - common
-      - confidenceLevel
-      - MetaRegressionCovariate
-
-    refs:
-      - metaPackage
-
-  - name: meta_regression_plot
-    title: Meta-Regression Plot
-    type: Image
-    width: 700
-    height: 500
-    renderFun: .meta_reg_plot_func
-    visible: (metaRegressionEnabled)
-    clearWith:
-      - meanE
-      - sdE
-      - meanC
-      - sdC
-      - studyLabel
-      - sm
-      - methodTau
-      - methodSmd
-      - random
-      - common
-      - confidenceLevel
-      - MetaRegressionCovariate
-    refs:
-      - metaPackage
+      - trimfill

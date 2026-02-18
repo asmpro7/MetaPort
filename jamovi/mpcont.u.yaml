@@ -103,8 +103,6 @@ children:
     label: Subgroup Analysis
     collapsed: true
     children:
-      - type: CheckBox
-        name: subgroupEnabled
       - type: TextBox
         name: subgroupName
         format: string
@@ -125,8 +123,6 @@ children:
     label: Meta-Regression
     collapsed: true
     children:
-      - type: CheckBox
-        name: metaRegressionEnabled
       - type: VariableSupplier
         name: metaRegSupplier
         persistentItems: false
@@ -143,8 +139,6 @@ children:
     label: Publication Bias
     collapsed: true
     children:
-      - type: CheckBox
-        name: biasEnabled
       - type: ComboBox
         name: biasTest
       - type: CheckBox
