@@ -206,7 +206,7 @@ mpcontClass <- {
             )
 
             self$results$subgroup_text$setContent(
-              subgroup_results
+              asHtml(summary(subgroup_results))
             )
             subgroup_plot <- self$results$subgroup_plot
             subgroup_plot$setState(subgroup_results)
@@ -221,7 +221,7 @@ mpcontClass <- {
           ]])
           meta_regression_results <- meta::metareg(model, ~covariate)
           self$results$meta_regression_text$setContent(
-            meta_regression_results
+            asHtml(summary(meta_regression_results))
           )
           meta_regression_plot <- self$results$meta_regression_plot
           meta_regression_plot$setState(meta_regression_results)
@@ -248,7 +248,7 @@ mpcontClass <- {
           return(FALSE)
         }
         LOOResults <- meta::metainf(self$model)
-        self$results$LOOText$setContent(LOOResults)
+        self$results$LOOText$setContent(asHtml(summary(LOOResults)))
 
         LOOExpr <- quote(
           meta::forest(

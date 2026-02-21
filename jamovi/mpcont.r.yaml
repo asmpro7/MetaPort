@@ -53,9 +53,38 @@ items:
     refs:
       - metaPackage
 
-  - name: LOOText
+  - name: LOOTitle #Just a title for the section, as the HTML output shows no title.
     title: leave-one-out Analysis
     type: Preformatted
+    visible: (LOO)
+
+  - name: LOOPlot #leave-one-out Plot
+    type: Image
+    width: 800
+    height: 1000
+    renderFun: .LOOPlot
+    visible: (LOO)
+    clearWith:
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - studyLabel
+      - groupLabelE
+      - groupLabelC
+      - sm
+      - methodTau
+      - methodSmd
+      - random
+      - common
+      - confidenceLevel
+      - LOO
+
+  - name: LOOText
+    title: leave-one-out Analysis
+    type: Html
     visible: (LOO)
     clearWith:
       - meanE
@@ -77,63 +106,14 @@ items:
     refs:
       - metaPackage
 
-  - name: LOOPlot
-    title: leave-one-out Plot
-    type: Image
-    width: 800
-    height: 1000
-    renderFun: .LOOPlot
-    # visible: (LOO)
-    clearWith:
-      - meanE
-      - sdE
-      - nE
-      - meanC
-      - sdC
-      - nC
-      - studyLabel
-      - groupLabelE
-      - groupLabelC
-      - sm
-      - methodTau
-      - methodSmd
-      - random
-      - common
-      - confidenceLevel
-      - LOO
-    refs:
-      - metaPackage
-
-  - name: subgroup_text
-    title: Subgroup Results
+  - name: subgroupAnalysisTitle #Just a title for the section, as the HTML output shows no title.
+    title: Subgroup Analysis
     type: Preformatted
     visible: (subgroupCovariate)
-    clearWith:
-      - meanE
-      - sdE
-      - nE
-      - meanC
-      - sdC
-      - nC
-      - studyLabel
-      - groupLabelE
-      - groupLabelC
-      - sm
-      - methodTau
-      - methodSmd
-      - random
-      - common
-      - confidenceLevel
-      - prediction
-      - subgroupName
-      - subgroupCovariate
-    refs:
-      - metaPackage
 
-  - name: subgroup_plot
-    title: Subgroup Plot
+  - name: subgroup_plot #Subgroup Plot
     type: Image
-    width: 700
+    width: 900
     height: 500
     renderFun: .subgroup_plot_func
     visible: (subgroupCovariate)
@@ -159,15 +139,17 @@ items:
     refs:
       - metaPackage
 
-  - name: meta_regression_text
-    title: Meta-Regression Results
-    type: Preformatted
-    visible: (MetaRegressionCovariate)
+  - name: subgroup_text
+    title: Subgroup Results
+    type: Html
+    visible: (subgroupCovariate)
     clearWith:
       - meanE
       - sdE
+      - nE
       - meanC
       - sdC
+      - nC
       - studyLabel
       - groupLabelE
       - groupLabelC
@@ -177,14 +159,20 @@ items:
       - random
       - common
       - confidenceLevel
-      - MetaRegressionCovariate
+      - prediction
+      - subgroupName
+      - subgroupCovariate
     refs:
       - metaPackage
 
+  - name: metaRegressionTitle #Just a title for the section, as the HTML output shows no title.
+    title: Meta-Regression Analysis
+    type: Preformatted
+    visible: (MetaRegressionCovariate)
+
   - name: meta_regression_plot
-    title: Meta-Regression Plot
     type: Image
-    width: 700
+    width: 800
     height: 500
     renderFun: .meta_reg_plot_func
     visible: (MetaRegressionCovariate)
@@ -206,40 +194,15 @@ items:
     refs:
       - metaPackage
 
-  - name: PublicationBiasText
-    title: Publication Bias Results
-    type: Preformatted
-    visible: (biasTest != "disabled")
-
-  - name: bias
-    title: Small-study effects / publication bias
-    type: Table
-    visible: (biasTest != "disabled")
-    rows: 1
-    columns:
-      - name: method
-        title: Method
-        type: text
-
-      - name: statistic
-        title: Statistic
-        type: number
-
-      - name: p
-        title: p
-        type: number
-        format: zto,pvalue
-
-      - name: interpretation
-        title: Interpretation
-        type: text
+  - name: meta_regression_text
+    title: Meta-Regression Analysis
+    type: Html
+    visible: (MetaRegressionCovariate)
     clearWith:
       - meanE
       - sdE
-      - nE
       - meanC
       - sdC
-      - nC
       - studyLabel
       - groupLabelE
       - groupLabelC
@@ -248,11 +211,15 @@ items:
       - methodSmd
       - random
       - common
-      - biasTest
-      - trimfill
+      - confidenceLevel
+      - MetaRegressionCovariate
     refs:
-      - eggerTest
-      - lfkTest
+      - metaPackage
+
+  - name: PublicationBiasTitle #Just a title for the section, as the table title is too small to be noticed
+    title: Publication Bias Results
+    type: Preformatted
+    visible: (biasTest != "disabled")
 
   - name: funnel
     title: Funnel plot
@@ -361,3 +328,46 @@ items:
       - random
       - common
       - trimfill
+
+  - name: bias
+    title: Small-study effects / publication bias
+    type: Table
+    visible: (biasTest != "disabled")
+    rows: 1
+    columns:
+      - name: method
+        title: Method
+        type: text
+
+      - name: statistic
+        title: Statistic
+        type: number
+
+      - name: p
+        title: p
+        type: number
+        format: zto,pvalue
+
+      - name: interpretation
+        title: Interpretation
+        type: text
+    clearWith:
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - studyLabel
+      - groupLabelE
+      - groupLabelC
+      - sm
+      - methodTau
+      - methodSmd
+      - random
+      - common
+      - biasTest
+      - trimfill
+    refs:
+      - eggerTest
+      - lfkTest

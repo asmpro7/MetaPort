@@ -256,18 +256,21 @@ mpcontResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     active = list(
         text = function() private$.items[["text"]],
         plot = function() private$.items[["plot"]],
-        LOOText = function() private$.items[["LOOText"]],
+        LOOTitle = function() private$.items[["LOOTitle"]],
         LOOPlot = function() private$.items[["LOOPlot"]],
-        subgroup_text = function() private$.items[["subgroup_text"]],
+        LOOText = function() private$.items[["LOOText"]],
+        subgroupAnalysisTitle = function() private$.items[["subgroupAnalysisTitle"]],
         subgroup_plot = function() private$.items[["subgroup_plot"]],
-        meta_regression_text = function() private$.items[["meta_regression_text"]],
+        subgroup_text = function() private$.items[["subgroup_text"]],
+        metaRegressionTitle = function() private$.items[["metaRegressionTitle"]],
         meta_regression_plot = function() private$.items[["meta_regression_plot"]],
-        PublicationBiasText = function() private$.items[["PublicationBiasText"]],
-        bias = function() private$.items[["bias"]],
+        meta_regression_text = function() private$.items[["meta_regression_text"]],
+        PublicationBiasTitle = function() private$.items[["PublicationBiasTitle"]],
         funnel = function() private$.items[["funnel"]],
         doi = function() private$.items[["doi"]],
         tf = function() private$.items[["tf"]],
-        funnel_tf = function() private$.items[["funnel_tf"]]),
+        funnel_tf = function() private$.items[["funnel_tf"]],
+        bias = function() private$.items[["bias"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -326,8 +329,16 @@ mpcontResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "metaPackage")))
             self$add(jmvcore::Preformatted$new(
                 options=options,
-                name="LOOText",
+                name="LOOTitle",
                 title="leave-one-out Analysis",
+                visible="(LOO)"))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="LOOPlot",
+                width=800,
+                height=1000,
+                renderFun=".LOOPlot",
+                visible="(LOO)",
                 clearWith=list(
                     "meanE",
                     "sdE",
@@ -344,16 +355,12 @@ mpcontResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "random",
                     "common",
                     "confidenceLevel",
-                    "LOO"),
-                refs=list(
-                    "metaPackage")))
-            self$add(jmvcore::Image$new(
+                    "LOO")))
+            self$add(jmvcore::Html$new(
                 options=options,
-                name="LOOPlot",
-                title="leave-one-out Plot",
-                width=800,
-                height=1000,
-                renderFun=".LOOPlot",
+                name="LOOText",
+                title="leave-one-out Analysis",
+                visible="(LOO)",
                 clearWith=list(
                     "meanE",
                     "sdE",
@@ -374,6 +381,39 @@ mpcontResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 refs=list(
                     "metaPackage")))
             self$add(jmvcore::Preformatted$new(
+                options=options,
+                name="subgroupAnalysisTitle",
+                title="Subgroup Analysis",
+                visible="(subgroupCovariate)"))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="subgroup_plot",
+                width=900,
+                height=500,
+                renderFun=".subgroup_plot_func",
+                visible="(subgroupCovariate)",
+                clearWith=list(
+                    "meanE",
+                    "sdE",
+                    "nE",
+                    "meanC",
+                    "sdC",
+                    "nC",
+                    "studyLabel",
+                    "groupLabelE",
+                    "groupLabelC",
+                    "sm",
+                    "methodTau",
+                    "methodSmd",
+                    "random",
+                    "common",
+                    "confidenceLevel",
+                    "prediction",
+                    "subgroupName",
+                    "subgroupCovariate"),
+                refs=list(
+                    "metaPackage")))
+            self$add(jmvcore::Html$new(
                 options=options,
                 name="subgroup_text",
                 title="Subgroup Results",
@@ -394,64 +434,19 @@ mpcontResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "random",
                     "common",
                     "confidenceLevel",
-                    "subgroupName",
-                    "subgroupCovariate"),
-                refs=list(
-                    "metaPackage")))
-            self$add(jmvcore::Image$new(
-                options=options,
-                name="subgroup_plot",
-                title="Subgroup Plot",
-                width=700,
-                height=500,
-                renderFun=".subgroup_plot_func",
-                visible="(subgroupCovariate)",
-                clearWith=list(
-                    "meanE",
-                    "sdE",
-                    "nE",
-                    "meanC",
-                    "sdC",
-                    "nC",
-                    "studyLabel",
-                    "groupLabelE",
-                    "groupLabelC",
-                    "sm",
-                    "methodTau",
-                    "methodSmd",
-                    "random",
-                    "common",
-                    "confidenceLevel",
+                    "prediction",
                     "subgroupName",
                     "subgroupCovariate"),
                 refs=list(
                     "metaPackage")))
             self$add(jmvcore::Preformatted$new(
                 options=options,
-                name="meta_regression_text",
-                title="Meta-Regression Results",
-                visible="(MetaRegressionCovariate)",
-                clearWith=list(
-                    "meanE",
-                    "sdE",
-                    "meanC",
-                    "sdC",
-                    "studyLabel",
-                    "groupLabelE",
-                    "groupLabelC",
-                    "sm",
-                    "methodTau",
-                    "methodSmd",
-                    "random",
-                    "common",
-                    "confidenceLevel",
-                    "MetaRegressionCovariate"),
-                refs=list(
-                    "metaPackage")))
+                name="metaRegressionTitle",
+                title="Meta-Regression Analysis",
+                visible="(MetaRegressionCovariate)"))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="meta_regression_plot",
-                title="Meta-Regression Plot",
                 width=700,
                 height=500,
                 renderFun=".meta_reg_plot_func",
@@ -473,42 +468,16 @@ mpcontResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "MetaRegressionCovariate"),
                 refs=list(
                     "metaPackage")))
-            self$add(jmvcore::Preformatted$new(
+            self$add(jmvcore::Html$new(
                 options=options,
-                name="PublicationBiasText",
-                title="Publication Bias Results",
-                visible="(biasTest != \"disabled\")"))
-            self$add(jmvcore::Table$new(
-                options=options,
-                name="bias",
-                title="Small-study effects / publication bias",
-                visible="(biasTest != \"disabled\")",
-                rows=1,
-                columns=list(
-                    list(
-                        `name`="method", 
-                        `title`="Method", 
-                        `type`="text"),
-                    list(
-                        `name`="statistic", 
-                        `title`="Statistic", 
-                        `type`="number"),
-                    list(
-                        `name`="p", 
-                        `title`="p", 
-                        `type`="number", 
-                        `format`="zto,pvalue"),
-                    list(
-                        `name`="interpretation", 
-                        `title`="Interpretation", 
-                        `type`="text")),
+                name="meta_regression_text",
+                title="Meta-Regression Analysis",
+                visible="(MetaRegressionCovariate)",
                 clearWith=list(
                     "meanE",
                     "sdE",
-                    "nE",
                     "meanC",
                     "sdC",
-                    "nC",
                     "studyLabel",
                     "groupLabelE",
                     "groupLabelC",
@@ -517,11 +486,15 @@ mpcontResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "methodSmd",
                     "random",
                     "common",
-                    "biasTest",
-                    "trimfill"),
+                    "confidenceLevel",
+                    "MetaRegressionCovariate"),
                 refs=list(
-                    "eggerTest",
-                    "lfkTest")))
+                    "metaPackage")))
+            self$add(jmvcore::Preformatted$new(
+                options=options,
+                name="PublicationBiasTitle",
+                title="Publication Bias Results",
+                visible="(biasTest != \"disabled\")"))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="funnel",
@@ -630,7 +603,51 @@ mpcontResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "methodSmd",
                     "random",
                     "common",
-                    "trimfill")))}))
+                    "trimfill")))
+            self$add(jmvcore::Table$new(
+                options=options,
+                name="bias",
+                title="Small-study effects / publication bias",
+                visible="(biasTest != \"disabled\")",
+                rows=1,
+                columns=list(
+                    list(
+                        `name`="method", 
+                        `title`="Method", 
+                        `type`="text"),
+                    list(
+                        `name`="statistic", 
+                        `title`="Statistic", 
+                        `type`="number"),
+                    list(
+                        `name`="p", 
+                        `title`="p", 
+                        `type`="number", 
+                        `format`="zto,pvalue"),
+                    list(
+                        `name`="interpretation", 
+                        `title`="Interpretation", 
+                        `type`="text")),
+                clearWith=list(
+                    "meanE",
+                    "sdE",
+                    "nE",
+                    "meanC",
+                    "sdC",
+                    "nC",
+                    "studyLabel",
+                    "groupLabelE",
+                    "groupLabelC",
+                    "sm",
+                    "methodTau",
+                    "methodSmd",
+                    "random",
+                    "common",
+                    "biasTest",
+                    "trimfill"),
+                refs=list(
+                    "eggerTest",
+                    "lfkTest")))}))
 
 mpcontBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "mpcontBase",
@@ -684,25 +701,28 @@ mpcontBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
-#'   \code{results$LOOText} \tab \tab \tab \tab \tab a preformatted \cr
+#'   \code{results$LOOTitle} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$LOOPlot} \tab \tab \tab \tab \tab an image \cr
-#'   \code{results$subgroup_text} \tab \tab \tab \tab \tab a preformatted \cr
+#'   \code{results$LOOText} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$subgroupAnalysisTitle} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$subgroup_plot} \tab \tab \tab \tab \tab an image \cr
-#'   \code{results$meta_regression_text} \tab \tab \tab \tab \tab a preformatted \cr
+#'   \code{results$subgroup_text} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$metaRegressionTitle} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$meta_regression_plot} \tab \tab \tab \tab \tab an image \cr
-#'   \code{results$PublicationBiasText} \tab \tab \tab \tab \tab a preformatted \cr
-#'   \code{results$bias} \tab \tab \tab \tab \tab a table \cr
+#'   \code{results$meta_regression_text} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$PublicationBiasTitle} \tab \tab \tab \tab \tab a preformatted \cr
 #'   \code{results$funnel} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$doi} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$tf} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$funnel_tf} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$bias} \tab \tab \tab \tab \tab a table \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
 #'
-#' \code{results$bias$asDF}
+#' \code{results$tf$asDF}
 #'
-#' \code{as.data.frame(results$bias)}
+#' \code{as.data.frame(results$tf)}
 #'
 #' @export
 mpcont <- function(
