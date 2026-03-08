@@ -18,6 +18,12 @@ analyses:
     category: analyses
     menuGroup: MetaPort
     menuTitle: Meta-analysis of continuous outcome data
+  - title: Continuous Meta-Analysis
+    name: metaCont
+    ns: MetaPort
+    category: analyses
+    menuGroup: MetaPort
+    menuTitle: Continuous Meta-Analysis
 usesNative: true
 minApp: 1.0.8
 
