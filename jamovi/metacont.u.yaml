@@ -65,6 +65,11 @@ children:
         name: common
       - type: ComboBox
         name: methodTau
+      - type: ComboBox
+        name: methodRandomCi
+      - type: ComboBox
+        name: adhocHaknCi
+        enable: (methodRandomCi:HK)
       - type: CheckBox
         name: prediction
       - type: TextBox
@@ -72,17 +77,38 @@ children:
         format: number
         width: normal
         suffix: "%"
-      - type: TextBox
-        name: groupLabelE
-        format: string
-        width: large
-      - type: TextBox
-        name: groupLabelC
-        format: string
-        width: large
+      - type: CheckBox
+        name: showSummary
+
   - type: CollapseBox
     label: Forest Plot
-    collapsed: false
+    collapsed: true
     children:
       - type: CheckBox
         name: forestPlot
+      - type: ComboBox
+        name: forestLayout
+        enable: (forestPlot)
+      - type: ComboBox
+        name: sortBy
+        enable: (forestPlot)
+      - type: TextBox
+        name: labelLeft
+        enable: (forestPlot)
+        format: string
+        width: large
+      - type: TextBox
+        name: labelRight
+        enable: (forestPlot)
+        format: string
+        width: large
+      - type: TextBox
+        name: labelE
+        enable: (forestPlot)
+        format: string
+        width: large
+      - type: TextBox
+        name: labelC
+        enable: (forestPlot)
+        format: string
+        width: large

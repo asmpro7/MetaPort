@@ -65,6 +65,8 @@ options:
     permitted:
       - numeric
 
+  # --- Model Options ---
+
   - name: sm
     title: Summary Measure
     type: List
@@ -121,6 +123,30 @@ options:
         name: EB
     default: REML
 
+  - name: methodRandomCi
+    title: Random Effects CI Method
+    type: List
+    options:
+      - title: Classic (Wald-type)
+        name: classic
+      - title: Hartung-Knapp
+        name: HK
+    default: classic
+
+  - name: adhocHaknCi
+    title: Ad-hoc Variance Correction
+    type: List
+    options:
+      - title: None
+        name: none
+      - title: Correct using SE
+        name: se
+      - title: Correct using IQR
+        name: IQR
+      - title: Correct using CI
+        name: ci
+    default: none
+
   - name: prediction
     title: Prediction Interval
     type: Bool
@@ -131,17 +157,66 @@ options:
     type: Number
     default: 0.95
 
-  - name: groupLabelE
-    title: Label (Experimental)
-    type: String
-    default: Experimental
+  - name: showSummary
+    title: Show Summary Output
+    type: Bool
+    default: true
 
-  - name: groupLabelC
-    title: Label (Control)
-    type: String
-    default: Control
+  # --- Forest Plot Options ---
 
   - name: forestPlot
     title: Forest Plot
     type: Bool
     default: true
+
+  - name: forestLayout
+    title: Layout
+    type: List
+    options:
+      - title: Default (meta)
+        name: meta
+      - title: RevMan 5
+        name: RevMan5
+      - title: JAMA
+        name: JAMA
+      - title: BMJ
+        name: BMJ
+      - title: Subgroup
+        name: subgroup
+    default: RevMan5
+
+  - name: sortBy
+    title: Sort Studies
+    type: List
+    options:
+      - title: Original Order
+        name: none
+      - title: Effect Size (Ascending)
+        name: effectAsc
+      - title: Effect Size (Descending)
+        name: effectDesc
+      - title: Weight (Ascending)
+        name: weightAsc
+      - title: Weight (Descending)
+        name: weightDesc
+    default: none
+
+  - name: labelLeft
+    title: Left Graph Label
+    type: String
+    default: ''
+
+  - name: labelRight
+    title: Right Graph Label
+    type: String
+    default: ''
+
+  - name: labelE
+    title: Label (Experimental)
+    type: String
+    default: Experimental
+
+  - name: labelC
+    title: Label (Control)
+    type: String
+    default: Control

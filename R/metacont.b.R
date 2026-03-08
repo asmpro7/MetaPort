@@ -27,7 +27,7 @@ metaContClass <- if (requireNamespace("jmvcore", quietly = TRUE)) R6::R6Class(
       if (is.null(private$.model)) return()
 
       model <- private$.model
-      expr <- buildContForestExpr(model)
+      expr <- buildForestExpr(model, self$options)
       height <- calcForestHeight(expr)
       self$results$plot$setSize(width = 800, height = height)
     },
@@ -36,7 +36,8 @@ metaContClass <- if (requireNamespace("jmvcore", quietly = TRUE)) R6::R6Class(
       if (is.null(self$model)) return(NULL)
 
       # Overall results
-      self$results$text$setContent(asHtml(summary(self$model)))
+      if (self$options$showSummary)
+        self$results$text$setContent(asHtml(summary(self$model)))
     },
 
     .forestPlot = function(image, ...) {
@@ -46,7 +47,7 @@ metaContClass <- if (requireNamespace("jmvcore", quietly = TRUE)) R6::R6Class(
       grid::grid.rect(gp = grid::gpar(fill = "white", col = NA))
 
       model <- self$model
-      eval(buildContForestExpr(model))
+      eval(buildForestExpr(model, self$options))
 
       TRUE
     }

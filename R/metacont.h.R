@@ -18,11 +18,18 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             random = TRUE,
             common = TRUE,
             methodTau = "REML",
+            methodRandomCi = "classic",
+            adhocHaknCi = "none",
             prediction = FALSE,
             confidenceLevel = 0.95,
-            groupLabelE = "Experimental",
-            groupLabelC = "Control",
-            forestPlot = TRUE, ...) {
+            showSummary = TRUE,
+            forestPlot = TRUE,
+            forestLayout = "RevMan5",
+            sortBy = "none",
+            labelLeft = "",
+            labelRight = "",
+            labelE = "Experimental",
+            labelC = "Control", ...) {
 
             super$initialize(
                 package="MetaPort",
@@ -117,6 +124,22 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "HE",
                     "EB"),
                 default="REML")
+            private$..methodRandomCi <- jmvcore::OptionList$new(
+                "methodRandomCi",
+                methodRandomCi,
+                options=list(
+                    "classic",
+                    "HK"),
+                default="classic")
+            private$..adhocHaknCi <- jmvcore::OptionList$new(
+                "adhocHaknCi",
+                adhocHaknCi,
+                options=list(
+                    "none",
+                    "se",
+                    "IQR",
+                    "ci"),
+                default="none")
             private$..prediction <- jmvcore::OptionBool$new(
                 "prediction",
                 prediction,
@@ -125,18 +148,50 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "confidenceLevel",
                 confidenceLevel,
                 default=0.95)
-            private$..groupLabelE <- jmvcore::OptionString$new(
-                "groupLabelE",
-                groupLabelE,
-                default="Experimental")
-            private$..groupLabelC <- jmvcore::OptionString$new(
-                "groupLabelC",
-                groupLabelC,
-                default="Control")
+            private$..showSummary <- jmvcore::OptionBool$new(
+                "showSummary",
+                showSummary,
+                default=TRUE)
             private$..forestPlot <- jmvcore::OptionBool$new(
                 "forestPlot",
                 forestPlot,
                 default=TRUE)
+            private$..forestLayout <- jmvcore::OptionList$new(
+                "forestLayout",
+                forestLayout,
+                options=list(
+                    "meta",
+                    "RevMan5",
+                    "JAMA",
+                    "BMJ",
+                    "subgroup"),
+                default="RevMan5")
+            private$..sortBy <- jmvcore::OptionList$new(
+                "sortBy",
+                sortBy,
+                options=list(
+                    "none",
+                    "effectAsc",
+                    "effectDesc",
+                    "weightAsc",
+                    "weightDesc"),
+                default="none")
+            private$..labelLeft <- jmvcore::OptionString$new(
+                "labelLeft",
+                labelLeft,
+                default="")
+            private$..labelRight <- jmvcore::OptionString$new(
+                "labelRight",
+                labelRight,
+                default="")
+            private$..labelE <- jmvcore::OptionString$new(
+                "labelE",
+                labelE,
+                default="Experimental")
+            private$..labelC <- jmvcore::OptionString$new(
+                "labelC",
+                labelC,
+                default="Control")
 
             self$.addOption(private$..studyLabel)
             self$.addOption(private$..meanE)
@@ -150,11 +205,18 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..random)
             self$.addOption(private$..common)
             self$.addOption(private$..methodTau)
+            self$.addOption(private$..methodRandomCi)
+            self$.addOption(private$..adhocHaknCi)
             self$.addOption(private$..prediction)
             self$.addOption(private$..confidenceLevel)
-            self$.addOption(private$..groupLabelE)
-            self$.addOption(private$..groupLabelC)
+            self$.addOption(private$..showSummary)
             self$.addOption(private$..forestPlot)
+            self$.addOption(private$..forestLayout)
+            self$.addOption(private$..sortBy)
+            self$.addOption(private$..labelLeft)
+            self$.addOption(private$..labelRight)
+            self$.addOption(private$..labelE)
+            self$.addOption(private$..labelC)
         }),
     active = list(
         studyLabel = function() private$..studyLabel$value,
@@ -169,11 +231,18 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         random = function() private$..random$value,
         common = function() private$..common$value,
         methodTau = function() private$..methodTau$value,
+        methodRandomCi = function() private$..methodRandomCi$value,
+        adhocHaknCi = function() private$..adhocHaknCi$value,
         prediction = function() private$..prediction$value,
         confidenceLevel = function() private$..confidenceLevel$value,
-        groupLabelE = function() private$..groupLabelE$value,
-        groupLabelC = function() private$..groupLabelC$value,
-        forestPlot = function() private$..forestPlot$value),
+        showSummary = function() private$..showSummary$value,
+        forestPlot = function() private$..forestPlot$value,
+        forestLayout = function() private$..forestLayout$value,
+        sortBy = function() private$..sortBy$value,
+        labelLeft = function() private$..labelLeft$value,
+        labelRight = function() private$..labelRight$value,
+        labelE = function() private$..labelE$value,
+        labelC = function() private$..labelC$value),
     private = list(
         ..studyLabel = NA,
         ..meanE = NA,
@@ -187,11 +256,18 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..random = NA,
         ..common = NA,
         ..methodTau = NA,
+        ..methodRandomCi = NA,
+        ..adhocHaknCi = NA,
         ..prediction = NA,
         ..confidenceLevel = NA,
-        ..groupLabelE = NA,
-        ..groupLabelC = NA,
-        ..forestPlot = NA)
+        ..showSummary = NA,
+        ..forestPlot = NA,
+        ..forestLayout = NA,
+        ..sortBy = NA,
+        ..labelLeft = NA,
+        ..labelRight = NA,
+        ..labelE = NA,
+        ..labelC = NA)
 )
 
 metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -211,6 +287,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 options=options,
                 name="text",
                 title="Overall Meta-Analysis Results",
+                visible="(showSummary)",
                 clearWith=list(
                     "meanE",
                     "sdE",
@@ -219,11 +296,11 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "sdC",
                     "nC",
                     "studyLabel",
-                    "groupLabelE",
-                    "groupLabelC",
                     "sm",
                     "methodTau",
                     "methodSmd",
+                    "methodRandomCi",
+                    "adhocHaknCi",
                     "random",
                     "common",
                     "prediction",
@@ -245,15 +322,21 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "sdC",
                     "nC",
                     "studyLabel",
-                    "groupLabelE",
-                    "groupLabelC",
                     "sm",
                     "methodTau",
                     "methodSmd",
+                    "methodRandomCi",
+                    "adhocHaknCi",
                     "random",
                     "common",
                     "prediction",
-                    "confidenceLevel"),
+                    "confidenceLevel",
+                    "forestLayout",
+                    "sortBy",
+                    "labelLeft",
+                    "labelRight",
+                    "labelE",
+                    "labelC"),
                 refs=list(
                     "metaPackage")))}))
 
@@ -294,11 +377,18 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param random .
 #' @param common .
 #' @param methodTau .
+#' @param methodRandomCi .
+#' @param adhocHaknCi .
 #' @param prediction .
 #' @param confidenceLevel .
-#' @param groupLabelE .
-#' @param groupLabelC .
+#' @param showSummary .
 #' @param forestPlot .
+#' @param forestLayout .
+#' @param sortBy .
+#' @param labelLeft .
+#' @param labelRight .
+#' @param labelE .
+#' @param labelC .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a html \cr
@@ -320,11 +410,18 @@ metaCont <- function(
     random = TRUE,
     common = TRUE,
     methodTau = "REML",
+    methodRandomCi = "classic",
+    adhocHaknCi = "none",
     prediction = FALSE,
     confidenceLevel = 0.95,
-    groupLabelE = "Experimental",
-    groupLabelC = "Control",
-    forestPlot = TRUE) {
+    showSummary = TRUE,
+    forestPlot = TRUE,
+    forestLayout = "RevMan5",
+    sortBy = "none",
+    labelLeft = "",
+    labelRight = "",
+    labelE = "Experimental",
+    labelC = "Control") {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("metaCont requires jmvcore to be installed (restart may be required)")
@@ -361,11 +458,18 @@ metaCont <- function(
         random = random,
         common = common,
         methodTau = methodTau,
+        methodRandomCi = methodRandomCi,
+        adhocHaknCi = adhocHaknCi,
         prediction = prediction,
         confidenceLevel = confidenceLevel,
-        groupLabelE = groupLabelE,
-        groupLabelC = groupLabelC,
-        forestPlot = forestPlot)
+        showSummary = showSummary,
+        forestPlot = forestPlot,
+        forestLayout = forestLayout,
+        sortBy = sortBy,
+        labelLeft = labelLeft,
+        labelRight = labelRight,
+        labelE = labelE,
+        labelC = labelC)
 
     analysis <- metaContClass$new(
         options = options,
