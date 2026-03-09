@@ -65,8 +65,6 @@ options:
     permitted:
       - numeric
 
-  # --- Model Options ---
-
   - name: sm
     title: Summary Measure
     type: List
@@ -162,8 +160,6 @@ options:
     type: Bool
     default: true
 
-  # --- Forest Plot Options ---
-
   - name: forestPlot
     title: Forest Plot
     type: Bool
@@ -173,7 +169,7 @@ options:
     title: Layout
     type: List
     options:
-      - title: Default (meta)
+      - title: Default
         name: meta
       - title: RevMan 5
         name: RevMan5
@@ -181,9 +177,7 @@ options:
         name: JAMA
       - title: BMJ
         name: BMJ
-      - title: Subgroup
-        name: subgroup
-    default: RevMan5
+    default: meta
 
   - name: sortBy
     title: Sort Studies

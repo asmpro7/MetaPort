@@ -24,7 +24,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             confidenceLevel = 0.95,
             showSummary = TRUE,
             forestPlot = TRUE,
-            forestLayout = "RevMan5",
+            forestLayout = "meta",
             sortBy = "none",
             labelLeft = "",
             labelRight = "",
@@ -163,9 +163,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "meta",
                     "RevMan5",
                     "JAMA",
-                    "BMJ",
-                    "subgroup"),
-                default="RevMan5")
+                    "BMJ"),
+                default="meta")
             private$..sortBy <- jmvcore::OptionList$new(
                 "sortBy",
                 sortBy,
@@ -416,7 +415,7 @@ metaCont <- function(
     confidenceLevel = 0.95,
     showSummary = TRUE,
     forestPlot = TRUE,
-    forestLayout = "RevMan5",
+    forestLayout = "meta",
     sortBy = "none",
     labelLeft = "",
     labelRight = "",

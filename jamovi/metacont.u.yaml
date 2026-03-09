@@ -51,8 +51,9 @@ children:
             maxItemCount: 1
             isTarget: true
 
-  - type: LayoutBox
-    margin: large
+  - type: CollapseBox
+    label: Meta-Analysis
+    collapsed: false
     children:
       - type: ComboBox
         name: sm
@@ -92,23 +93,38 @@ children:
       - type: ComboBox
         name: sortBy
         enable: (forestPlot)
-      - type: TextBox
-        name: labelLeft
-        enable: (forestPlot)
-        format: string
-        width: large
-      - type: TextBox
-        name: labelRight
-        enable: (forestPlot)
-        format: string
-        width: large
-      - type: TextBox
-        name: labelE
-        enable: (forestPlot)
-        format: string
-        width: large
-      - type: TextBox
-        name: labelC
-        enable: (forestPlot)
-        format: string
-        width: large
+      - type: LayoutBox
+        fitToGrid: true
+        children:
+          - type: TextBox
+            name: labelE
+            enable: (forestPlot)
+            format: string
+            width: large
+            cell:
+              row: 0
+              column: 0
+          - type: TextBox
+            name: labelC
+            enable: (forestPlot)
+            format: string
+            width: large
+            cell:
+              row: 0
+              column: 1
+          - type: TextBox
+            name: labelLeft
+            enable: (forestPlot)
+            format: string
+            width: large
+            cell:
+              row: 1
+              column: 0
+          - type: TextBox
+            name: labelRight
+            enable: (forestPlot)
+            format: string
+            width: large
+            cell:
+              row: 1
+              column: 1
