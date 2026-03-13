@@ -3,6 +3,27 @@ title: Continuous Meta-Analysis
 jrs: '1.1'
 
 items:
+  - name: modelCache
+    type: Html
+    visible: false
+    clearWith:
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - studyLabel
+      - sm
+      - methodTau
+      - methodSmd
+      - methodRandomCi
+      - adhocHaknCi
+      - random
+      - common
+      - prediction
+      - confidenceLevel
+
   - name: text
     title: Overall Meta-Analysis Results
     type: Html
@@ -32,7 +53,6 @@ items:
     type: Image
     renderFun: .forestPlot
     visible: (forestPlot)
-    requiresData: true
     clearWith:
       - meanE
       - sdE

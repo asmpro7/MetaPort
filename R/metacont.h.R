@@ -273,6 +273,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "metaContResults",
     inherit = jmvcore::Group,
     active = list(
+        modelCache = function() private$.items[["modelCache"]],
         text = function() private$.items[["text"]],
         plot = function() private$.items[["plot"]]),
     private = list(),
@@ -282,6 +283,27 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 options=options,
                 name="",
                 title="Continuous Meta-Analysis")
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="modelCache",
+                visible=FALSE,
+                clearWith=list(
+                    "meanE",
+                    "sdE",
+                    "nE",
+                    "meanC",
+                    "sdC",
+                    "nC",
+                    "studyLabel",
+                    "sm",
+                    "methodTau",
+                    "methodSmd",
+                    "methodRandomCi",
+                    "adhocHaknCi",
+                    "random",
+                    "common",
+                    "prediction",
+                    "confidenceLevel")))
             self$add(jmvcore::Html$new(
                 options=options,
                 name="text",
@@ -312,7 +334,6 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Forest Plot",
                 renderFun=".forestPlot",
                 visible="(forestPlot)",
-                requiresData=TRUE,
                 clearWith=list(
                     "meanE",
                     "sdE",
@@ -390,6 +411,7 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param labelC .
 #' @return A results object containing:
 #' \tabular{llllll}{
+#'   \code{results$modelCache} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$text} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
 #' }
