@@ -4,16 +4,17 @@ metaContClass <- R6::R6Class(
   active = list(
     model = function() {
       if (is.null(private$.model)) {
-        cached <- self$results$modelCache$state
-        if (!is.null(cached)) {
-          private$.model <- cached
-        } else {
-          data <- self$data
-          if (is.null(data) || nrow(data) == 0) {
-            data <- self$readDataset()
-          }
-          private$.model <- computeContModel(data, self$options)
+        # Guard: all six required columns must be assigned
+        required <- c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
+        for (opt in required) {
+          if (is.null(self$options[[opt]])) return()
         }
+        
+        data <- self$data
+        if (is.null(data) || nrow(data) == 0) {
+          data <- self$readDataset()
+        }
+        private$.model <- computeContModel(data, self$options)
       }
       private$.model
     }
@@ -29,9 +30,6 @@ metaContClass <- R6::R6Class(
       if (is.null(self$model)) {
         return(NULL)
       }
-
-      # Cache model for next cycle
-      self$results$modelCache$setState(self$model)
 
       # Overall results
       if (self$options$showSummary) {

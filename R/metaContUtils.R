@@ -11,11 +11,6 @@
 computeContModel <- function(data, options) {
   # Guard: all six required columns must be assigned
 
-  required <- c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
-  for (opt in required) {
-    if (is.null(options[[opt]])) return(NULL)
-  }
-
   # Extract and convert columns
   mean.e <- jmvcore::toNumeric(data[[options$meanE]])
   sd.e   <- jmvcore::toNumeric(data[[options$sdE]])
