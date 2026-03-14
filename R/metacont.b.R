@@ -24,14 +24,14 @@ metaContClass <- R6::R6Class(
 
     .init = function() {
       initForestPlot(self$results$plot, self$model, self$options)
-      if (self$options$showSummary) {
-        self$results$text$setContent(asHtml(title = "Meta-Analysis Summary"))
-      }
     },
 
     .run = function() {
       if (is.null(self$model)) {
-        return(NULL)
+        if (self$options$showSummary) {
+          self$results$text$setContent(asHtml(title = "Meta-Analysis Summary"))
+        }
+        return()
       }
 
       # Overall results
