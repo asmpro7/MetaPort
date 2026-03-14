@@ -4,26 +4,8 @@ jrs: '1.1'
 
 items:
   - name: text
-    title: Overall Meta-Analysis Results
     type: Html
     visible: (showSummary)
-    clearWith:
-      - meanE
-      - sdE
-      - nE
-      - meanC
-      - sdC
-      - nC
-      - studyLabel
-      - sm
-      - methodTau
-      - methodSmd
-      - methodRandomCi
-      - adhocHaknCi
-      - random
-      - common
-      - prediction
-      - confidenceLevel
     refs:
       - metaPackage
 

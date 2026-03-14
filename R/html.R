@@ -6,12 +6,24 @@
 #'
 #' @param ... Expressions to be evaluated. Their output is captured via
 #'   `capture.output`.
+#' @param title Optional string to add a native-looking jamovi `<h2>` title 
+#'   above the html container. 
 #' @return A string containing the styled HTML.
 #' @noRd
-asHtml <- function(...) {
+asHtml <- function(..., title = NULL) {
   # Capture the printed output of the expression(s)
   text <- capture.output(...)
   text <- paste0(text, collapse = "\n")
+
+  # Build optional title matching jamovi's Preformatted style
+  titleHtml <- ""
+  if (!is.null(title)) {
+    titleHtml <- paste0(
+      "<h2 class='jmv-results-image-title'>",
+      title,
+      "</h2>"
+    )
+  }
 
   # --- CSS Definitions ---
 
@@ -39,14 +51,19 @@ asHtml <- function(...) {
 
   # --- HTML Construction ---
 
+  if (text == "") {
+    return(titleHtml)
+  }
+
   # 1. Scoped Style: Forces this specific result container to 100% width using
   # :has()
   # 2. Structure: DIV (Box) containing PRE (Text)
   htmlContent <- paste0(
     "<style>
       .jmv-results-html:has(.metaport-output) { width: max-content !important; }
-    </style>
-    <div class='metaport-output' style=\"",
+    </style>",
+    titleHtml,
+    "<div class='metaport-output' style=\"",
     divCss,
     "\">",
     "<pre style=\"",

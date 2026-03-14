@@ -285,25 +285,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Html$new(
                 options=options,
                 name="text",
-                title="Overall Meta-Analysis Results",
                 visible="(showSummary)",
-                clearWith=list(
-                    "meanE",
-                    "sdE",
-                    "nE",
-                    "meanC",
-                    "sdC",
-                    "nC",
-                    "studyLabel",
-                    "sm",
-                    "methodTau",
-                    "methodSmd",
-                    "methodRandomCi",
-                    "adhocHaknCi",
-                    "random",
-                    "common",
-                    "prediction",
-                    "confidenceLevel"),
                 refs=list(
                     "metaPackage")))
             self$add(jmvcore::Image$new(
