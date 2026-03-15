@@ -16,10 +16,28 @@ renderForest <- function(model, options, ...) {
   grid::grid.newpage()
   grid::grid.rect(gp = grid::gpar(fill = "white", col = NA))
 
+  # Format numeric gaps into strings with units (e.g. "2mm")
+  # Values are always present — validated Number inputs in .a.yaml
+  colgap <- paste0(options$colgap, options$colgapUnit)
+  colgap.forest <- paste0(options$colgapForest, options$colgapForestUnit)
+
+  args <- list(
+    x = model,
+    new = FALSE,
+    layout = options$forestLayout,
+    label.e = options$labelE,
+    label.c = options$labelC,
+    label.left = options$labelLeft,
+    label.right = options$labelRight,
+    colgap = colgap,
+    colgap.forest = colgap.forest,
+    test.overall = TRUE,
+    ...
+  )
+
   # Sort variable
-  sortvar <- NULL
   if (options$sortBy != "none") {
-    sortvar <- switch(
+    args$sortvar <- switch(
       options$sortBy,
       effectAsc = model$TE,
       effectDesc = -model$TE,
@@ -33,19 +51,19 @@ renderForest <- function(model, options, ...) {
     )
   }
 
-  meta::forest(
-    model,
-    new = FALSE,
-    layout = options$forestLayout,
-    label.e = options$labelE,
-    label.c = options$labelC,
-    label.left = options$labelLeft,
-    label.right = options$labelRight,
-    sortvar = sortvar,
-    ...
-  )
-}
+  # When custom, pass xlim; when auto, let meta use its own default
+  if (options$xlimMode == "custom") {
+    args$xlim <- c(options$xlimLower, options$xlimUpper)
+  }
 
+  # When custom, pass addrows.below.overall; when auto, let meta's smart
+  # auto-calculation kick in
+  if (options$addrowsMode == "custom") {
+    args$addrows.below.overall <- options$addrowsBelowOverall
+  }
+
+  do.call(meta::forest, args)
+}
 
 #' Calculate Height for Forest Plot
 #'
@@ -69,6 +87,11 @@ calcForestHeight <- function(model, options, ...) {
   res$figheight$total_height * 72
 }
 
+#' Convert Plot Adjustment Unit to Pixels (jamovi uses 72 dpi)
+#' @noRd
+convertToPx <- function(x, unit) {
+  x / c(inch = 1, cm = 2.54, mm = 25.4)[unit] * 72
+}
 
 #' Initialize a Forest Plot Image (Shared .init() Helper)
 #'
@@ -95,5 +118,12 @@ initForestPlot <- function(image, model, options, width = 800, ...) {
   }
 
   height <- calcForestHeight(model, options, ...)
-  image$setSize(width = width, height = height)
+
+  w_adj <- convertToPx(options$forestWidthAdjust, options$forestWidthUnit)
+  h_adj <- convertToPx(options$forestHeightAdjust, options$forestHeightUnit)
+
+  final_width <- width + w_adj
+  final_height <- height + h_adj
+
+  image$setSize(width = final_width, height = final_height)
 }

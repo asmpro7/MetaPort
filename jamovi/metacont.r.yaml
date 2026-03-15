@@ -1,6 +1,6 @@
 name: metaCont
 title: Continuous Meta-Analysis
-jrs: '1.1'
+jrs: "1.1"
 
 items:
   - name: text
@@ -35,5 +35,18 @@ items:
       - labelRight
       - labelE
       - labelC
+      - forestWidthAdjust
+      - forestWidthUnit
+      - forestHeightAdjust
+      - forestHeightUnit
+      - xlimMode
+      - xlimLower
+      - xlimUpper
+      - addrowsMode
+      - addrowsBelowOverall
+      - colgap
+      - colgapUnit
+      - colgapForest
+      - colgapForestUnit
     refs:
       - metaPackage

@@ -27,7 +27,21 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             labelLeft = "",
             labelRight = "",
             labelE = "Experimental",
-            labelC = "Control", ...) {
+            labelC = "Control",
+            forestMode = "basic",
+            forestWidthAdjust = 0,
+            forestWidthUnit = "mm",
+            forestHeightAdjust = 0,
+            forestHeightUnit = "mm",
+            xlimMode = "auto",
+            xlimLower = -20,
+            xlimUpper = 20,
+            addrowsMode = "auto",
+            addrowsBelowOverall = 0,
+            colgap = 2,
+            colgapUnit = "mm",
+            colgapForest = 2,
+            colgapForestUnit = "mm", ...) {
 
             super$initialize(
                 package="MetaPort",
@@ -182,6 +196,90 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "labelC",
                 labelC,
                 default="Control")
+            private$..forestMode <- jmvcore::OptionList$new(
+                "forestMode",
+                forestMode,
+                options=list(
+                    "basic",
+                    "advanced"),
+                default="basic")
+            private$..forestWidthAdjust <- jmvcore::OptionNumber$new(
+                "forestWidthAdjust",
+                forestWidthAdjust,
+                default=0)
+            private$..forestWidthUnit <- jmvcore::OptionList$new(
+                "forestWidthUnit",
+                forestWidthUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..forestHeightAdjust <- jmvcore::OptionNumber$new(
+                "forestHeightAdjust",
+                forestHeightAdjust,
+                default=0)
+            private$..forestHeightUnit <- jmvcore::OptionList$new(
+                "forestHeightUnit",
+                forestHeightUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..xlimMode <- jmvcore::OptionList$new(
+                "xlimMode",
+                xlimMode,
+                options=list(
+                    "auto",
+                    "custom"),
+                default="auto")
+            private$..xlimLower <- jmvcore::OptionNumber$new(
+                "xlimLower",
+                xlimLower,
+                default=-20)
+            private$..xlimUpper <- jmvcore::OptionNumber$new(
+                "xlimUpper",
+                xlimUpper,
+                default=20)
+            private$..addrowsMode <- jmvcore::OptionList$new(
+                "addrowsMode",
+                addrowsMode,
+                options=list(
+                    "auto",
+                    "custom"),
+                default="auto")
+            private$..addrowsBelowOverall <- jmvcore::OptionInteger$new(
+                "addrowsBelowOverall",
+                addrowsBelowOverall,
+                min=0,
+                default=0)
+            private$..colgap <- jmvcore::OptionNumber$new(
+                "colgap",
+                colgap,
+                min=0,
+                default=2)
+            private$..colgapUnit <- jmvcore::OptionList$new(
+                "colgapUnit",
+                colgapUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..colgapForest <- jmvcore::OptionNumber$new(
+                "colgapForest",
+                colgapForest,
+                min=0,
+                default=2)
+            private$..colgapForestUnit <- jmvcore::OptionList$new(
+                "colgapForestUnit",
+                colgapForestUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
 
             self$.addOption(private$..studyLabel)
             self$.addOption(private$..meanE)
@@ -205,6 +303,20 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..labelRight)
             self$.addOption(private$..labelE)
             self$.addOption(private$..labelC)
+            self$.addOption(private$..forestMode)
+            self$.addOption(private$..forestWidthAdjust)
+            self$.addOption(private$..forestWidthUnit)
+            self$.addOption(private$..forestHeightAdjust)
+            self$.addOption(private$..forestHeightUnit)
+            self$.addOption(private$..xlimMode)
+            self$.addOption(private$..xlimLower)
+            self$.addOption(private$..xlimUpper)
+            self$.addOption(private$..addrowsMode)
+            self$.addOption(private$..addrowsBelowOverall)
+            self$.addOption(private$..colgap)
+            self$.addOption(private$..colgapUnit)
+            self$.addOption(private$..colgapForest)
+            self$.addOption(private$..colgapForestUnit)
         }),
     active = list(
         studyLabel = function() private$..studyLabel$value,
@@ -228,7 +340,21 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         labelLeft = function() private$..labelLeft$value,
         labelRight = function() private$..labelRight$value,
         labelE = function() private$..labelE$value,
-        labelC = function() private$..labelC$value),
+        labelC = function() private$..labelC$value,
+        forestMode = function() private$..forestMode$value,
+        forestWidthAdjust = function() private$..forestWidthAdjust$value,
+        forestWidthUnit = function() private$..forestWidthUnit$value,
+        forestHeightAdjust = function() private$..forestHeightAdjust$value,
+        forestHeightUnit = function() private$..forestHeightUnit$value,
+        xlimMode = function() private$..xlimMode$value,
+        xlimLower = function() private$..xlimLower$value,
+        xlimUpper = function() private$..xlimUpper$value,
+        addrowsMode = function() private$..addrowsMode$value,
+        addrowsBelowOverall = function() private$..addrowsBelowOverall$value,
+        colgap = function() private$..colgap$value,
+        colgapUnit = function() private$..colgapUnit$value,
+        colgapForest = function() private$..colgapForest$value,
+        colgapForestUnit = function() private$..colgapForestUnit$value),
     private = list(
         ..studyLabel = NA,
         ..meanE = NA,
@@ -251,7 +377,21 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..labelLeft = NA,
         ..labelRight = NA,
         ..labelE = NA,
-        ..labelC = NA)
+        ..labelC = NA,
+        ..forestMode = NA,
+        ..forestWidthAdjust = NA,
+        ..forestWidthUnit = NA,
+        ..forestHeightAdjust = NA,
+        ..forestHeightUnit = NA,
+        ..xlimMode = NA,
+        ..xlimLower = NA,
+        ..xlimUpper = NA,
+        ..addrowsMode = NA,
+        ..addrowsBelowOverall = NA,
+        ..colgap = NA,
+        ..colgapUnit = NA,
+        ..colgapForest = NA,
+        ..colgapForestUnit = NA)
 )
 
 metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -299,7 +439,20 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "labelLeft",
                     "labelRight",
                     "labelE",
-                    "labelC"),
+                    "labelC",
+                    "forestWidthAdjust",
+                    "forestWidthUnit",
+                    "forestHeightAdjust",
+                    "forestHeightUnit",
+                    "xlimMode",
+                    "xlimLower",
+                    "xlimUpper",
+                    "addrowsMode",
+                    "addrowsBelowOverall",
+                    "colgap",
+                    "colgapUnit",
+                    "colgapForest",
+                    "colgapForestUnit"),
                 refs=list(
                     "metaPackage")))}))
 
@@ -350,6 +503,20 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param labelRight .
 #' @param labelE .
 #' @param labelC .
+#' @param forestMode .
+#' @param forestWidthAdjust .
+#' @param forestWidthUnit .
+#' @param forestHeightAdjust .
+#' @param forestHeightUnit .
+#' @param xlimMode .
+#' @param xlimLower .
+#' @param xlimUpper .
+#' @param addrowsMode .
+#' @param addrowsBelowOverall .
+#' @param colgap .
+#' @param colgapUnit .
+#' @param colgapForest .
+#' @param colgapForestUnit .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a html \cr
@@ -380,7 +547,21 @@ metaCont <- function(
     labelLeft = "",
     labelRight = "",
     labelE = "Experimental",
-    labelC = "Control") {
+    labelC = "Control",
+    forestMode = "basic",
+    forestWidthAdjust = 0,
+    forestWidthUnit = "mm",
+    forestHeightAdjust = 0,
+    forestHeightUnit = "mm",
+    xlimMode = "auto",
+    xlimLower = -20,
+    xlimUpper = 20,
+    addrowsMode = "auto",
+    addrowsBelowOverall = 0,
+    colgap = 2,
+    colgapUnit = "mm",
+    colgapForest = 2,
+    colgapForestUnit = "mm") {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("metaCont requires jmvcore to be installed (restart may be required)")
@@ -426,7 +607,21 @@ metaCont <- function(
         labelLeft = labelLeft,
         labelRight = labelRight,
         labelE = labelE,
-        labelC = labelC)
+        labelC = labelC,
+        forestMode = forestMode,
+        forestWidthAdjust = forestWidthAdjust,
+        forestWidthUnit = forestWidthUnit,
+        forestHeightAdjust = forestHeightAdjust,
+        forestHeightUnit = forestHeightUnit,
+        xlimMode = xlimMode,
+        xlimLower = xlimLower,
+        xlimUpper = xlimUpper,
+        addrowsMode = addrowsMode,
+        addrowsBelowOverall = addrowsBelowOverall,
+        colgap = colgap,
+        colgapUnit = colgapUnit,
+        colgapForest = colgapForest,
+        colgapForestUnit = colgapForestUnit)
 
     analysis <- metaContClass$new(
         options = options,

@@ -97,46 +97,154 @@ children:
     children:
       - type: CheckBox
         name: forestPlot
-      - type: LayoutBox
+      - type: ModeSelector
+        name: forestMode
+        enable: (forestPlot)
         children:
-          - type: ComboBox
-            name: forestLayout
-            enable: (forestPlot)
-          - type: ComboBox
-            name: sortBy
-            enable: (forestPlot)
-      - type: LayoutBox
-        fitToGrid: true
-        children:
-          - type: TextBox
-            name: labelE
-            enable: (forestPlot)
-            format: string
-            width: large
-            cell:
-              row: 0
-              column: 0
-          - type: TextBox
-            name: labelC
-            enable: (forestPlot)
-            format: string
-            width: large
-            cell:
-              row: 0
-              column: 1
-          - type: TextBox
-            name: labelLeft
-            enable: (forestPlot)
-            format: string
-            width: large
-            cell:
-              row: 1
-              column: 0
-          - type: TextBox
-            name: labelRight
-            enable: (forestPlot)
-            format: string
-            width: large
-            cell:
-              row: 1
-              column: 1
+          - type: Content
+            name: basic
+            children:
+              - type: LayoutBox
+                children:
+                  - type: ComboBox
+                    name: forestLayout
+                    enable: (forestPlot)
+                  - type: ComboBox
+                    name: sortBy
+                    enable: (forestPlot)
+              - type: LayoutBox
+                fitToGrid: true
+                children:
+                  - type: TextBox
+                    name: labelE
+                    format: string
+                    enable: (forestPlot)
+                    width: large
+                    cell:
+                      row: 0
+                      column: 0
+                  - type: TextBox
+                    name: labelC
+                    format: string
+                    enable: (forestPlot)
+                    width: large
+                    cell:
+                      row: 0
+                      column: 1
+                  - type: TextBox
+                    name: labelLeft
+                    format: string
+                    enable: (forestPlot)
+                    width: large
+                    cell:
+                      row: 1
+                      column: 0
+                  - type: TextBox
+                    name: labelRight
+                    format: string
+                    enable: (forestPlot)
+                    width: large
+                    cell:
+                      row: 1
+                      column: 1
+          - type: Content
+            name: advanced
+            children:
+              - type: LayoutBox
+                fitToGrid: true
+                children:
+                  - type: TextBox
+                    name: forestWidthAdjust
+                    format: number
+                    enable: (forestPlot)
+                    cell:
+                      row: 0
+                      column: 0
+                  - type: ComboBox
+                    name: forestWidthUnit
+                    enable: (forestPlot)
+                    cell:
+                      row: 0
+                      column: 1
+                  - type: TextBox
+                    name: forestHeightAdjust
+                    format: number
+                    enable: (forestPlot)
+                    cell:
+                      row: 0
+                      column: 2
+                  - type: ComboBox
+                    name: forestHeightUnit
+                    enable: (forestPlot)
+                    cell:
+                      row: 0
+                      column: 3
+              - type: LayoutBox
+                fitToGrid: true
+                children:
+                  - type: ComboBox
+                    name: xlimMode
+                    enable: (forestPlot)
+                    cell:
+                      row: 0
+                      column: 0
+                  - type: TextBox
+                    name: xlimLower
+                    format: number
+                    enable: (forestPlot && xlimMode:custom)
+                    cell:
+                      row: 0
+                      column: 1
+                  - type: TextBox
+                    name: xlimUpper
+                    format: number
+                    enable: (forestPlot && xlimMode:custom)
+                    cell:
+                      row: 0
+                      column: 2
+              - type: LayoutBox
+                fitToGrid: true
+                children:
+                  - type: ComboBox
+                    name: addrowsMode
+                    enable: (forestPlot)
+                    cell:
+                      row: 0
+                      column: 0
+                  - type: TextBox
+                    name: addrowsBelowOverall
+                    format: number
+                    suffix: rows
+                    enable: (forestPlot && addrowsMode:custom)
+                    cell:
+                      row: 0
+                      column: 1
+              - type: LayoutBox
+                fitToGrid: true
+                children:
+                  - type: TextBox
+                    name: colgap
+                    format: number
+                    enable: (forestPlot)
+                    cell:
+                      row: 0
+                      column: 0
+                  - type: ComboBox
+                    name: colgapUnit
+                    enable: (forestPlot)
+                    cell:
+                      row: 0
+                      column: 1
+                  - type: TextBox
+                    name: colgapForest
+                    format: number
+                    enable: (forestPlot)
+                    cell:
+                      row: 0
+                      column: 2
+                  - type: ComboBox
+                    name: colgapForestUnit
+                    enable: (forestPlot)
+                    cell:
+                      row: 0
+                      column: 3

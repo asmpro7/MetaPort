@@ -1,8 +1,8 @@
 name: metaCont
 title: Continuous Meta-Analysis
 menuGroup: MetaPort
-version: '1.0.0'
-jas: '1.2'
+version: "1.0.0"
+jas: "1.2"
 
 options:
   - name: data
@@ -11,7 +11,7 @@ options:
   - name: studyLabel
     title: Study Labels
     type: Variable
-    suggested: 
+    suggested:
       - nominal
     permitted:
       - factor
@@ -186,14 +186,14 @@ options:
     default: none
 
   - name: labelLeft
-    title: Left Graph Label
+    title: Left Side Label
     type: String
-    default: ''
+    default: ""
 
   - name: labelRight
-    title: Right Graph Label
+    title: Right Side Label
     type: String
-    default: ''
+    default: ""
 
   - name: labelE
     title: Experimental Label
@@ -204,3 +204,119 @@ options:
     title: Control Label
     type: String
     default: Control
+
+  - name: forestMode
+    title: ""
+    type: List
+    options:
+      - title: Basic
+        name: basic
+      - title: Advanced
+        name: advanced
+    default: basic
+
+  - name: forestWidthAdjust
+    title: Width Adjustment (+/-)
+    type: Number
+    default: 0
+
+  - name: forestWidthUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: forestHeightAdjust
+    title: Height Adjustment (+/-)
+    type: Number
+    default: 0
+
+  - name: forestHeightUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: xlimMode
+    title: X-Axis Limits
+    type: List
+    options:
+      - title: Auto
+        name: auto
+      - title: Custom
+        name: custom
+    default: auto
+
+  - name: xlimLower
+    title: Lower Limit
+    type: Number
+    default: -20
+
+  - name: xlimUpper
+    title: Upper Limit
+    type: Number
+    default: 20
+
+  - name: addrowsMode
+    title: Space Above Footnotes
+    type: List
+    options:
+      - title: Auto
+        name: auto
+      - title: Custom
+        name: custom
+    default: auto
+
+  - name: addrowsBelowOverall
+    title: ""
+    type: Integer
+    min: 0
+    default: 0
+
+  - name: colgap
+    title: Space Between Columns
+    type: Number
+    min: 0
+    default: 2
+
+  - name: colgapUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: colgapForest
+    title: Space Around Plot
+    type: Number
+    min: 0
+    default: 2
+
+  - name: colgapForestUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
