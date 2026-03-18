@@ -6,6 +6,21 @@ items:
   - name: text
     type: Html
     visible: (showSummary)
+    clearWith:
+      - studyLabel
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - sm
+      - methodSmd
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
     refs:
       - metaPackage
 
@@ -15,18 +30,18 @@ items:
     renderFun: .forestPlot
     visible: (forestPlot)
     clearWith:
+      - studyLabel
       - meanE
       - sdE
       - nE
       - meanC
       - sdC
       - nC
-      - studyLabel
       - sm
-      - methodTau
       - methodSmd
-      - methodRandomCi
       - model
+      - methodTau
+      - methodRandomCi
       - prediction
       - confidenceLevel
       - forestLayout
@@ -54,6 +69,24 @@ items:
   - name: subgroupText
     type: Html
     visible: false
+    clearWith:
+      - studyLabel
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - sm
+      - methodSmd
+      - model
+      - methodTau
+      - methodRandomCi
+      - prediction
+      - confidenceLevel
+      - subgroupVariable
+      - tauCommon
+      - predictionSubgroup
     refs:
       - metaPackage
 
@@ -63,18 +96,18 @@ items:
     renderFun: .subgroupForestPlot
     visible: false
     clearWith:
+      - studyLabel
       - meanE
       - sdE
       - nE
       - meanC
       - sdC
       - nC
-      - studyLabel
       - sm
-      - methodTau
       - methodSmd
-      - methodRandomCi
       - model
+      - methodTau
+      - methodRandomCi
       - prediction
       - confidenceLevel
       - subgroupVariable

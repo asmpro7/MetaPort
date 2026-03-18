@@ -28,15 +28,10 @@ metaContClass <- R6::R6Class(
 
     .init = function() {
       # Main results
-      initMainText(self$results$text, self$model)
       initForestPlot(self$results$plot, self$model, self$options)
 
       # Subgroup results
-      updateSubgroupVisibility(
-        self$options,
-        self$results,
-        self$subgroupModel
-      )
+      updateSubgroupVisibility(self$options, self$results)
       initForestPlot(
         self$results$subgroupPlot,
         self$subgroupModel,
@@ -48,6 +43,20 @@ metaContClass <- R6::R6Class(
     },
 
     .run = function() {
+      # Initialize text skeletons (before hasRequiredVars so placeholders
+      # show even when variables aren't assigned yet). isFilled() guards
+      # inside these functions skip when clearWith didn't invalidate.
+      initMainText(
+        self$results$text,
+        self$options,
+        c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
+      )
+      initSubgroupText(
+        self$results$subgroupText,
+        self$options,
+        c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
+      )
+
       if (
         !hasRequiredVars(
           self$options,

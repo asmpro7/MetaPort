@@ -9,8 +9,6 @@
 #'   missing.
 #' @noRd
 computeContModel <- function(data, options) {
-  # Guard: all six required columns must be assigned
-
   # Extract and convert columns
   mean.e <- jmvcore::toNumeric(data[[options$meanE]])
   sd.e <- jmvcore::toNumeric(data[[options$sdE]])

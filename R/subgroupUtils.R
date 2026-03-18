@@ -80,32 +80,46 @@ buildSubgroupForestOptions <- function(options) {
 }
 
 
-#' Update Subgroup Result Visibility and Initialize Blank Content
+#' Update Subgroup Result Visibility
 #'
 #' Sets visibility of subgroup text and plot results based on whether
 #' the subgroup variable is supplied and the corresponding checkboxes
-#' are on. When visible but model is not yet available, initializes
-#' the text result with a blank titled HTML so the user sees a skeleton
-#' rather than nothing.
+#' are on. Called from `.init()` to avoid flashing.
 #'
 #' @param options The `self$options` object from a jamovi analysis.
 #' @param results The `self$results` object from a jamovi analysis.
-#' @param model The subgroup model object, or `NULL` if not yet computed.
 #' @noRd
-updateSubgroupVisibility <- function(options, results, model) {
+updateSubgroupVisibility <- function(options, results) {
   hasSubgroup <- !is.null(options$subgroupVariable)
 
-  showText <- hasSubgroup && options$showSubgroupSummary
-  showPlot <- hasSubgroup && options$subgroupForestPlot
+  results$subgroupText$setVisible(hasSubgroup && options$showSubgroupSummary)
+  results$subgroupPlot$setVisible(hasSubgroup && options$subgroupForestPlot)
+}
 
-  results$subgroupText$setVisible(showText)
-  results$subgroupPlot$setVisible(showPlot)
 
-  # Initialize blank HTML when visible but model not ready
-  if (showText && is.null(model)) {
-    results$subgroupText$setContent(
-      asHtml(title = "Subgroup Analysis Summary")
-    )
+#' Initialize the Subgroup Text Skeleton
+#'
+#' Called from `.run()` to show a titled HTML placeholder before the
+#' subgroup model is available. Uses `hasRequiredVars()` instead of
+#' checking the model directly to avoid forcing the subgroupModel
+#' (and thus the main model) active binding. The `isFilled()` guard
+#' preserves the clearWith optimization.
+#'
+#' @param textResult Html result element
+#'   (e.g., `self$results$subgroupText`).
+#' @param options The `self$options` object from a jamovi analysis.
+#' @param requiredVars Character vector of option names that must be
+#'   assigned for the model to compute.
+#' @noRd
+initSubgroupText <- function(textResult, options, requiredVars) {
+  if (!textResult$visible) {
+    return()
+  }
+  if (textResult$isFilled()) {
+    return()
+  }
+  if (!hasRequiredVars(options, requiredVars)) {
+    textResult$setContent(asHtml(title = "Subgroup Analysis Summary"))
   }
 }
 
@@ -114,17 +128,24 @@ updateSubgroupVisibility <- function(options, results, model) {
 #'
 #' Called from `.run()` when the subgroup model is available.
 #' Pairs with `updateSubgroupVisibility()` which handles show/hide
-#' and skeleton initialization in `.init()`.
+#' in `.init()`, and `initSubgroupText()` which sets the skeleton.
+#' The `isFilled()` guard skips recomputation when a non-model option
+#' changed and the previous content is still valid.
+#'
+#' No is.null(subgroupModel) guard is needed here because by the time
+#' this function is called: hasRequiredVars already ensured core vars
+#' are assigned, and !visible already exited when subgroupVariable is
+#' NULL — so the subgroup model is guaranteed to exist.
 #'
 #' @param textResult Html result element
 #'   (e.g., `self$results$subgroupText`).
-#' @param subgroupModel A `meta` object with subgroup results, or `NULL`.
+#' @param subgroupModel A `meta` object with subgroup results.
 #' @noRd
 populateSubgroupText <- function(textResult, subgroupModel) {
   if (!textResult$visible) {
     return()
   }
-  if (is.null(subgroupModel)) {
+  if (textResult$isFilled()) {
     return()
   }
   textResult$setContent(
