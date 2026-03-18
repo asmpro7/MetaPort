@@ -31,10 +31,10 @@ items:
       - confidenceLevel
       - forestLayout
       - sortBy
-      - labelLeft
-      - labelRight
       - labelE
       - labelC
+      - labelLeft
+      - labelRight
       - forestWidthAdjust
       - forestWidthUnit
       - forestHeightAdjust
@@ -48,5 +48,57 @@ items:
       - colgapUnit
       - colgapForest
       - colgapForestUnit
+    refs:
+      - metaPackage
+
+  - name: subgroupText
+    type: Html
+    visible: false
+    refs:
+      - metaPackage
+
+  - name: subgroupPlot
+    title: Subgroup Forest Plot
+    type: Image
+    renderFun: .subgroupForestPlot
+    visible: false
+    clearWith:
+      - meanE
+      - sdE
+      - nE
+      - meanC
+      - sdC
+      - nC
+      - studyLabel
+      - sm
+      - methodTau
+      - methodSmd
+      - methodRandomCi
+      - model
+      - prediction
+      - confidenceLevel
+      - subgroupVariable
+      - tauCommon
+      - predictionSubgroup
+      - printSubgroupName
+      - subgroupForestLayout
+      - subgroupSortBy
+      - subgroupLabelE
+      - subgroupLabelC
+      - subgroupLabelLeft
+      - subgroupLabelRight
+      - subgroupForestWidthAdjust
+      - subgroupForestWidthUnit
+      - subgroupForestHeightAdjust
+      - subgroupForestHeightUnit
+      - subgroupXlimMode
+      - subgroupXlimLower
+      - subgroupXlimUpper
+      - subgroupAddrowsMode
+      - subgroupAddrowsBelowOverall
+      - subgroupColgap
+      - subgroupColgapUnit
+      - subgroupColgapForest
+      - subgroupColgapForestUnit
     refs:
       - metaPackage

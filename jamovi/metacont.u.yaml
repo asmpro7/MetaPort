@@ -90,161 +90,394 @@ children:
       - type: CheckBox
         name: showSummary
 
+      - type: Label
+        label: Forest Plot
+        children:
+          - type: CheckBox
+            name: forestPlot
+          - type: ModeSelector
+            name: forestMode
+            enable: (forestPlot)
+            children:
+              - type: Content
+                name: basic
+                children:
+                  - type: LayoutBox
+                    children:
+                      - type: ComboBox
+                        name: forestLayout
+                        enable: (forestPlot)
+                      - type: ComboBox
+                        name: sortBy
+                        enable: (forestPlot)
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: TextBox
+                        name: labelE
+                        format: string
+                        enable: (forestPlot)
+                        width: large
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: TextBox
+                        name: labelC
+                        format: string
+                        enable: (forestPlot)
+                        width: large
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: TextBox
+                        name: labelLeft
+                        format: string
+                        enable: (forestPlot)
+                        width: large
+                        cell:
+                          row: 1
+                          column: 0
+                      - type: TextBox
+                        name: labelRight
+                        format: string
+                        enable: (forestPlot)
+                        width: large
+                        cell:
+                          row: 1
+                          column: 1
+              - type: Content
+                name: advanced
+                children:
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: TextBox
+                        name: forestWidthAdjust
+                        format: number
+                        enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: ComboBox
+                        name: forestWidthUnit
+                        enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: TextBox
+                        name: forestHeightAdjust
+                        format: number
+                        enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 2
+                      - type: ComboBox
+                        name: forestHeightUnit
+                        enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 3
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: ComboBox
+                        name: xlimMode
+                        enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: TextBox
+                        name: xlimLower
+                        format: number
+                        enable: (forestPlot && xlimMode:custom)
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: TextBox
+                        name: xlimUpper
+                        format: number
+                        enable: (forestPlot && xlimMode:custom)
+                        cell:
+                          row: 0
+                          column: 2
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: ComboBox
+                        name: addrowsMode
+                        enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: TextBox
+                        name: addrowsBelowOverall
+                        format: number
+                        suffix: rows
+                        enable: (forestPlot && addrowsMode:custom)
+                        cell:
+                          row: 0
+                          column: 1
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: TextBox
+                        name: colgap
+                        format: number
+                        enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: ComboBox
+                        name: colgapUnit
+                        enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: TextBox
+                        name: colgapForest
+                        format: number
+                        enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 2
+                      - type: ComboBox
+                        name: colgapForestUnit
+                        enable: (forestPlot)
+                        cell:
+                          row: 0
+                          column: 3
+
   - type: CollapseBox
-    label: Forest Plot
+    label: Subgroup Analysis
     collapsed: true
     stretchFactor: 1
     children:
-      - type: CheckBox
-        name: forestPlot
-      - type: ModeSelector
-        name: forestMode
-        enable: (forestPlot)
+      - type: VariableSupplier
+        persistentItems: false
+        stretchFactor: 1
         children:
-          - type: Content
-            name: basic
+          - type: TargetLayoutBox
             children:
-              - type: LayoutBox
-                children:
-                  - type: ComboBox
-                    name: forestLayout
-                    enable: (forestPlot)
-                  - type: ComboBox
-                    name: sortBy
-                    enable: (forestPlot)
-              - type: LayoutBox
-                fitToGrid: true
-                children:
-                  - type: TextBox
-                    name: labelE
-                    format: string
-                    enable: (forestPlot)
-                    width: large
-                    cell:
-                      row: 0
-                      column: 0
-                  - type: TextBox
-                    name: labelC
-                    format: string
-                    enable: (forestPlot)
-                    width: large
-                    cell:
-                      row: 0
-                      column: 1
-                  - type: TextBox
-                    name: labelLeft
-                    format: string
-                    enable: (forestPlot)
-                    width: large
-                    cell:
-                      row: 1
-                      column: 0
-                  - type: TextBox
-                    name: labelRight
-                    format: string
-                    enable: (forestPlot)
-                    width: large
-                    cell:
-                      row: 1
-                      column: 1
-          - type: Content
-            name: advanced
+              - type: VariablesListBox
+                name: subgroupVariable
+                maxItemCount: 1
+                isTarget: true
+
+      - type: Label
+        label: Analysis Settings
+        children:
+          - type: CheckBox
+            name: tauCommon
+            enable: ({return !!ui['subgroupVariable'].value();})
+          - type: CheckBox
+            name: predictionSubgroup
+            enable: ({return !!ui['subgroupVariable'].value();})
+          - type: CheckBox
+            name: showSubgroupSummary
+            enable: ({return !!ui['subgroupVariable'].value();})
+
+      - type: Label
+        label: Forest Plot
+        children:
+          - type: CheckBox
+            name: subgroupForestPlot
+            enable: ({return !!ui['subgroupVariable'].value();})
+          - type: ModeSelector
+            name: subgroupForestMode
+            enable: >
+              ({return !!ui['subgroupVariable'].value() &&
+              ui['subgroupForestPlot'].value();})
             children:
-              - type: LayoutBox
-                fitToGrid: true
+              - type: Content
+                name: basic
                 children:
-                  - type: TextBox
-                    name: forestWidthAdjust
-                    format: number
-                    enable: (forestPlot)
-                    cell:
-                      row: 0
-                      column: 0
-                  - type: ComboBox
-                    name: forestWidthUnit
-                    enable: (forestPlot)
-                    cell:
-                      row: 0
-                      column: 1
-                  - type: TextBox
-                    name: forestHeightAdjust
-                    format: number
-                    enable: (forestPlot)
-                    cell:
-                      row: 0
-                      column: 2
-                  - type: ComboBox
-                    name: forestHeightUnit
-                    enable: (forestPlot)
-                    cell:
-                      row: 0
-                      column: 3
-              - type: LayoutBox
-                fitToGrid: true
+                  - type: LayoutBox
+                    children:
+                      - type: CheckBox
+                        name: printSubgroupName
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                      - type: ComboBox
+                        name: subgroupForestLayout
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                      - type: ComboBox
+                        name: subgroupSortBy
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: TextBox
+                        name: subgroupLabelE
+                        format: string
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                        width: large
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: TextBox
+                        name: subgroupLabelC
+                        format: string
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                        width: large
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: TextBox
+                        name: subgroupLabelLeft
+                        format: string
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                        width: large
+                        cell:
+                          row: 1
+                          column: 0
+                      - type: TextBox
+                        name: subgroupLabelRight
+                        format: string
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                        width: large
+                        cell:
+                          row: 1
+                          column: 1
+              - type: Content
+                name: advanced
                 children:
-                  - type: ComboBox
-                    name: xlimMode
-                    enable: (forestPlot)
-                    cell:
-                      row: 0
-                      column: 0
-                  - type: TextBox
-                    name: xlimLower
-                    format: number
-                    enable: (forestPlot && xlimMode:custom)
-                    cell:
-                      row: 0
-                      column: 1
-                  - type: TextBox
-                    name: xlimUpper
-                    format: number
-                    enable: (forestPlot && xlimMode:custom)
-                    cell:
-                      row: 0
-                      column: 2
-              - type: LayoutBox
-                fitToGrid: true
-                children:
-                  - type: ComboBox
-                    name: addrowsMode
-                    enable: (forestPlot)
-                    cell:
-                      row: 0
-                      column: 0
-                  - type: TextBox
-                    name: addrowsBelowOverall
-                    format: number
-                    suffix: rows
-                    enable: (forestPlot && addrowsMode:custom)
-                    cell:
-                      row: 0
-                      column: 1
-              - type: LayoutBox
-                fitToGrid: true
-                children:
-                  - type: TextBox
-                    name: colgap
-                    format: number
-                    enable: (forestPlot)
-                    cell:
-                      row: 0
-                      column: 0
-                  - type: ComboBox
-                    name: colgapUnit
-                    enable: (forestPlot)
-                    cell:
-                      row: 0
-                      column: 1
-                  - type: TextBox
-                    name: colgapForest
-                    format: number
-                    enable: (forestPlot)
-                    cell:
-                      row: 0
-                      column: 2
-                  - type: ComboBox
-                    name: colgapForestUnit
-                    enable: (forestPlot)
-                    cell:
-                      row: 0
-                      column: 3
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: TextBox
+                        name: subgroupForestWidthAdjust
+                        format: number
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: ComboBox
+                        name: subgroupForestWidthUnit
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: TextBox
+                        name: subgroupForestHeightAdjust
+                        format: number
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 2
+                      - type: ComboBox
+                        name: subgroupForestHeightUnit
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 3
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: ComboBox
+                        name: subgroupXlimMode
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: TextBox
+                        name: subgroupXlimLower
+                        format: number
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value() &&
+                          ui['subgroupXlimMode'].value() === 'custom';})
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: TextBox
+                        name: subgroupXlimUpper
+                        format: number
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value() &&
+                          ui['subgroupXlimMode'].value() === 'custom';})
+                        cell:
+                          row: 0
+                          column: 2
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: ComboBox
+                        name: subgroupAddrowsMode
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: TextBox
+                        name: subgroupAddrowsBelowOverall
+                        format: number
+                        suffix: rows
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value() &&
+                          ui['subgroupAddrowsMode'].value() === 'custom';})
+                        cell:
+                          row: 0
+                          column: 1
+                  - type: LayoutBox
+                    fitToGrid: true
+                    children:
+                      - type: TextBox
+                        name: subgroupColgap
+                        format: number
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 0
+                      - type: ComboBox
+                        name: subgroupColgapUnit
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 1
+                      - type: TextBox
+                        name: subgroupColgapForest
+                        format: number
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 2
+                      - type: ComboBox
+                        name: subgroupColgapForestUnit
+                        enable: >
+                          ({return !!ui['subgroupVariable'].value() &&
+                          ui['subgroupForestPlot'].value();})
+                        cell:
+                          row: 0
+                          column: 3

@@ -22,13 +22,13 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             confidenceLevel = 95,
             showSummary = TRUE,
             forestPlot = TRUE,
+            forestMode = "basic",
             forestLayout = "meta",
             sortBy = "none",
-            labelLeft = "",
-            labelRight = "",
             labelE = "Experimental",
             labelC = "Control",
-            forestMode = "basic",
+            labelLeft = "",
+            labelRight = "",
             forestWidthAdjust = 0,
             forestWidthUnit = "mm",
             forestHeightAdjust = 0,
@@ -41,7 +41,33 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             colgap = 2,
             colgapUnit = "mm",
             colgapForest = 2,
-            colgapForestUnit = "mm", ...) {
+            colgapForestUnit = "mm",
+            subgroupVariable = NULL,
+            tauCommon = FALSE,
+            predictionSubgroup = FALSE,
+            showSubgroupSummary = TRUE,
+            subgroupForestPlot = TRUE,
+            subgroupForestMode = "basic",
+            printSubgroupName = TRUE,
+            subgroupForestLayout = "meta",
+            subgroupSortBy = "none",
+            subgroupLabelE = "Experimental",
+            subgroupLabelC = "Control",
+            subgroupLabelLeft = "",
+            subgroupLabelRight = "",
+            subgroupForestWidthAdjust = 0,
+            subgroupForestWidthUnit = "mm",
+            subgroupForestHeightAdjust = 0,
+            subgroupForestHeightUnit = "mm",
+            subgroupXlimMode = "auto",
+            subgroupXlimLower = -20,
+            subgroupXlimUpper = 20,
+            subgroupAddrowsMode = "auto",
+            subgroupAddrowsBelowOverall = 0,
+            subgroupColgap = 2,
+            subgroupColgapUnit = "mm",
+            subgroupColgapForest = 2,
+            subgroupColgapForestUnit = "mm", ...) {
 
             super$initialize(
                 package="MetaPort",
@@ -161,6 +187,13 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "forestPlot",
                 forestPlot,
                 default=TRUE)
+            private$..forestMode <- jmvcore::OptionList$new(
+                "forestMode",
+                forestMode,
+                options=list(
+                    "basic",
+                    "advanced"),
+                default="basic")
             private$..forestLayout <- jmvcore::OptionList$new(
                 "forestLayout",
                 forestLayout,
@@ -180,14 +213,6 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "weightAsc",
                     "weightDesc"),
                 default="none")
-            private$..labelLeft <- jmvcore::OptionString$new(
-                "labelLeft",
-                labelLeft,
-                default="")
-            private$..labelRight <- jmvcore::OptionString$new(
-                "labelRight",
-                labelRight,
-                default="")
             private$..labelE <- jmvcore::OptionString$new(
                 "labelE",
                 labelE,
@@ -196,13 +221,14 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "labelC",
                 labelC,
                 default="Control")
-            private$..forestMode <- jmvcore::OptionList$new(
-                "forestMode",
-                forestMode,
-                options=list(
-                    "basic",
-                    "advanced"),
-                default="basic")
+            private$..labelLeft <- jmvcore::OptionString$new(
+                "labelLeft",
+                labelLeft,
+                default="")
+            private$..labelRight <- jmvcore::OptionString$new(
+                "labelRight",
+                labelRight,
+                default="")
             private$..forestWidthAdjust <- jmvcore::OptionNumber$new(
                 "forestWidthAdjust",
                 forestWidthAdjust,
@@ -280,6 +306,155 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "cm",
                     "inch"),
                 default="mm")
+            private$..subgroupVariable <- jmvcore::OptionVariable$new(
+                "subgroupVariable",
+                subgroupVariable,
+                suggested=list(
+                    "nominal",
+                    "ordinal"),
+                permitted=list(
+                    "factor",
+                    "id"))
+            private$..tauCommon <- jmvcore::OptionBool$new(
+                "tauCommon",
+                tauCommon,
+                default=FALSE)
+            private$..predictionSubgroup <- jmvcore::OptionBool$new(
+                "predictionSubgroup",
+                predictionSubgroup,
+                default=FALSE)
+            private$..showSubgroupSummary <- jmvcore::OptionBool$new(
+                "showSubgroupSummary",
+                showSubgroupSummary,
+                default=TRUE)
+            private$..subgroupForestPlot <- jmvcore::OptionBool$new(
+                "subgroupForestPlot",
+                subgroupForestPlot,
+                default=TRUE)
+            private$..subgroupForestMode <- jmvcore::OptionList$new(
+                "subgroupForestMode",
+                subgroupForestMode,
+                options=list(
+                    "basic",
+                    "advanced"),
+                default="basic")
+            private$..printSubgroupName <- jmvcore::OptionBool$new(
+                "printSubgroupName",
+                printSubgroupName,
+                default=TRUE)
+            private$..subgroupForestLayout <- jmvcore::OptionList$new(
+                "subgroupForestLayout",
+                subgroupForestLayout,
+                options=list(
+                    "meta",
+                    "RevMan5",
+                    "JAMA",
+                    "BMJ",
+                    "subgroup"),
+                default="meta")
+            private$..subgroupSortBy <- jmvcore::OptionList$new(
+                "subgroupSortBy",
+                subgroupSortBy,
+                options=list(
+                    "none",
+                    "effectAsc",
+                    "effectDesc",
+                    "weightAsc",
+                    "weightDesc"),
+                default="none")
+            private$..subgroupLabelE <- jmvcore::OptionString$new(
+                "subgroupLabelE",
+                subgroupLabelE,
+                default="Experimental")
+            private$..subgroupLabelC <- jmvcore::OptionString$new(
+                "subgroupLabelC",
+                subgroupLabelC,
+                default="Control")
+            private$..subgroupLabelLeft <- jmvcore::OptionString$new(
+                "subgroupLabelLeft",
+                subgroupLabelLeft,
+                default="")
+            private$..subgroupLabelRight <- jmvcore::OptionString$new(
+                "subgroupLabelRight",
+                subgroupLabelRight,
+                default="")
+            private$..subgroupForestWidthAdjust <- jmvcore::OptionNumber$new(
+                "subgroupForestWidthAdjust",
+                subgroupForestWidthAdjust,
+                default=0)
+            private$..subgroupForestWidthUnit <- jmvcore::OptionList$new(
+                "subgroupForestWidthUnit",
+                subgroupForestWidthUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..subgroupForestHeightAdjust <- jmvcore::OptionNumber$new(
+                "subgroupForestHeightAdjust",
+                subgroupForestHeightAdjust,
+                default=0)
+            private$..subgroupForestHeightUnit <- jmvcore::OptionList$new(
+                "subgroupForestHeightUnit",
+                subgroupForestHeightUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..subgroupXlimMode <- jmvcore::OptionList$new(
+                "subgroupXlimMode",
+                subgroupXlimMode,
+                options=list(
+                    "auto",
+                    "custom"),
+                default="auto")
+            private$..subgroupXlimLower <- jmvcore::OptionNumber$new(
+                "subgroupXlimLower",
+                subgroupXlimLower,
+                default=-20)
+            private$..subgroupXlimUpper <- jmvcore::OptionNumber$new(
+                "subgroupXlimUpper",
+                subgroupXlimUpper,
+                default=20)
+            private$..subgroupAddrowsMode <- jmvcore::OptionList$new(
+                "subgroupAddrowsMode",
+                subgroupAddrowsMode,
+                options=list(
+                    "auto",
+                    "custom"),
+                default="auto")
+            private$..subgroupAddrowsBelowOverall <- jmvcore::OptionInteger$new(
+                "subgroupAddrowsBelowOverall",
+                subgroupAddrowsBelowOverall,
+                min=0,
+                default=0)
+            private$..subgroupColgap <- jmvcore::OptionNumber$new(
+                "subgroupColgap",
+                subgroupColgap,
+                min=0,
+                default=2)
+            private$..subgroupColgapUnit <- jmvcore::OptionList$new(
+                "subgroupColgapUnit",
+                subgroupColgapUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
+            private$..subgroupColgapForest <- jmvcore::OptionNumber$new(
+                "subgroupColgapForest",
+                subgroupColgapForest,
+                min=0,
+                default=2)
+            private$..subgroupColgapForestUnit <- jmvcore::OptionList$new(
+                "subgroupColgapForestUnit",
+                subgroupColgapForestUnit,
+                options=list(
+                    "mm",
+                    "cm",
+                    "inch"),
+                default="mm")
 
             self$.addOption(private$..studyLabel)
             self$.addOption(private$..meanE)
@@ -297,13 +472,13 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..confidenceLevel)
             self$.addOption(private$..showSummary)
             self$.addOption(private$..forestPlot)
+            self$.addOption(private$..forestMode)
             self$.addOption(private$..forestLayout)
             self$.addOption(private$..sortBy)
-            self$.addOption(private$..labelLeft)
-            self$.addOption(private$..labelRight)
             self$.addOption(private$..labelE)
             self$.addOption(private$..labelC)
-            self$.addOption(private$..forestMode)
+            self$.addOption(private$..labelLeft)
+            self$.addOption(private$..labelRight)
             self$.addOption(private$..forestWidthAdjust)
             self$.addOption(private$..forestWidthUnit)
             self$.addOption(private$..forestHeightAdjust)
@@ -317,6 +492,32 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..colgapUnit)
             self$.addOption(private$..colgapForest)
             self$.addOption(private$..colgapForestUnit)
+            self$.addOption(private$..subgroupVariable)
+            self$.addOption(private$..tauCommon)
+            self$.addOption(private$..predictionSubgroup)
+            self$.addOption(private$..showSubgroupSummary)
+            self$.addOption(private$..subgroupForestPlot)
+            self$.addOption(private$..subgroupForestMode)
+            self$.addOption(private$..printSubgroupName)
+            self$.addOption(private$..subgroupForestLayout)
+            self$.addOption(private$..subgroupSortBy)
+            self$.addOption(private$..subgroupLabelE)
+            self$.addOption(private$..subgroupLabelC)
+            self$.addOption(private$..subgroupLabelLeft)
+            self$.addOption(private$..subgroupLabelRight)
+            self$.addOption(private$..subgroupForestWidthAdjust)
+            self$.addOption(private$..subgroupForestWidthUnit)
+            self$.addOption(private$..subgroupForestHeightAdjust)
+            self$.addOption(private$..subgroupForestHeightUnit)
+            self$.addOption(private$..subgroupXlimMode)
+            self$.addOption(private$..subgroupXlimLower)
+            self$.addOption(private$..subgroupXlimUpper)
+            self$.addOption(private$..subgroupAddrowsMode)
+            self$.addOption(private$..subgroupAddrowsBelowOverall)
+            self$.addOption(private$..subgroupColgap)
+            self$.addOption(private$..subgroupColgapUnit)
+            self$.addOption(private$..subgroupColgapForest)
+            self$.addOption(private$..subgroupColgapForestUnit)
         }),
     active = list(
         studyLabel = function() private$..studyLabel$value,
@@ -335,13 +536,13 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         confidenceLevel = function() private$..confidenceLevel$value,
         showSummary = function() private$..showSummary$value,
         forestPlot = function() private$..forestPlot$value,
+        forestMode = function() private$..forestMode$value,
         forestLayout = function() private$..forestLayout$value,
         sortBy = function() private$..sortBy$value,
-        labelLeft = function() private$..labelLeft$value,
-        labelRight = function() private$..labelRight$value,
         labelE = function() private$..labelE$value,
         labelC = function() private$..labelC$value,
-        forestMode = function() private$..forestMode$value,
+        labelLeft = function() private$..labelLeft$value,
+        labelRight = function() private$..labelRight$value,
         forestWidthAdjust = function() private$..forestWidthAdjust$value,
         forestWidthUnit = function() private$..forestWidthUnit$value,
         forestHeightAdjust = function() private$..forestHeightAdjust$value,
@@ -354,7 +555,33 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         colgap = function() private$..colgap$value,
         colgapUnit = function() private$..colgapUnit$value,
         colgapForest = function() private$..colgapForest$value,
-        colgapForestUnit = function() private$..colgapForestUnit$value),
+        colgapForestUnit = function() private$..colgapForestUnit$value,
+        subgroupVariable = function() private$..subgroupVariable$value,
+        tauCommon = function() private$..tauCommon$value,
+        predictionSubgroup = function() private$..predictionSubgroup$value,
+        showSubgroupSummary = function() private$..showSubgroupSummary$value,
+        subgroupForestPlot = function() private$..subgroupForestPlot$value,
+        subgroupForestMode = function() private$..subgroupForestMode$value,
+        printSubgroupName = function() private$..printSubgroupName$value,
+        subgroupForestLayout = function() private$..subgroupForestLayout$value,
+        subgroupSortBy = function() private$..subgroupSortBy$value,
+        subgroupLabelE = function() private$..subgroupLabelE$value,
+        subgroupLabelC = function() private$..subgroupLabelC$value,
+        subgroupLabelLeft = function() private$..subgroupLabelLeft$value,
+        subgroupLabelRight = function() private$..subgroupLabelRight$value,
+        subgroupForestWidthAdjust = function() private$..subgroupForestWidthAdjust$value,
+        subgroupForestWidthUnit = function() private$..subgroupForestWidthUnit$value,
+        subgroupForestHeightAdjust = function() private$..subgroupForestHeightAdjust$value,
+        subgroupForestHeightUnit = function() private$..subgroupForestHeightUnit$value,
+        subgroupXlimMode = function() private$..subgroupXlimMode$value,
+        subgroupXlimLower = function() private$..subgroupXlimLower$value,
+        subgroupXlimUpper = function() private$..subgroupXlimUpper$value,
+        subgroupAddrowsMode = function() private$..subgroupAddrowsMode$value,
+        subgroupAddrowsBelowOverall = function() private$..subgroupAddrowsBelowOverall$value,
+        subgroupColgap = function() private$..subgroupColgap$value,
+        subgroupColgapUnit = function() private$..subgroupColgapUnit$value,
+        subgroupColgapForest = function() private$..subgroupColgapForest$value,
+        subgroupColgapForestUnit = function() private$..subgroupColgapForestUnit$value),
     private = list(
         ..studyLabel = NA,
         ..meanE = NA,
@@ -372,13 +599,13 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..confidenceLevel = NA,
         ..showSummary = NA,
         ..forestPlot = NA,
+        ..forestMode = NA,
         ..forestLayout = NA,
         ..sortBy = NA,
-        ..labelLeft = NA,
-        ..labelRight = NA,
         ..labelE = NA,
         ..labelC = NA,
-        ..forestMode = NA,
+        ..labelLeft = NA,
+        ..labelRight = NA,
         ..forestWidthAdjust = NA,
         ..forestWidthUnit = NA,
         ..forestHeightAdjust = NA,
@@ -391,7 +618,33 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..colgap = NA,
         ..colgapUnit = NA,
         ..colgapForest = NA,
-        ..colgapForestUnit = NA)
+        ..colgapForestUnit = NA,
+        ..subgroupVariable = NA,
+        ..tauCommon = NA,
+        ..predictionSubgroup = NA,
+        ..showSubgroupSummary = NA,
+        ..subgroupForestPlot = NA,
+        ..subgroupForestMode = NA,
+        ..printSubgroupName = NA,
+        ..subgroupForestLayout = NA,
+        ..subgroupSortBy = NA,
+        ..subgroupLabelE = NA,
+        ..subgroupLabelC = NA,
+        ..subgroupLabelLeft = NA,
+        ..subgroupLabelRight = NA,
+        ..subgroupForestWidthAdjust = NA,
+        ..subgroupForestWidthUnit = NA,
+        ..subgroupForestHeightAdjust = NA,
+        ..subgroupForestHeightUnit = NA,
+        ..subgroupXlimMode = NA,
+        ..subgroupXlimLower = NA,
+        ..subgroupXlimUpper = NA,
+        ..subgroupAddrowsMode = NA,
+        ..subgroupAddrowsBelowOverall = NA,
+        ..subgroupColgap = NA,
+        ..subgroupColgapUnit = NA,
+        ..subgroupColgapForest = NA,
+        ..subgroupColgapForestUnit = NA)
 )
 
 metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -399,7 +652,9 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         text = function() private$.items[["text"]],
-        plot = function() private$.items[["plot"]]),
+        plot = function() private$.items[["plot"]],
+        subgroupText = function() private$.items[["subgroupText"]],
+        subgroupPlot = function() private$.items[["subgroupPlot"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -436,10 +691,10 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "confidenceLevel",
                     "forestLayout",
                     "sortBy",
-                    "labelLeft",
-                    "labelRight",
                     "labelE",
                     "labelC",
+                    "labelLeft",
+                    "labelRight",
                     "forestWidthAdjust",
                     "forestWidthUnit",
                     "forestHeightAdjust",
@@ -453,6 +708,58 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "colgapUnit",
                     "colgapForest",
                     "colgapForestUnit"),
+                refs=list(
+                    "metaPackage")))
+            self$add(jmvcore::Html$new(
+                options=options,
+                name="subgroupText",
+                visible=FALSE,
+                refs=list(
+                    "metaPackage")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="subgroupPlot",
+                title="Subgroup Forest Plot",
+                renderFun=".subgroupForestPlot",
+                visible=FALSE,
+                clearWith=list(
+                    "meanE",
+                    "sdE",
+                    "nE",
+                    "meanC",
+                    "sdC",
+                    "nC",
+                    "studyLabel",
+                    "sm",
+                    "methodTau",
+                    "methodSmd",
+                    "methodRandomCi",
+                    "model",
+                    "prediction",
+                    "confidenceLevel",
+                    "subgroupVariable",
+                    "tauCommon",
+                    "predictionSubgroup",
+                    "printSubgroupName",
+                    "subgroupForestLayout",
+                    "subgroupSortBy",
+                    "subgroupLabelE",
+                    "subgroupLabelC",
+                    "subgroupLabelLeft",
+                    "subgroupLabelRight",
+                    "subgroupForestWidthAdjust",
+                    "subgroupForestWidthUnit",
+                    "subgroupForestHeightAdjust",
+                    "subgroupForestHeightUnit",
+                    "subgroupXlimMode",
+                    "subgroupXlimLower",
+                    "subgroupXlimUpper",
+                    "subgroupAddrowsMode",
+                    "subgroupAddrowsBelowOverall",
+                    "subgroupColgap",
+                    "subgroupColgapUnit",
+                    "subgroupColgapForest",
+                    "subgroupColgapForestUnit"),
                 refs=list(
                     "metaPackage")))}))
 
@@ -497,13 +804,13 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param confidenceLevel .
 #' @param showSummary .
 #' @param forestPlot .
+#' @param forestMode .
 #' @param forestLayout .
 #' @param sortBy .
-#' @param labelLeft .
-#' @param labelRight .
 #' @param labelE .
 #' @param labelC .
-#' @param forestMode .
+#' @param labelLeft .
+#' @param labelRight .
 #' @param forestWidthAdjust .
 #' @param forestWidthUnit .
 #' @param forestHeightAdjust .
@@ -517,10 +824,38 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param colgapUnit .
 #' @param colgapForest .
 #' @param colgapForestUnit .
+#' @param subgroupVariable .
+#' @param tauCommon .
+#' @param predictionSubgroup .
+#' @param showSubgroupSummary .
+#' @param subgroupForestPlot .
+#' @param subgroupForestMode .
+#' @param printSubgroupName .
+#' @param subgroupForestLayout .
+#' @param subgroupSortBy .
+#' @param subgroupLabelE .
+#' @param subgroupLabelC .
+#' @param subgroupLabelLeft .
+#' @param subgroupLabelRight .
+#' @param subgroupForestWidthAdjust .
+#' @param subgroupForestWidthUnit .
+#' @param subgroupForestHeightAdjust .
+#' @param subgroupForestHeightUnit .
+#' @param subgroupXlimMode .
+#' @param subgroupXlimLower .
+#' @param subgroupXlimUpper .
+#' @param subgroupAddrowsMode .
+#' @param subgroupAddrowsBelowOverall .
+#' @param subgroupColgap .
+#' @param subgroupColgapUnit .
+#' @param subgroupColgapForest .
+#' @param subgroupColgapForestUnit .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$subgroupText} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$subgroupPlot} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' @export
@@ -542,13 +877,13 @@ metaCont <- function(
     confidenceLevel = 95,
     showSummary = TRUE,
     forestPlot = TRUE,
+    forestMode = "basic",
     forestLayout = "meta",
     sortBy = "none",
-    labelLeft = "",
-    labelRight = "",
     labelE = "Experimental",
     labelC = "Control",
-    forestMode = "basic",
+    labelLeft = "",
+    labelRight = "",
     forestWidthAdjust = 0,
     forestWidthUnit = "mm",
     forestHeightAdjust = 0,
@@ -561,7 +896,33 @@ metaCont <- function(
     colgap = 2,
     colgapUnit = "mm",
     colgapForest = 2,
-    colgapForestUnit = "mm") {
+    colgapForestUnit = "mm",
+    subgroupVariable,
+    tauCommon = FALSE,
+    predictionSubgroup = FALSE,
+    showSubgroupSummary = TRUE,
+    subgroupForestPlot = TRUE,
+    subgroupForestMode = "basic",
+    printSubgroupName = TRUE,
+    subgroupForestLayout = "meta",
+    subgroupSortBy = "none",
+    subgroupLabelE = "Experimental",
+    subgroupLabelC = "Control",
+    subgroupLabelLeft = "",
+    subgroupLabelRight = "",
+    subgroupForestWidthAdjust = 0,
+    subgroupForestWidthUnit = "mm",
+    subgroupForestHeightAdjust = 0,
+    subgroupForestHeightUnit = "mm",
+    subgroupXlimMode = "auto",
+    subgroupXlimLower = -20,
+    subgroupXlimUpper = 20,
+    subgroupAddrowsMode = "auto",
+    subgroupAddrowsBelowOverall = 0,
+    subgroupColgap = 2,
+    subgroupColgapUnit = "mm",
+    subgroupColgapForest = 2,
+    subgroupColgapForestUnit = "mm") {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("metaCont requires jmvcore to be installed (restart may be required)")
@@ -573,6 +934,7 @@ metaCont <- function(
     if ( ! missing(meanC)) meanC <- jmvcore::resolveQuo(jmvcore::enquo(meanC))
     if ( ! missing(sdC)) sdC <- jmvcore::resolveQuo(jmvcore::enquo(sdC))
     if ( ! missing(nC)) nC <- jmvcore::resolveQuo(jmvcore::enquo(nC))
+    if ( ! missing(subgroupVariable)) subgroupVariable <- jmvcore::resolveQuo(jmvcore::enquo(subgroupVariable))
     if (missing(data))
         data <- jmvcore::marshalData(
             parent.frame(),
@@ -582,7 +944,8 @@ metaCont <- function(
             `if`( ! missing(nE), nE, NULL),
             `if`( ! missing(meanC), meanC, NULL),
             `if`( ! missing(sdC), sdC, NULL),
-            `if`( ! missing(nC), nC, NULL))
+            `if`( ! missing(nC), nC, NULL),
+            `if`( ! missing(subgroupVariable), subgroupVariable, NULL))
 
 
     options <- metaContOptions$new(
@@ -602,13 +965,13 @@ metaCont <- function(
         confidenceLevel = confidenceLevel,
         showSummary = showSummary,
         forestPlot = forestPlot,
+        forestMode = forestMode,
         forestLayout = forestLayout,
         sortBy = sortBy,
-        labelLeft = labelLeft,
-        labelRight = labelRight,
         labelE = labelE,
         labelC = labelC,
-        forestMode = forestMode,
+        labelLeft = labelLeft,
+        labelRight = labelRight,
         forestWidthAdjust = forestWidthAdjust,
         forestWidthUnit = forestWidthUnit,
         forestHeightAdjust = forestHeightAdjust,
@@ -621,7 +984,33 @@ metaCont <- function(
         colgap = colgap,
         colgapUnit = colgapUnit,
         colgapForest = colgapForest,
-        colgapForestUnit = colgapForestUnit)
+        colgapForestUnit = colgapForestUnit,
+        subgroupVariable = subgroupVariable,
+        tauCommon = tauCommon,
+        predictionSubgroup = predictionSubgroup,
+        showSubgroupSummary = showSubgroupSummary,
+        subgroupForestPlot = subgroupForestPlot,
+        subgroupForestMode = subgroupForestMode,
+        printSubgroupName = printSubgroupName,
+        subgroupForestLayout = subgroupForestLayout,
+        subgroupSortBy = subgroupSortBy,
+        subgroupLabelE = subgroupLabelE,
+        subgroupLabelC = subgroupLabelC,
+        subgroupLabelLeft = subgroupLabelLeft,
+        subgroupLabelRight = subgroupLabelRight,
+        subgroupForestWidthAdjust = subgroupForestWidthAdjust,
+        subgroupForestWidthUnit = subgroupForestWidthUnit,
+        subgroupForestHeightAdjust = subgroupForestHeightAdjust,
+        subgroupForestHeightUnit = subgroupForestHeightUnit,
+        subgroupXlimMode = subgroupXlimMode,
+        subgroupXlimLower = subgroupXlimLower,
+        subgroupXlimUpper = subgroupXlimUpper,
+        subgroupAddrowsMode = subgroupAddrowsMode,
+        subgroupAddrowsBelowOverall = subgroupAddrowsBelowOverall,
+        subgroupColgap = subgroupColgap,
+        subgroupColgapUnit = subgroupColgapUnit,
+        subgroupColgapForest = subgroupColgapForest,
+        subgroupColgapForestUnit = subgroupColgapForestUnit)
 
     analysis <- metaContClass$new(
         options = options,

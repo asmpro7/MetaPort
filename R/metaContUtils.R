@@ -51,6 +51,22 @@ computeContModel <- function(data, options) {
 }
 
 
+#' Build Subgroup Forest Options with Metacont Labels
+#'
+#' Wraps `buildSubgroupForestOptions()` and injects the Experimental/Control
+#' group labels specific to continuous outcome analyses.
+#'
+#' @param options A Jamovi options object.
+#' @return A named list ready for `renderContForest()`.
+#' @noRd
+buildContSubgroupForestOptions <- function(options) {
+  opts <- buildSubgroupForestOptions(options)
+  opts$labelE <- options$subgroupLabelE
+  opts$labelC <- options$subgroupLabelC
+  opts
+}
+
+
 #' Render a Metacont-Specific Forest Plot
 #'
 #' Adds metacont-specific column label attachments (so the group header
@@ -58,19 +74,31 @@ computeContModel <- function(data, options) {
 #'
 #' @param model A `metacont` object.
 #' @param options A Jamovi options object.
+#' @param ... Additional arguments forwarded to `renderForest()` and
+#'   ultimately `meta::forest()`. Used by subgroup plots to pass
+#'   `test.effect.subgroup` and `print.subgroup.name`.
 #' @return The (invisible) return value of `meta::forest()`.
 #' @noRd
-renderContForest <- function(model, options) {
+renderContForest <- function(model, options, ...) {
   if (options$forestLayout %in% c("meta", "RevMan5")) {
     renderForest(
       model,
       options,
+      label.e = options$labelE,
+      label.c = options$labelC,
       label.e.attach = c("n.e", "mean.e", "sd.e"),
       label.c.attach = c("n.c", "mean.c", "sd.c"),
       just.label.e = "center",
-      just.label.c = "center"
+      just.label.c = "center",
+      ...
     )
   } else {
-    renderForest(model, options)
+    renderForest(
+      model,
+      options,
+      label.e = options$labelE,
+      label.c = options$labelC,
+      ...
+    )
   }
 }

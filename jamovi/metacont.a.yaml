@@ -155,6 +155,16 @@ options:
     type: Bool
     default: true
 
+  - name: forestMode
+    title: ""
+    type: List
+    options:
+      - title: Basic
+        name: basic
+      - title: Advanced
+        name: advanced
+    default: basic
+
   - name: forestLayout
     title: Layout
     type: List
@@ -185,16 +195,6 @@ options:
         name: weightDesc
     default: none
 
-  - name: labelLeft
-    title: Left Side Label
-    type: String
-    default: ""
-
-  - name: labelRight
-    title: Right Side Label
-    type: String
-    default: ""
-
   - name: labelE
     title: Experimental Label
     type: String
@@ -205,15 +205,15 @@ options:
     type: String
     default: Control
 
-  - name: forestMode
-    title: ""
-    type: List
-    options:
-      - title: Basic
-        name: basic
-      - title: Advanced
-        name: advanced
-    default: basic
+  - name: labelLeft
+    title: Left Side Label
+    type: String
+    default: ""
+
+  - name: labelRight
+    title: Right Side Label
+    type: String
+    default: ""
 
   - name: forestWidthAdjust
     title: Width Adjustment (+/-)
@@ -310,6 +310,209 @@ options:
     default: 2
 
   - name: colgapForestUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: subgroupVariable
+    title: Subgroup Variable
+    type: Variable
+    suggested:
+      - nominal
+      - ordinal
+    permitted:
+      - factor
+      - id
+
+  - name: tauCommon
+    title: Common τ² Across Subgroups
+    type: Bool
+    default: false
+
+  - name: predictionSubgroup
+    title: Prediction Interval per Subgroup
+    type: Bool
+    default: false
+
+  - name: showSubgroupSummary
+    title: Show Subgroup Summary
+    type: Bool
+    default: true
+
+  - name: subgroupForestPlot
+    title: Forest Plot
+    type: Bool
+    default: true
+
+  - name: subgroupForestMode
+    title: ""
+    type: List
+    options:
+      - title: Basic
+        name: basic
+      - title: Advanced
+        name: advanced
+    default: basic
+
+  - name: printSubgroupName
+    title: Print Subgroup Variable Name
+    type: Bool
+    default: true
+
+  - name: subgroupForestLayout
+    title: Layout
+    type: List
+    options:
+      - title: Default
+        name: meta
+      - title: RevMan 5
+        name: RevMan5
+      - title: JAMA
+        name: JAMA
+      - title: BMJ
+        name: BMJ
+      - title: Subgroup
+        name: subgroup
+    default: meta
+
+  - name: subgroupSortBy
+    title: Sort Studies
+    type: List
+    options:
+      - title: Original Order
+        name: none
+      - title: Effect Size (Ascending)
+        name: effectAsc
+      - title: Effect Size (Descending)
+        name: effectDesc
+      - title: Weight (Ascending)
+        name: weightAsc
+      - title: Weight (Descending)
+        name: weightDesc
+    default: none
+
+  - name: subgroupLabelE
+    title: Experimental Label
+    type: String
+    default: Experimental
+
+  - name: subgroupLabelC
+    title: Control Label
+    type: String
+    default: Control
+
+  - name: subgroupLabelLeft
+    title: Left Side Label
+    type: String
+    default: ""
+
+  - name: subgroupLabelRight
+    title: Right Side Label
+    type: String
+    default: ""
+
+  - name: subgroupForestWidthAdjust
+    title: Width Adjustment (+/-)
+    type: Number
+    default: 0
+
+  - name: subgroupForestWidthUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: subgroupForestHeightAdjust
+    title: Height Adjustment (+/-)
+    type: Number
+    default: 0
+
+  - name: subgroupForestHeightUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: subgroupXlimMode
+    title: X-Axis Limits
+    type: List
+    options:
+      - title: Auto
+        name: auto
+      - title: Custom
+        name: custom
+    default: auto
+
+  - name: subgroupXlimLower
+    title: Lower Limit
+    type: Number
+    default: -20
+
+  - name: subgroupXlimUpper
+    title: Upper Limit
+    type: Number
+    default: 20
+
+  - name: subgroupAddrowsMode
+    title: Space Above Footnotes
+    type: List
+    options:
+      - title: Auto
+        name: auto
+      - title: Custom
+        name: custom
+    default: auto
+
+  - name: subgroupAddrowsBelowOverall
+    title: ""
+    type: Integer
+    min: 0
+    default: 0
+
+  - name: subgroupColgap
+    title: Space Between Columns
+    type: Number
+    min: 0
+    default: 2
+
+  - name: subgroupColgapUnit
+    title: ""
+    type: List
+    options:
+      - title: mm
+        name: mm
+      - title: cm
+        name: cm
+      - title: in
+        name: inch
+    default: mm
+
+  - name: subgroupColgapForest
+    title: Space Around Plot
+    type: Number
+    min: 0
+    default: 2
+
+  - name: subgroupColgapForestUnit
     title: ""
     type: List
     options:

@@ -1,0 +1,49 @@
+#' Resolve the Primary Model (If All Required Options Are Set)
+#'
+#' Encapsulates the shared active-binding workflow used by every analysis
+#' type: guard that required options are assigned, ensure data is loaded,
+#' then delegate to a type-specific compute function.
+#'
+#' @param analysis The jamovi analysis object (`self`).
+#' @param required Character vector of option names that must be assigned.
+#' @param computeFn A function `f(data, options)` that returns a `meta` object.
+#' @return A `meta` object, or `NULL` if required options are missing.
+#' @noRd
+resolveModel <- function(analysis, required, computeFn) {
+  for (opt in required) {
+    if (is.null(analysis$options[[opt]])) return()
+  }
+  data <- analysis$data
+  if (is.null(data) || nrow(data) == 0) {
+    data <- analysis$readDataset()
+  }
+  computeFn(data, analysis$options)
+}
+
+
+#' Initialize the Main Text Skeleton
+#'
+#' Called from `.init()` to show a blank titled HTML immediately.
+#' Visibility is handled by the YAML binding `visible: (showSummary)`,
+#' so this function only builds the skeleton content.
+#'
+#' @param textResult Html result element (e.g., `self$results$text`).
+#' @param model A `meta` object, or `NULL` if not yet computed.
+#' @noRd
+initMainText <- function(textResult, model) {
+  if (is.null(model)) {
+    textResult$setContent(asHtml(title = "Meta-Analysis Summary"))
+  }
+}
+
+
+#' Populate the Main Summary Text
+#'
+#' Called from `.run()` when the model is available.
+#'
+#' @param textResult Html result element.
+#' @param model A `meta` object (must not be `NULL`).
+#' @noRd
+populateMainText <- function(textResult, model) {
+  textResult$setContent(asHtml(summary(model), title = "Meta-Analysis Summary"))
+}

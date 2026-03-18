@@ -25,8 +25,6 @@ renderForest <- function(model, options, ...) {
     x = model,
     new = FALSE,
     layout = options$forestLayout,
-    label.e = options$labelE,
-    label.c = options$labelC,
     label.left = options$labelLeft,
     label.right = options$labelRight,
     colgap = colgap,
