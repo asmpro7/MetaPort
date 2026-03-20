@@ -8,11 +8,13 @@ Description: All necessary functions to add full meta-analysis
 License: GPL-3
 Imports: 
     jmvcore (>= 0.8.5),
-    meta (>= 8.2.1),
+    meta (>= 8.3.0),
+    metabook (>= 0.2.0),
     metafor,
     metasens,
     R6
 Remotes: 
-    guido-s/meta@8.2-1
+    guido-s/metabook,
+    guido-s/meta
 Encoding: UTF-8
 LazyData: true
