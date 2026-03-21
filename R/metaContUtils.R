@@ -28,6 +28,7 @@ computeContModel <- function(data, options) {
 
   # Fit model
   meta::metacont(
+    data = data,
     n.e = n.e,
     mean.e = mean.e,
     sd.e = sd.e,

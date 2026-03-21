@@ -1,11 +1,11 @@
 #' Resolve the Subgroup Model (If Ready)
 #'
 #' Encapsulates the shared subgroupModel active-binding workflow:
-#' guard that the primary model and subgroup variable exist, ensure
-#' data is loaded, extract the subgroup column, and delegate to
-#' `computeSubgroupModel()`.
+#' guard that the primary model and subgroup variable exist, extract
+#' the subgroup column from the model's stored data (`model$data`),
+#' and delegate to `computeSubgroupModel()`.
 #'
-#' @param analysis The jamovi analysis object (`self`), from which `model`, `options` and `data` are extracted.
+#' @param analysis The jamovi analysis object (`self`), from which `model` and `options` are extracted.
 #' @return An updated `meta` object with subgroup results, or `NULL`.
 #' @noRd
 resolveSubgroupModel <- function(analysis) {
@@ -16,11 +16,7 @@ resolveSubgroupModel <- function(analysis) {
   if (is.null(analysis$options$subgroupVariable)) {
     return()
   }
-  data <- analysis$data
-  if (is.null(data) || nrow(data) == 0) {
-    data <- analysis$readDataset()
-  }
-  subgroup <- data[[analysis$options$subgroupVariable]]
+  subgroup <- model$data[[analysis$options$subgroupVariable]]
   computeSubgroupModel(model, subgroup, analysis$options)
 }
 
