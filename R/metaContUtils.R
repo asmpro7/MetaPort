@@ -1,24 +1,20 @@
 #' Compute a Continuous Outcome Meta-Analysis Model
 #'
-#' Self-contained helper that guards for required options, loads data,
-#' and creates a `meta::metacont` object. Designed to be called directly
-#' from the active binding in the `.b.R` class.
+#' Self-contained helper that guards for required options and
+#' creates a `meta::metacont` object. Uses pre-resolved data from
+#' the `dataProcessed` active binding — no `data=` is passed to
+#' `metacont()` to avoid NSE name collisions.
 #'
-#' @param analysis The jamovi analysis object (`self`).
+#' @param data A data frame from the `dataProcessed` active binding.
+#' @param options The jamovi options object.
 #' @return A `meta::metacont` object, or `NULL` if required columns are
 #'   missing.
 #' @noRd
-computeContModel <- function(analysis) {
+computeContModel <- function(data, options) {
   required <- c("meanE", "sdE", "nE", "meanC", "sdC", "nC")
-  options <- analysis$options
-  data <- analysis$data
 
   if (!hasRequiredVars(options, required)) {
     return()
-  }
-
-  if (is.null(data) || nrow(data) == 0) {
-    data <- analysis$readDataset()
   }
 
   # Extract and convert columns
@@ -38,9 +34,8 @@ computeContModel <- function(analysis) {
   # Confidence / prediction level (shared)
   level <- options$confidenceLevel / 100
 
-  # Fit model
+  # Fit model — no data= argument to avoid NSE clash
   meta::metacont(
-    data = data,
     n.e = n.e,
     mean.e = mean.e,
     sd.e = sd.e,

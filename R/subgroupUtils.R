@@ -1,22 +1,23 @@
 #' Compute a Subgroup Meta-Analysis Model
 #'
 #' Analysis-agnostic: works with any `meta` object (metacont, metabin, etc.).
-#' Extracts the subgroup column from the model's stored data (`model$data`)
-#' and updates the model with subgroup information via `update.meta()`.
+#' Extracts the subgroup column from the processed data and updates the
+#' model with subgroup information via `update.meta()`.
 #'
 #' @param model A `meta` object.
+#' @param data A data frame from the `dataProcessed` active binding.
 #' @param options A Jamovi options object with `subgroupVariable`,
 #'   `tauCommon`, and `predictionSubgroup`.
 #' @return An updated `meta` object with subgroup results, or `NULL`.
 #' @noRd
-computeSubgroupModel <- function(model, options) {
+computeSubgroupModel <- function(model, data, options) {
   if (is.null(model)) {
     return()
   }
   if (is.null(options$subgroupVariable)) {
     return()
   }
-  subgroup <- model$data[[options$subgroupVariable]]
+  subgroup <- data[[options$subgroupVariable]]
   update(
     model,
     subgroup = subgroup,

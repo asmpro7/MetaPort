@@ -3,9 +3,16 @@ metaContClass <- R6::R6Class(
   inherit = metaContBase,
 
   active = list(
+    dataProcessed = function() {
+      if (is.null(private$.dataProcessed)) {
+        private$.dataProcessed <- processData(self)
+      }
+      private$.dataProcessed
+    },
+
     model = function() {
       if (is.null(private$.model)) {
-        private$.model <- computeContModel(self)
+        private$.model <- computeContModel(self$dataProcessed, self$options)
       }
       private$.model
     },
@@ -14,6 +21,7 @@ metaContClass <- R6::R6Class(
       if (is.null(private$.subgroupModel)) {
         private$.subgroupModel <- computeSubgroupModel(
           self$model,
+          self$dataProcessed,
           self$options
         )
       }
@@ -32,6 +40,7 @@ metaContClass <- R6::R6Class(
   ),
 
   private = list(
+    .dataProcessed = NULL,
     .model = NULL,
     .subgroupModel = NULL,
     .leaveOneOutModel = NULL,
