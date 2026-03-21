@@ -1,37 +1,18 @@
-#' Resolve the Subgroup Model (If Ready)
-#'
-#' Encapsulates the shared subgroupModel active-binding workflow:
-#' guard that the primary model and subgroup variable exist, extract
-#' the subgroup column from the model's stored data (`model$data`),
-#' and delegate to `computeSubgroupModel()`.
-#'
-#' @param analysis The jamovi analysis object (`self`), from which `model` and `options` are extracted.
-#' @return An updated `meta` object with subgroup results, or `NULL`.
-#' @noRd
-resolveSubgroupModel <- function(analysis) {
-  model <- analysis$model
-  if (is.null(model)) {
-    return()
-  }
-  if (is.null(analysis$options$subgroupVariable)) {
-    return()
-  }
-  subgroup <- model$data[[analysis$options$subgroupVariable]]
-  computeSubgroupModel(model, subgroup, analysis$options)
-}
-
-
 #' Compute a Subgroup Meta-Analysis Model
 #'
-#' Reusable helper. Takes an existing `meta` object and updates it with
-#' subgroup information via `update.meta()`.
+#' Analysis-agnostic: works with any `meta` object (metacont, metabin, etc.).
+#' Extracts the subgroup column from the model's stored data (`model$data`)
+#' and updates the model with subgroup information via `update.meta()`.
 #'
-#' @param model A `meta` object (e.g., from `meta::metacont`).
-#' @param subgroup A factor or character vector defining subgroups.
-#' @param options A Jamovi options object with subgroup-related fields.
-#' @return An updated `meta` object with subgroup results.
+#' @param model A `meta` object.
+#' @param options A Jamovi options object with `subgroupVariable`,
+#'   `tauCommon`, and `predictionSubgroup`.
+#' @return An updated `meta` object with subgroup results, or `NULL`.
 #' @noRd
-computeSubgroupModel <- function(model, subgroup, options) {
+computeSubgroupModel <- function(model, options) {
+  if (is.null(model)) return()
+  if (is.null(options$subgroupVariable)) return()
+  subgroup <- model$data[[options$subgroupVariable]]
   update(
     model,
     subgroup = subgroup,

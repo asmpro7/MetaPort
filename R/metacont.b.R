@@ -16,7 +16,9 @@ metaContClass <- R6::R6Class(
 
     subgroupModel = function() {
       if (is.null(private$.subgroupModel)) {
-        private$.subgroupModel <- resolveSubgroupModel(self)
+        private$.subgroupModel <- computeSubgroupModel(
+          self$model, self$options
+        )
       }
       private$.subgroupModel
     },
