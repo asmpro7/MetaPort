@@ -64,6 +64,20 @@ initMetaRegText <- function(textResult, options, requiredVars) {
 }
 
 
+#' Get Scale Label for Meta-Regression Output
+#'
+#' Returns a human-readable label describing the scale of the
+#' regression estimates (e.g., "Log Odds Ratio", "Standardised Mean
+#' Difference"). Works with any `meta` object type.
+#'
+#' @param metaRegModel A `metareg` object.
+#' @return A character string label.
+#' @noRd
+getMetaRegScaleLabel <- function(metaRegModel) {
+  meta:::xlab_meta(metaRegModel$.meta$x$sm, backtransf = FALSE)
+}
+
+
 #' Populate the Meta-Regression Text
 #'
 #' Called from `.run()` when the meta-regression model is available.
@@ -78,7 +92,16 @@ populateMetaRegText <- function(textResult, metaRegModel) {
   if (textResult$isFilled()) {
     return()
   }
+  scaleLabel <- getMetaRegScaleLabel(metaRegModel)
   textResult$setContent(
-    asHtml(summary(metaRegModel), title = "Meta-Regression Summary")
+    asHtml(
+      summary(metaRegModel),
+      cat(
+        "\nNote: Estimates and confidence intervals are on the",
+        scaleLabel,
+        "scale."
+      ),
+      title = "Meta-Regression Summary"
+    )
   )
 }
