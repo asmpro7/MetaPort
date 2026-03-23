@@ -58,7 +58,9 @@ initMetaRegText <- function(textResult, options, requiredVars) {
   if (textResult$isFilled()) {
     return()
   }
-  if (!hasRequiredVars(options, requiredVars)) {
+  if (
+    !hasRequiredVars(options, requiredVars) || length(options$metaRegTerms) == 0
+  ) {
     textResult$setContent(asHtml(title = "Meta-Regression Summary"))
   }
 }
