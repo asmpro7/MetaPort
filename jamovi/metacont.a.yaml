@@ -604,6 +604,11 @@ options:
     type: Bool
     default: true
 
+  - name: bubblePlot
+    title: Bubble Plot
+    type: Bool
+    default: false
+
   - name: leaveOneOut
     title: Conduct Leave-One-Out Analysis
     type: Bool

@@ -594,6 +594,8 @@ children:
                 name: metaRegIntercept
       - type: CheckBox
         name: showMetaRegSummary
+      - type: CheckBox
+        name: bubblePlot
 
   - type: CollapseBox
     label: Leave-One-Out Analysis

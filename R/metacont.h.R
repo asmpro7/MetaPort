@@ -83,6 +83,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             metaRegTerms = NULL,
             metaRegIntercept = TRUE,
             showMetaRegSummary = TRUE,
+            bubblePlot = FALSE,
             leaveOneOut = FALSE,
             leaveOneOutPrediction = FALSE,
             showLeaveOneOutSummary = TRUE,
@@ -558,6 +559,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "showMetaRegSummary",
                 showMetaRegSummary,
                 default=TRUE)
+            private$..bubblePlot <- jmvcore::OptionBool$new(
+                "bubblePlot",
+                bubblePlot,
+                default=FALSE)
             private$..leaveOneOut <- jmvcore::OptionBool$new(
                 "leaveOneOut",
                 leaveOneOut,
@@ -769,6 +774,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..metaRegTerms)
             self$.addOption(private$..metaRegIntercept)
             self$.addOption(private$..showMetaRegSummary)
+            self$.addOption(private$..bubblePlot)
             self$.addOption(private$..leaveOneOut)
             self$.addOption(private$..leaveOneOutPrediction)
             self$.addOption(private$..showLeaveOneOutSummary)
@@ -871,6 +877,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         metaRegTerms = function() private$..metaRegTerms$value,
         metaRegIntercept = function() private$..metaRegIntercept$value,
         showMetaRegSummary = function() private$..showMetaRegSummary$value,
+        bubblePlot = function() private$..bubblePlot$value,
         leaveOneOut = function() private$..leaveOneOut$value,
         leaveOneOutPrediction = function() private$..leaveOneOutPrediction$value,
         showLeaveOneOutSummary = function() private$..showLeaveOneOutSummary$value,
@@ -972,6 +979,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..metaRegTerms = NA,
         ..metaRegIntercept = NA,
         ..showMetaRegSummary = NA,
+        ..bubblePlot = NA,
         ..leaveOneOut = NA,
         ..leaveOneOutPrediction = NA,
         ..showLeaveOneOutSummary = NA,
@@ -1006,6 +1014,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         subgroupText = function() private$.items[["subgroupText"]],
         subgroupPlot = function() private$.items[["subgroupPlot"]],
         metaRegText = function() private$.items[["metaRegText"]],
+        bubblePlot = function() private$.items[["bubblePlot"]],
         leaveOneOutText = function() private$.items[["leaveOneOutText"]],
         leaveOneOutPlot = function() private$.items[["leaveOneOutPlot"]]),
     private = list(),
@@ -1183,6 +1192,34 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "metaRegIntercept"),
                 refs=list(
                     "metaPackage")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="bubblePlot",
+                title="Bubble Plot",
+                width=800,
+                height=500,
+                renderFun=".bubblePlot",
+                visible=FALSE,
+                clearWith=list(
+                    "studyLabel",
+                    "meanE",
+                    "sdE",
+                    "nE",
+                    "meanC",
+                    "sdC",
+                    "nC",
+                    "sm",
+                    "methodSmd",
+                    "model",
+                    "methodTau",
+                    "methodRandomCi",
+                    "confidenceLevel",
+                    "metaRegCovs",
+                    "metaRegFactors",
+                    "metaRegTerms",
+                    "metaRegIntercept"),
+                refs=list(
+                    "metaPackage")))
             self$add(jmvcore::Html$new(
                 options=options,
                 name="leaveOneOutText",
@@ -1350,6 +1387,7 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param metaRegTerms .
 #' @param metaRegIntercept .
 #' @param showMetaRegSummary .
+#' @param bubblePlot .
 #' @param leaveOneOut .
 #' @param leaveOneOutPrediction .
 #' @param showLeaveOneOutSummary .
@@ -1380,6 +1418,7 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$subgroupText} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$subgroupPlot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$metaRegText} \tab \tab \tab \tab \tab a html \cr
+#'   \code{results$bubblePlot} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$leaveOneOutText} \tab \tab \tab \tab \tab a html \cr
 #'   \code{results$leaveOneOutPlot} \tab \tab \tab \tab \tab an image \cr
 #' }
@@ -1464,6 +1503,7 @@ metaCont <- function(
     metaRegTerms,
     metaRegIntercept = TRUE,
     showMetaRegSummary = TRUE,
+    bubblePlot = FALSE,
     leaveOneOut = FALSE,
     leaveOneOutPrediction = FALSE,
     showLeaveOneOutSummary = TRUE,
@@ -1596,6 +1636,7 @@ metaCont <- function(
         metaRegTerms = metaRegTerms,
         metaRegIntercept = metaRegIntercept,
         showMetaRegSummary = showMetaRegSummary,
+        bubblePlot = bubblePlot,
         leaveOneOut = leaveOneOut,
         leaveOneOutPrediction = leaveOneOutPrediction,
         showLeaveOneOutSummary = showLeaveOneOutSummary,

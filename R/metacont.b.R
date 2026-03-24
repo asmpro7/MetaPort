@@ -65,6 +65,7 @@ metaContClass <- R6::R6Class(
 
       # Meta-regression results
       updateMetaRegVisibility(self$options, self$results)
+      updateBubblePlotVisibility(self$options, self$results)
 
       # Leave-one-out results
       updateLeaveOneOutVisibility(self$options, self$results)
@@ -145,6 +146,14 @@ metaContClass <- R6::R6Class(
         subgroup.name = self$options$subgroupVariable,
         print.subgroup.name = self$options$printSubgroupName
       )
+      TRUE
+    },
+
+    .bubblePlot = function(image, ...) {
+      if (is.null(self$metaRegModel)) {
+        return(FALSE)
+      }
+      renderBubblePlot(self$metaRegModel)
       TRUE
     },
 
