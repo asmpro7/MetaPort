@@ -609,6 +609,16 @@ options:
     type: Bool
     default: false
 
+  - name: bubbleRegline
+    title: Regression Line
+    type: Bool
+    default: true
+
+  - name: bubbleStudlab
+    title: Study Labels
+    type: Bool
+    default: false
+
   - name: leaveOneOut
     title: Conduct Leave-One-Out Analysis
     type: Bool

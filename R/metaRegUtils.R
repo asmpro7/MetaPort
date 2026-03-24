@@ -140,8 +140,12 @@ updateBubblePlotVisibility <- function(options, results) {
 #' shows as it show one for every group against the reference. Try to see what
 #' we gonna do with this the same for multivariables.
 #'
-#' @param metaRegModel A `metareg` object.
+#' @param options The `self$options` object.
 #' @noRd
-renderBubblePlot <- function(metaRegModel) {
-  meta::bubble(metaRegModel)
+renderBubblePlot <- function(metaRegModel, options) {
+  meta::bubble(
+    metaRegModel,
+    regline  = options$bubbleRegline,
+    studlab  = options$bubbleStudlab
+  )
 }

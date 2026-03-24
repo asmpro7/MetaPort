@@ -196,6 +196,8 @@ items:
       - metaRegFactors
       - metaRegTerms
       - metaRegIntercept
+      - bubbleRegline
+      - bubbleStudlab
     refs:
       - metaPackage
 

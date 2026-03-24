@@ -592,10 +592,32 @@ children:
                   type: TermLabel
               - type: CheckBox
                 name: metaRegIntercept
+                enable: >
+                  ({return (ui['metaRegCovs'].value() || []).length > 0 ||
+                  (ui['metaRegFactors'].value() || []).length > 0;})
       - type: CheckBox
         name: showMetaRegSummary
+        enable: >
+          ({return (ui['metaRegCovs'].value() || []).length > 0 ||
+          (ui['metaRegFactors'].value() || []).length > 0;})
       - type: CheckBox
         name: bubblePlot
+        enable: >
+          ({return (ui['metaRegCovs'].value() || []).length > 0 ||
+          (ui['metaRegFactors'].value() || []).length > 0;})
+        children:
+          - type: CheckBox
+            name: bubbleRegline
+            enable: >
+              ({return ui['bubblePlot'].value() &&
+              ((ui['metaRegCovs'].value() || []).length > 0 ||
+              (ui['metaRegFactors'].value() || []).length > 0);})
+          - type: CheckBox
+            name: bubbleStudlab
+            enable: >
+              ({return ui['bubblePlot'].value() &&
+              ((ui['metaRegCovs'].value() || []).length > 0 ||
+              (ui['metaRegFactors'].value() || []).length > 0);})
 
   - type: CollapseBox
     label: Leave-One-Out Analysis

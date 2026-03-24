@@ -153,7 +153,7 @@ metaContClass <- R6::R6Class(
       if (is.null(self$metaRegModel)) {
         return(FALSE)
       }
-      renderBubblePlot(self$metaRegModel)
+      renderBubblePlot(self$metaRegModel, self$options)
       TRUE
     },
 

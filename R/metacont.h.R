@@ -84,6 +84,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             metaRegIntercept = TRUE,
             showMetaRegSummary = TRUE,
             bubblePlot = FALSE,
+            bubbleRegline = TRUE,
+            bubbleStudlab = FALSE,
             leaveOneOut = FALSE,
             leaveOneOutPrediction = FALSE,
             showLeaveOneOutSummary = TRUE,
@@ -563,6 +565,14 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "bubblePlot",
                 bubblePlot,
                 default=FALSE)
+            private$..bubbleRegline <- jmvcore::OptionBool$new(
+                "bubbleRegline",
+                bubbleRegline,
+                default=TRUE)
+            private$..bubbleStudlab <- jmvcore::OptionBool$new(
+                "bubbleStudlab",
+                bubbleStudlab,
+                default=FALSE)
             private$..leaveOneOut <- jmvcore::OptionBool$new(
                 "leaveOneOut",
                 leaveOneOut,
@@ -775,6 +785,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..metaRegIntercept)
             self$.addOption(private$..showMetaRegSummary)
             self$.addOption(private$..bubblePlot)
+            self$.addOption(private$..bubbleRegline)
+            self$.addOption(private$..bubbleStudlab)
             self$.addOption(private$..leaveOneOut)
             self$.addOption(private$..leaveOneOutPrediction)
             self$.addOption(private$..showLeaveOneOutSummary)
@@ -878,6 +890,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         metaRegIntercept = function() private$..metaRegIntercept$value,
         showMetaRegSummary = function() private$..showMetaRegSummary$value,
         bubblePlot = function() private$..bubblePlot$value,
+        bubbleRegline = function() private$..bubbleRegline$value,
+        bubbleStudlab = function() private$..bubbleStudlab$value,
         leaveOneOut = function() private$..leaveOneOut$value,
         leaveOneOutPrediction = function() private$..leaveOneOutPrediction$value,
         showLeaveOneOutSummary = function() private$..showLeaveOneOutSummary$value,
@@ -980,6 +994,8 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..metaRegIntercept = NA,
         ..showMetaRegSummary = NA,
         ..bubblePlot = NA,
+        ..bubbleRegline = NA,
+        ..bubbleStudlab = NA,
         ..leaveOneOut = NA,
         ..leaveOneOutPrediction = NA,
         ..showLeaveOneOutSummary = NA,
@@ -1217,7 +1233,9 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "metaRegCovs",
                     "metaRegFactors",
                     "metaRegTerms",
-                    "metaRegIntercept"),
+                    "metaRegIntercept",
+                    "bubbleRegline",
+                    "bubbleStudlab"),
                 refs=list(
                     "metaPackage")))
             self$add(jmvcore::Html$new(
@@ -1388,6 +1406,8 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param metaRegIntercept .
 #' @param showMetaRegSummary .
 #' @param bubblePlot .
+#' @param bubbleRegline .
+#' @param bubbleStudlab .
 #' @param leaveOneOut .
 #' @param leaveOneOutPrediction .
 #' @param showLeaveOneOutSummary .
@@ -1504,6 +1524,8 @@ metaCont <- function(
     metaRegIntercept = TRUE,
     showMetaRegSummary = TRUE,
     bubblePlot = FALSE,
+    bubbleRegline = TRUE,
+    bubbleStudlab = FALSE,
     leaveOneOut = FALSE,
     leaveOneOutPrediction = FALSE,
     showLeaveOneOutSummary = TRUE,
@@ -1637,6 +1659,8 @@ metaCont <- function(
         metaRegIntercept = metaRegIntercept,
         showMetaRegSummary = showMetaRegSummary,
         bubblePlot = bubblePlot,
+        bubbleRegline = bubbleRegline,
+        bubbleStudlab = bubbleStudlab,
         leaveOneOut = leaveOneOut,
         leaveOneOutPrediction = leaveOneOutPrediction,
         showLeaveOneOutSummary = showLeaveOneOutSummary,
