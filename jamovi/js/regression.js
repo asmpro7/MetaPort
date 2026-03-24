@@ -83,4 +83,22 @@ const enforceTermOrder = function (ui) {
   }
 };
 
-module.exports = { updateModelTerms, enforceTermOrder };
+/**
+ * Enable or disable the meta-regression Supplier and ListBox.
+ *
+ * Enabled when at least one covariate or factor is assigned.
+ * Toggles the disabled-list CSS class directly since ListBox enable
+ * is commented out in jamovi core (optionlistcontrol.ts).
+ *
+ * @param {Object} ui - The UI controls object.
+ */
+const updateEnableState = function (ui) {
+  const hasVars =
+    (ui.metaRegCovs.value() || []).length > 0 ||
+    (ui.metaRegFactors.value() || []).length > 0;
+  const method = hasVars ? "remove" : "add";
+  ui.metaRegModelSupplier.el.classList[method]("disabled-list");
+  ui.metaRegTerms.el.classList[method]("disabled-list");
+};
+
+module.exports = { updateModelTerms, enforceTermOrder, updateEnableState };
