@@ -146,6 +146,6 @@ renderBubblePlot <- function(metaRegModel, options) {
   meta::bubble(
     metaRegModel,
     regline  = options$bubbleRegline,
-    studlab  = options$bubbleStudlab
+    studlab  = options$bubbleStudyLabel
   )
 }

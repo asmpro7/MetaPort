@@ -614,7 +614,7 @@ options:
     type: Bool
     default: true
 
-  - name: bubbleStudlab
+  - name: bubbleStudyLabel
     title: Study Labels
     type: Bool
     default: false
@@ -821,7 +821,7 @@ options:
     type: Bool
     default: false
 
-  - name: funnelStudlab
+  - name: funnelStudyLabel
     title: Study Labels
     type: Bool
     default: false
@@ -840,8 +840,15 @@ options:
     title: Position
     type: List
     options:
-      - title: Top Left
-        name: topleft
       - title: Top Right
         name: topright
-    default: topleft
+      - title: Top Left
+        name: topleft
+    default: topright
+
+  - name: funnelLegendCex
+    title: Size
+    type: Number
+    min: 50
+    max: 200
+    default: 100

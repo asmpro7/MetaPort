@@ -20,6 +20,5 @@ analyses:
     menuTitle: Continuous Meta-Analysis
 usesNative: true
 minApp: 1.0.8
-build-time: '2026-03-25T16:36:43.287Z'
 
 ...

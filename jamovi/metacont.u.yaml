@@ -604,13 +604,13 @@ children:
           (ui['metaRegFactors'].value() || []).length > 0;})
         children:
           - type: CheckBox
-            name: bubbleRegline
+            name: bubbleStudyLabel
             enable: >
               ({return ui['bubblePlot'].value() &&
               ((ui['metaRegCovs'].value() || []).length > 0 ||
               (ui['metaRegFactors'].value() || []).length > 0);})
           - type: CheckBox
-            name: bubbleStudlab
+            name: bubbleRegline
             enable: >
               ({return ui['bubblePlot'].value() &&
               ((ui['metaRegCovs'].value() || []).length > 0 ||
@@ -788,7 +788,7 @@ children:
                 name: funnelPlot
                 children:
                   - type: CheckBox
-                    name: funnelStudlab
+                    name: funnelStudyLabel
                     enable: (funnelPlot)
                   - type: CheckBox
                     name: funnelContour
@@ -800,6 +800,11 @@ children:
                         children:
                           - type: ComboBox
                             name: funnelLegendPos
+                            enable: (funnelPlot && funnelContour && funnelLegend)
+                          - type: TextBox
+                            name: funnelLegendCex
+                            format: number
+                            suffix: "%"
                             enable: (funnelPlot && funnelContour && funnelLegend)
           - type: Content
             name: trimFill

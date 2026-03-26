@@ -197,7 +197,7 @@ items:
       - metaRegTerms
       - metaRegIntercept
       - bubbleRegline
-      - bubbleStudlab
+      - bubbleStudyLabel
     refs:
       - metaPackage
 
@@ -287,9 +287,10 @@ items:
       - methodRandomCi
       - prediction
       - confidenceLevel
-      - funnelStudlab
+      - funnelStudyLabel
       - funnelContour
       - funnelLegend
       - funnelLegendPos
+      - funnelLegendCex
     refs:
       - metaPackage

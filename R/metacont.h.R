@@ -85,7 +85,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             showMetaRegSummary = TRUE,
             bubblePlot = FALSE,
             bubbleRegline = TRUE,
-            bubbleStudlab = FALSE,
+            bubbleStudyLabel = FALSE,
             leaveOneOut = FALSE,
             leaveOneOutPrediction = FALSE,
             showLeaveOneOutSummary = TRUE,
@@ -111,10 +111,11 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             leaveOneOutColgapForestUnit = "mm",
             pubBiasMode = "funnelPlot",
             funnelPlot = FALSE,
-            funnelStudlab = FALSE,
+            funnelStudyLabel = FALSE,
             funnelContour = FALSE,
             funnelLegend = TRUE,
-            funnelLegendPos = "topleft", ...) {
+            funnelLegendPos = "topright",
+            funnelLegendCex = 100, ...) {
 
             super$initialize(
                 package="MetaPort",
@@ -575,9 +576,9 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "bubbleRegline",
                 bubbleRegline,
                 default=TRUE)
-            private$..bubbleStudlab <- jmvcore::OptionBool$new(
-                "bubbleStudlab",
-                bubbleStudlab,
+            private$..bubbleStudyLabel <- jmvcore::OptionBool$new(
+                "bubbleStudyLabel",
+                bubbleStudyLabel,
                 default=FALSE)
             private$..leaveOneOut <- jmvcore::OptionBool$new(
                 "leaveOneOut",
@@ -724,9 +725,9 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "funnelPlot",
                 funnelPlot,
                 default=FALSE)
-            private$..funnelStudlab <- jmvcore::OptionBool$new(
-                "funnelStudlab",
-                funnelStudlab,
+            private$..funnelStudyLabel <- jmvcore::OptionBool$new(
+                "funnelStudyLabel",
+                funnelStudyLabel,
                 default=FALSE)
             private$..funnelContour <- jmvcore::OptionBool$new(
                 "funnelContour",
@@ -740,9 +741,15 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "funnelLegendPos",
                 funnelLegendPos,
                 options=list(
-                    "topleft",
-                    "topright"),
-                default="topleft")
+                    "topright",
+                    "topleft"),
+                default="topright")
+            private$..funnelLegendCex <- jmvcore::OptionNumber$new(
+                "funnelLegendCex",
+                funnelLegendCex,
+                min=50,
+                max=200,
+                default=100)
 
             self$.addOption(private$..studyLabel)
             self$.addOption(private$..meanE)
@@ -823,7 +830,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..showMetaRegSummary)
             self$.addOption(private$..bubblePlot)
             self$.addOption(private$..bubbleRegline)
-            self$.addOption(private$..bubbleStudlab)
+            self$.addOption(private$..bubbleStudyLabel)
             self$.addOption(private$..leaveOneOut)
             self$.addOption(private$..leaveOneOutPrediction)
             self$.addOption(private$..showLeaveOneOutSummary)
@@ -849,10 +856,11 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..leaveOneOutColgapForestUnit)
             self$.addOption(private$..pubBiasMode)
             self$.addOption(private$..funnelPlot)
-            self$.addOption(private$..funnelStudlab)
+            self$.addOption(private$..funnelStudyLabel)
             self$.addOption(private$..funnelContour)
             self$.addOption(private$..funnelLegend)
             self$.addOption(private$..funnelLegendPos)
+            self$.addOption(private$..funnelLegendCex)
         }),
     active = list(
         studyLabel = function() private$..studyLabel$value,
@@ -934,7 +942,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         showMetaRegSummary = function() private$..showMetaRegSummary$value,
         bubblePlot = function() private$..bubblePlot$value,
         bubbleRegline = function() private$..bubbleRegline$value,
-        bubbleStudlab = function() private$..bubbleStudlab$value,
+        bubbleStudyLabel = function() private$..bubbleStudyLabel$value,
         leaveOneOut = function() private$..leaveOneOut$value,
         leaveOneOutPrediction = function() private$..leaveOneOutPrediction$value,
         showLeaveOneOutSummary = function() private$..showLeaveOneOutSummary$value,
@@ -960,10 +968,11 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         leaveOneOutColgapForestUnit = function() private$..leaveOneOutColgapForestUnit$value,
         pubBiasMode = function() private$..pubBiasMode$value,
         funnelPlot = function() private$..funnelPlot$value,
-        funnelStudlab = function() private$..funnelStudlab$value,
+        funnelStudyLabel = function() private$..funnelStudyLabel$value,
         funnelContour = function() private$..funnelContour$value,
         funnelLegend = function() private$..funnelLegend$value,
-        funnelLegendPos = function() private$..funnelLegendPos$value),
+        funnelLegendPos = function() private$..funnelLegendPos$value,
+        funnelLegendCex = function() private$..funnelLegendCex$value),
     private = list(
         ..studyLabel = NA,
         ..meanE = NA,
@@ -1044,7 +1053,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..showMetaRegSummary = NA,
         ..bubblePlot = NA,
         ..bubbleRegline = NA,
-        ..bubbleStudlab = NA,
+        ..bubbleStudyLabel = NA,
         ..leaveOneOut = NA,
         ..leaveOneOutPrediction = NA,
         ..showLeaveOneOutSummary = NA,
@@ -1070,10 +1079,11 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..leaveOneOutColgapForestUnit = NA,
         ..pubBiasMode = NA,
         ..funnelPlot = NA,
-        ..funnelStudlab = NA,
+        ..funnelStudyLabel = NA,
         ..funnelContour = NA,
         ..funnelLegend = NA,
-        ..funnelLegendPos = NA)
+        ..funnelLegendPos = NA,
+        ..funnelLegendCex = NA)
 )
 
 metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -1291,7 +1301,7 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "metaRegTerms",
                     "metaRegIntercept",
                     "bubbleRegline",
-                    "bubbleStudlab"),
+                    "bubbleStudyLabel"),
                 refs=list(
                     "metaPackage")))
             self$add(jmvcore::Html$new(
@@ -1381,10 +1391,11 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "methodRandomCi",
                     "prediction",
                     "confidenceLevel",
-                    "funnelStudlab",
+                    "funnelStudyLabel",
                     "funnelContour",
                     "funnelLegend",
-                    "funnelLegendPos"),
+                    "funnelLegendPos",
+                    "funnelLegendCex"),
                 refs=list(
                     "metaPackage")))}))
 
@@ -1492,7 +1503,7 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param showMetaRegSummary .
 #' @param bubblePlot .
 #' @param bubbleRegline .
-#' @param bubbleStudlab .
+#' @param bubbleStudyLabel .
 #' @param leaveOneOut .
 #' @param leaveOneOutPrediction .
 #' @param showLeaveOneOutSummary .
@@ -1518,10 +1529,11 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param leaveOneOutColgapForestUnit .
 #' @param pubBiasMode .
 #' @param funnelPlot .
-#' @param funnelStudlab .
+#' @param funnelStudyLabel .
 #' @param funnelContour .
 #' @param funnelLegend .
 #' @param funnelLegendPos .
+#' @param funnelLegendCex .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$text} \tab \tab \tab \tab \tab a html \cr
@@ -1617,7 +1629,7 @@ metaCont <- function(
     showMetaRegSummary = TRUE,
     bubblePlot = FALSE,
     bubbleRegline = TRUE,
-    bubbleStudlab = FALSE,
+    bubbleStudyLabel = FALSE,
     leaveOneOut = FALSE,
     leaveOneOutPrediction = FALSE,
     showLeaveOneOutSummary = TRUE,
@@ -1643,10 +1655,11 @@ metaCont <- function(
     leaveOneOutColgapForestUnit = "mm",
     pubBiasMode = "funnelPlot",
     funnelPlot = FALSE,
-    funnelStudlab = FALSE,
+    funnelStudyLabel = FALSE,
     funnelContour = FALSE,
     funnelLegend = TRUE,
-    funnelLegendPos = "topleft") {
+    funnelLegendPos = "topright",
+    funnelLegendCex = 100) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("metaCont requires jmvcore to be installed (restart may be required)")
@@ -1758,7 +1771,7 @@ metaCont <- function(
         showMetaRegSummary = showMetaRegSummary,
         bubblePlot = bubblePlot,
         bubbleRegline = bubbleRegline,
-        bubbleStudlab = bubbleStudlab,
+        bubbleStudyLabel = bubbleStudyLabel,
         leaveOneOut = leaveOneOut,
         leaveOneOutPrediction = leaveOneOutPrediction,
         showLeaveOneOutSummary = showLeaveOneOutSummary,
@@ -1784,10 +1797,11 @@ metaCont <- function(
         leaveOneOutColgapForestUnit = leaveOneOutColgapForestUnit,
         pubBiasMode = pubBiasMode,
         funnelPlot = funnelPlot,
-        funnelStudlab = funnelStudlab,
+        funnelStudyLabel = funnelStudyLabel,
         funnelContour = funnelContour,
         funnelLegend = funnelLegend,
-        funnelLegendPos = funnelLegendPos)
+        funnelLegendPos = funnelLegendPos,
+        funnelLegendCex = funnelLegendCex)
 
     analysis <- metaContClass$new(
         options = options,
