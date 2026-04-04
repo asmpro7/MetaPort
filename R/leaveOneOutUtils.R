@@ -41,9 +41,6 @@ updateLeaveOneOutVisibility <- function(options, results) {
 #' @return The (invisible) return value of `meta::forest()`.
 #' @noRd
 renderLeaveOneOutForest <- function(leaveOneOutModel, options) {
-  grid::grid.newpage()
-  grid::grid.rect(gp = grid::gpar(fill = "white", col = NA))
-
   colgap <- paste0(options$leaveOneOutColgap, options$leaveOneOutColgapUnit)
   colgap.forest <- paste0(
     options$leaveOneOutColgapForest,
@@ -52,7 +49,6 @@ renderLeaveOneOutForest <- function(leaveOneOutModel, options) {
 
   args <- list(
     x = leaveOneOutModel,
-    new = FALSE,
     layout = options$leaveOneOutForestLayout,
     label.left = options$leaveOneOutLabelLeft,
     label.right = options$leaveOneOutLabelRight,

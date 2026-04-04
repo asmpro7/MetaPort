@@ -13,9 +13,6 @@
 #' @return The (invisible) return value of `meta::forest()`.
 #' @noRd
 renderForest <- function(model, options, ...) {
-  grid::grid.newpage()
-  grid::grid.rect(gp = grid::gpar(fill = "white", col = NA))
-
   # Format numeric gaps into strings with units (e.g. "2mm")
   # Values are always present — validated Number inputs in .a.yaml
   colgap <- paste0(options$colgap, options$colgapUnit)
@@ -23,7 +20,6 @@ renderForest <- function(model, options, ...) {
 
   args <- list(
     x = model,
-    new = FALSE,
     layout = options$forestLayout,
     label.left = options$labelLeft,
     label.right = options$labelRight,
