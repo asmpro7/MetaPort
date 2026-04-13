@@ -122,7 +122,7 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             asymmetryPlot = FALSE, ...) {
 
             super$initialize(
-                package="MetaPort",
+                package="MetaJam",
                 name="metaCont",
                 requiresData=TRUE,
                 ...)
@@ -1491,7 +1491,7 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     public = list(
         initialize = function(options, data=NULL, datasetId="", analysisId="", revision=0) {
             super$initialize(
-                package = "MetaPort",
+                package = "MetaJam",
                 name = "metaCont",
                 version = c(1,0,0),
                 options = options,

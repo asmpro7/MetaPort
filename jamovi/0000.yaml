@@ -1,6 +1,6 @@
 ---
 title: What the Package Does (Title Case)
-name: MetaPort
+name: MetaJam
 version: 0.0.0
 jms: '1.0'
 authors:
@@ -14,9 +14,9 @@ description: >-
 analyses:
   - title: Continuous Meta-Analysis
     name: metaCont
-    ns: MetaPort
+    ns: MetaJam
     category: analyses
-    menuGroup: MetaPort
+    menuGroup: MetaJam
     menuTitle: Continuous Meta-Analysis
 usesNative: true
 minApp: 1.0.8

@@ -65,10 +65,10 @@ asHtml <- function(..., title = NULL) {
   # 2. Structure: DIV (Box) containing PRE (Text)
   htmlContent <- paste0(
     "<style>
-      .jmv-results-html:has(.metaport-output) { width: max-content !important; }
+      .jmv-results-html:has(.metajam-output) { width: max-content !important; }
     </style>",
     titleHtml,
-    "<div class='metaport-output' style=\"",
+    "<div class='metajam-output' style=\"",
     divCss,
     "\">",
     "<pre style=\"",
