@@ -34,10 +34,12 @@ asHtml <- function(..., title = NULL) {
 
   # Container style (Outer Box)
   divCss <- "
-    background-color: #f8f9fa;
-    border: 1px solid #e9ecef;
+    background-color: transparent;
+    border: 1px solid #d1d5db;
+    border-left: 4px solid #6c757d;
     border-radius: 4px;
     padding: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   "
 
   # Text style (Inner Pre)
