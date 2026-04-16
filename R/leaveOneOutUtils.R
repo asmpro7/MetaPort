@@ -70,11 +70,11 @@ renderLeaveOneOutForest <- function(leaveOneOutModel, options) {
     )
   }
 
-  if (options$leaveOneOutXlimMode == "custom") {
+  if (options$leaveOneOutXlimCustom) {
     args$xlim <- c(options$leaveOneOutXlimLower, options$leaveOneOutXlimUpper)
   }
 
-  if (options$leaveOneOutAddrowsMode == "custom") {
+  if (options$leaveOneOutAddrowsCustom) {
     args$addrows.below.overall <- options$leaveOneOutAddrowsBelowOverall
   }
 

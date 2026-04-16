@@ -50,10 +50,10 @@ items:
       - labelC
       - labelLeft
       - labelRight
-      - xlimMode
+      - xlimCustom
       - xlimLower
       - xlimUpper
-      - addrowsMode
+      - addrowsCustom
       - addrowsBelowOverall
       - colgap
       - colgapUnit
@@ -120,10 +120,10 @@ items:
       - subgroupLabelC
       - subgroupLabelLeft
       - subgroupLabelRight
-      - subgroupXlimMode
+      - subgroupXlimCustom
       - subgroupXlimLower
       - subgroupXlimUpper
-      - subgroupAddrowsMode
+      - subgroupAddrowsCustom
       - subgroupAddrowsBelowOverall
       - subgroupColgap
       - subgroupColgapUnit
@@ -240,10 +240,10 @@ items:
       - leaveOneOutSortBy
       - leaveOneOutLabelLeft
       - leaveOneOutLabelRight
-      - leaveOneOutXlimMode
+      - leaveOneOutXlimCustom
       - leaveOneOutXlimLower
       - leaveOneOutXlimUpper
-      - leaveOneOutAddrowsMode
+      - leaveOneOutAddrowsCustom
       - leaveOneOutAddrowsBelowOverall
       - leaveOneOutColgap
       - leaveOneOutColgapUnit

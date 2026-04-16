@@ -235,15 +235,10 @@ options:
     type: String
     default: ""
 
-  - name: xlimMode
-    title: X-axis limits
-    type: List
-    options:
-      - title: Auto
-        name: auto
-      - title: Custom
-        name: custom
-    default: auto
+  - name: xlimCustom
+    title: Custom x-axis limits
+    type: Bool
+    default: false
 
   - name: xlimLower
     title: Lower limit
@@ -255,15 +250,10 @@ options:
     type: Number
     default: 20
 
-  - name: addrowsMode
-    title: Space above footnotes
-    type: List
-    options:
-      - title: Auto
-        name: auto
-      - title: Custom
-        name: custom
-    default: auto
+  - name: addrowsCustom
+    title: Custom space above footnotes
+    type: Bool
+    default: false
 
   - name: addrowsBelowOverall
     title: ""
@@ -434,15 +424,10 @@ options:
     type: String
     default: ""
 
-  - name: subgroupXlimMode
-    title: X-axis limits
-    type: List
-    options:
-      - title: Auto
-        name: auto
-      - title: Custom
-        name: custom
-    default: auto
+  - name: subgroupXlimCustom
+    title: Custom x-axis limits
+    type: Bool
+    default: false
 
   - name: subgroupXlimLower
     title: Lower limit
@@ -454,15 +439,10 @@ options:
     type: Number
     default: 20
 
-  - name: subgroupAddrowsMode
-    title: Space above footnotes
-    type: List
-    options:
-      - title: Auto
-        name: auto
-      - title: Custom
-        name: custom
-    default: auto
+  - name: subgroupAddrowsCustom
+    title: Custom space above footnotes
+    type: Bool
+    default: false
 
   - name: subgroupAddrowsBelowOverall
     title: ""
@@ -630,15 +610,10 @@ options:
     type: String
     default: ""
 
-  - name: leaveOneOutXlimMode
-    title: X-axis limits
-    type: List
-    options:
-      - title: Auto
-        name: auto
-      - title: Custom
-        name: custom
-    default: auto
+  - name: leaveOneOutXlimCustom
+    title: Custom x-axis limits
+    type: Bool
+    default: false
 
   - name: leaveOneOutXlimLower
     title: Lower limit
@@ -650,15 +625,10 @@ options:
     type: Number
     default: 20
 
-  - name: leaveOneOutAddrowsMode
-    title: Space above footnotes
-    type: List
-    options:
-      - title: Auto
-        name: auto
-      - title: Custom
-        name: custom
-    default: auto
+  - name: leaveOneOutAddrowsCustom
+    title: Custom space above footnotes
+    type: Bool
+    default: false
 
   - name: leaveOneOutAddrowsBelowOverall
     title: ""

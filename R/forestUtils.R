@@ -49,13 +49,13 @@ renderForest <- function(model, options, ...) {
   }
 
   # When custom, pass xlim; when auto, let meta use its own default
-  if (options$xlimMode == "custom") {
+  if (options$xlimCustom) {
     args$xlim <- c(options$xlimLower, options$xlimUpper)
   }
 
   # When custom, pass addrows.below.overall; when auto, let meta's smart
   # auto-calculation kick in
-  if (options$addrowsMode == "custom") {
+  if (options$addrowsCustom) {
     args$addrows.below.overall <- options$addrowsBelowOverall
   }
 

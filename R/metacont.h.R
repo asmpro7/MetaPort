@@ -33,10 +33,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             labelC = "Control",
             labelLeft = "",
             labelRight = "",
-            xlimMode = "auto",
+            xlimCustom = FALSE,
             xlimLower = -20,
             xlimUpper = 20,
-            addrowsMode = "auto",
+            addrowsCustom = FALSE,
             addrowsBelowOverall = 0,
             colgap = 2,
             colgapUnit = "mm",
@@ -61,10 +61,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             subgroupLabelC = "Control",
             subgroupLabelLeft = "",
             subgroupLabelRight = "",
-            subgroupXlimMode = "auto",
+            subgroupXlimCustom = FALSE,
             subgroupXlimLower = -20,
             subgroupXlimUpper = 20,
-            subgroupAddrowsMode = "auto",
+            subgroupAddrowsCustom = FALSE,
             subgroupAddrowsBelowOverall = 0,
             subgroupColgap = 2,
             subgroupColgapUnit = "mm",
@@ -88,10 +88,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             leaveOneOutForestDetails = FALSE,
             leaveOneOutLabelLeft = "",
             leaveOneOutLabelRight = "",
-            leaveOneOutXlimMode = "auto",
+            leaveOneOutXlimCustom = FALSE,
             leaveOneOutXlimLower = -20,
             leaveOneOutXlimUpper = 20,
-            leaveOneOutAddrowsMode = "auto",
+            leaveOneOutAddrowsCustom = FALSE,
             leaveOneOutAddrowsBelowOverall = 0,
             leaveOneOutColgap = 2,
             leaveOneOutColgapUnit = "mm",
@@ -285,13 +285,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "labelRight",
                 labelRight,
                 default="")
-            private$..xlimMode <- jmvcore::OptionList$new(
-                "xlimMode",
-                xlimMode,
-                options=list(
-                    "auto",
-                    "custom"),
-                default="auto")
+            private$..xlimCustom <- jmvcore::OptionBool$new(
+                "xlimCustom",
+                xlimCustom,
+                default=FALSE)
             private$..xlimLower <- jmvcore::OptionNumber$new(
                 "xlimLower",
                 xlimLower,
@@ -300,13 +297,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "xlimUpper",
                 xlimUpper,
                 default=20)
-            private$..addrowsMode <- jmvcore::OptionList$new(
-                "addrowsMode",
-                addrowsMode,
-                options=list(
-                    "auto",
-                    "custom"),
-                default="auto")
+            private$..addrowsCustom <- jmvcore::OptionBool$new(
+                "addrowsCustom",
+                addrowsCustom,
+                default=FALSE)
             private$..addrowsBelowOverall <- jmvcore::OptionInteger$new(
                 "addrowsBelowOverall",
                 addrowsBelowOverall,
@@ -434,13 +428,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "subgroupLabelRight",
                 subgroupLabelRight,
                 default="")
-            private$..subgroupXlimMode <- jmvcore::OptionList$new(
-                "subgroupXlimMode",
-                subgroupXlimMode,
-                options=list(
-                    "auto",
-                    "custom"),
-                default="auto")
+            private$..subgroupXlimCustom <- jmvcore::OptionBool$new(
+                "subgroupXlimCustom",
+                subgroupXlimCustom,
+                default=FALSE)
             private$..subgroupXlimLower <- jmvcore::OptionNumber$new(
                 "subgroupXlimLower",
                 subgroupXlimLower,
@@ -449,13 +440,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "subgroupXlimUpper",
                 subgroupXlimUpper,
                 default=20)
-            private$..subgroupAddrowsMode <- jmvcore::OptionList$new(
-                "subgroupAddrowsMode",
-                subgroupAddrowsMode,
-                options=list(
-                    "auto",
-                    "custom"),
-                default="auto")
+            private$..subgroupAddrowsCustom <- jmvcore::OptionBool$new(
+                "subgroupAddrowsCustom",
+                subgroupAddrowsCustom,
+                default=FALSE)
             private$..subgroupAddrowsBelowOverall <- jmvcore::OptionInteger$new(
                 "subgroupAddrowsBelowOverall",
                 subgroupAddrowsBelowOverall,
@@ -580,13 +568,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "leaveOneOutLabelRight",
                 leaveOneOutLabelRight,
                 default="")
-            private$..leaveOneOutXlimMode <- jmvcore::OptionList$new(
-                "leaveOneOutXlimMode",
-                leaveOneOutXlimMode,
-                options=list(
-                    "auto",
-                    "custom"),
-                default="auto")
+            private$..leaveOneOutXlimCustom <- jmvcore::OptionBool$new(
+                "leaveOneOutXlimCustom",
+                leaveOneOutXlimCustom,
+                default=FALSE)
             private$..leaveOneOutXlimLower <- jmvcore::OptionNumber$new(
                 "leaveOneOutXlimLower",
                 leaveOneOutXlimLower,
@@ -595,13 +580,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "leaveOneOutXlimUpper",
                 leaveOneOutXlimUpper,
                 default=20)
-            private$..leaveOneOutAddrowsMode <- jmvcore::OptionList$new(
-                "leaveOneOutAddrowsMode",
-                leaveOneOutAddrowsMode,
-                options=list(
-                    "auto",
-                    "custom"),
-                default="auto")
+            private$..leaveOneOutAddrowsCustom <- jmvcore::OptionBool$new(
+                "leaveOneOutAddrowsCustom",
+                leaveOneOutAddrowsCustom,
+                default=FALSE)
             private$..leaveOneOutAddrowsBelowOverall <- jmvcore::OptionInteger$new(
                 "leaveOneOutAddrowsBelowOverall",
                 leaveOneOutAddrowsBelowOverall,
@@ -719,10 +701,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..labelC)
             self$.addOption(private$..labelLeft)
             self$.addOption(private$..labelRight)
-            self$.addOption(private$..xlimMode)
+            self$.addOption(private$..xlimCustom)
             self$.addOption(private$..xlimLower)
             self$.addOption(private$..xlimUpper)
-            self$.addOption(private$..addrowsMode)
+            self$.addOption(private$..addrowsCustom)
             self$.addOption(private$..addrowsBelowOverall)
             self$.addOption(private$..colgap)
             self$.addOption(private$..colgapUnit)
@@ -747,10 +729,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..subgroupLabelC)
             self$.addOption(private$..subgroupLabelLeft)
             self$.addOption(private$..subgroupLabelRight)
-            self$.addOption(private$..subgroupXlimMode)
+            self$.addOption(private$..subgroupXlimCustom)
             self$.addOption(private$..subgroupXlimLower)
             self$.addOption(private$..subgroupXlimUpper)
-            self$.addOption(private$..subgroupAddrowsMode)
+            self$.addOption(private$..subgroupAddrowsCustom)
             self$.addOption(private$..subgroupAddrowsBelowOverall)
             self$.addOption(private$..subgroupColgap)
             self$.addOption(private$..subgroupColgapUnit)
@@ -774,10 +756,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..leaveOneOutForestDetails)
             self$.addOption(private$..leaveOneOutLabelLeft)
             self$.addOption(private$..leaveOneOutLabelRight)
-            self$.addOption(private$..leaveOneOutXlimMode)
+            self$.addOption(private$..leaveOneOutXlimCustom)
             self$.addOption(private$..leaveOneOutXlimLower)
             self$.addOption(private$..leaveOneOutXlimUpper)
-            self$.addOption(private$..leaveOneOutAddrowsMode)
+            self$.addOption(private$..leaveOneOutAddrowsCustom)
             self$.addOption(private$..leaveOneOutAddrowsBelowOverall)
             self$.addOption(private$..leaveOneOutColgap)
             self$.addOption(private$..leaveOneOutColgapUnit)
@@ -823,10 +805,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         labelC = function() private$..labelC$value,
         labelLeft = function() private$..labelLeft$value,
         labelRight = function() private$..labelRight$value,
-        xlimMode = function() private$..xlimMode$value,
+        xlimCustom = function() private$..xlimCustom$value,
         xlimLower = function() private$..xlimLower$value,
         xlimUpper = function() private$..xlimUpper$value,
-        addrowsMode = function() private$..addrowsMode$value,
+        addrowsCustom = function() private$..addrowsCustom$value,
         addrowsBelowOverall = function() private$..addrowsBelowOverall$value,
         colgap = function() private$..colgap$value,
         colgapUnit = function() private$..colgapUnit$value,
@@ -851,10 +833,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         subgroupLabelC = function() private$..subgroupLabelC$value,
         subgroupLabelLeft = function() private$..subgroupLabelLeft$value,
         subgroupLabelRight = function() private$..subgroupLabelRight$value,
-        subgroupXlimMode = function() private$..subgroupXlimMode$value,
+        subgroupXlimCustom = function() private$..subgroupXlimCustom$value,
         subgroupXlimLower = function() private$..subgroupXlimLower$value,
         subgroupXlimUpper = function() private$..subgroupXlimUpper$value,
-        subgroupAddrowsMode = function() private$..subgroupAddrowsMode$value,
+        subgroupAddrowsCustom = function() private$..subgroupAddrowsCustom$value,
         subgroupAddrowsBelowOverall = function() private$..subgroupAddrowsBelowOverall$value,
         subgroupColgap = function() private$..subgroupColgap$value,
         subgroupColgapUnit = function() private$..subgroupColgapUnit$value,
@@ -878,10 +860,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         leaveOneOutForestDetails = function() private$..leaveOneOutForestDetails$value,
         leaveOneOutLabelLeft = function() private$..leaveOneOutLabelLeft$value,
         leaveOneOutLabelRight = function() private$..leaveOneOutLabelRight$value,
-        leaveOneOutXlimMode = function() private$..leaveOneOutXlimMode$value,
+        leaveOneOutXlimCustom = function() private$..leaveOneOutXlimCustom$value,
         leaveOneOutXlimLower = function() private$..leaveOneOutXlimLower$value,
         leaveOneOutXlimUpper = function() private$..leaveOneOutXlimUpper$value,
-        leaveOneOutAddrowsMode = function() private$..leaveOneOutAddrowsMode$value,
+        leaveOneOutAddrowsCustom = function() private$..leaveOneOutAddrowsCustom$value,
         leaveOneOutAddrowsBelowOverall = function() private$..leaveOneOutAddrowsBelowOverall$value,
         leaveOneOutColgap = function() private$..leaveOneOutColgap$value,
         leaveOneOutColgapUnit = function() private$..leaveOneOutColgapUnit$value,
@@ -926,10 +908,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..labelC = NA,
         ..labelLeft = NA,
         ..labelRight = NA,
-        ..xlimMode = NA,
+        ..xlimCustom = NA,
         ..xlimLower = NA,
         ..xlimUpper = NA,
-        ..addrowsMode = NA,
+        ..addrowsCustom = NA,
         ..addrowsBelowOverall = NA,
         ..colgap = NA,
         ..colgapUnit = NA,
@@ -954,10 +936,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..subgroupLabelC = NA,
         ..subgroupLabelLeft = NA,
         ..subgroupLabelRight = NA,
-        ..subgroupXlimMode = NA,
+        ..subgroupXlimCustom = NA,
         ..subgroupXlimLower = NA,
         ..subgroupXlimUpper = NA,
-        ..subgroupAddrowsMode = NA,
+        ..subgroupAddrowsCustom = NA,
         ..subgroupAddrowsBelowOverall = NA,
         ..subgroupColgap = NA,
         ..subgroupColgapUnit = NA,
@@ -981,10 +963,10 @@ metaContOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..leaveOneOutForestDetails = NA,
         ..leaveOneOutLabelLeft = NA,
         ..leaveOneOutLabelRight = NA,
-        ..leaveOneOutXlimMode = NA,
+        ..leaveOneOutXlimCustom = NA,
         ..leaveOneOutXlimLower = NA,
         ..leaveOneOutXlimUpper = NA,
-        ..leaveOneOutAddrowsMode = NA,
+        ..leaveOneOutAddrowsCustom = NA,
         ..leaveOneOutAddrowsBelowOverall = NA,
         ..leaveOneOutColgap = NA,
         ..leaveOneOutColgapUnit = NA,
@@ -1073,10 +1055,10 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "labelC",
                     "labelLeft",
                     "labelRight",
-                    "xlimMode",
+                    "xlimCustom",
                     "xlimLower",
                     "xlimUpper",
-                    "addrowsMode",
+                    "addrowsCustom",
                     "addrowsBelowOverall",
                     "colgap",
                     "colgapUnit",
@@ -1143,10 +1125,10 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "subgroupLabelC",
                     "subgroupLabelLeft",
                     "subgroupLabelRight",
-                    "subgroupXlimMode",
+                    "subgroupXlimCustom",
                     "subgroupXlimLower",
                     "subgroupXlimUpper",
-                    "subgroupAddrowsMode",
+                    "subgroupAddrowsCustom",
                     "subgroupAddrowsBelowOverall",
                     "subgroupColgap",
                     "subgroupColgapUnit",
@@ -1263,10 +1245,10 @@ metaContResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "leaveOneOutSortBy",
                     "leaveOneOutLabelLeft",
                     "leaveOneOutLabelRight",
-                    "leaveOneOutXlimMode",
+                    "leaveOneOutXlimCustom",
                     "leaveOneOutXlimLower",
                     "leaveOneOutXlimUpper",
-                    "leaveOneOutAddrowsMode",
+                    "leaveOneOutAddrowsCustom",
                     "leaveOneOutAddrowsBelowOverall",
                     "leaveOneOutColgap",
                     "leaveOneOutColgapUnit",
@@ -1405,10 +1387,10 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param labelC .
 #' @param labelLeft .
 #' @param labelRight .
-#' @param xlimMode .
+#' @param xlimCustom .
 #' @param xlimLower .
 #' @param xlimUpper .
-#' @param addrowsMode .
+#' @param addrowsCustom .
 #' @param addrowsBelowOverall .
 #' @param colgap .
 #' @param colgapUnit .
@@ -1433,10 +1415,10 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param subgroupLabelC .
 #' @param subgroupLabelLeft .
 #' @param subgroupLabelRight .
-#' @param subgroupXlimMode .
+#' @param subgroupXlimCustom .
 #' @param subgroupXlimLower .
 #' @param subgroupXlimUpper .
-#' @param subgroupAddrowsMode .
+#' @param subgroupAddrowsCustom .
 #' @param subgroupAddrowsBelowOverall .
 #' @param subgroupColgap .
 #' @param subgroupColgapUnit .
@@ -1460,10 +1442,10 @@ metaContBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param leaveOneOutForestDetails .
 #' @param leaveOneOutLabelLeft .
 #' @param leaveOneOutLabelRight .
-#' @param leaveOneOutXlimMode .
+#' @param leaveOneOutXlimCustom .
 #' @param leaveOneOutXlimLower .
 #' @param leaveOneOutXlimUpper .
-#' @param leaveOneOutAddrowsMode .
+#' @param leaveOneOutAddrowsCustom .
 #' @param leaveOneOutAddrowsBelowOverall .
 #' @param leaveOneOutColgap .
 #' @param leaveOneOutColgapUnit .
@@ -1525,10 +1507,10 @@ metaCont <- function(
     labelC = "Control",
     labelLeft = "",
     labelRight = "",
-    xlimMode = "auto",
+    xlimCustom = FALSE,
     xlimLower = -20,
     xlimUpper = 20,
-    addrowsMode = "auto",
+    addrowsCustom = FALSE,
     addrowsBelowOverall = 0,
     colgap = 2,
     colgapUnit = "mm",
@@ -1553,10 +1535,10 @@ metaCont <- function(
     subgroupLabelC = "Control",
     subgroupLabelLeft = "",
     subgroupLabelRight = "",
-    subgroupXlimMode = "auto",
+    subgroupXlimCustom = FALSE,
     subgroupXlimLower = -20,
     subgroupXlimUpper = 20,
-    subgroupAddrowsMode = "auto",
+    subgroupAddrowsCustom = FALSE,
     subgroupAddrowsBelowOverall = 0,
     subgroupColgap = 2,
     subgroupColgapUnit = "mm",
@@ -1580,10 +1562,10 @@ metaCont <- function(
     leaveOneOutForestDetails = FALSE,
     leaveOneOutLabelLeft = "",
     leaveOneOutLabelRight = "",
-    leaveOneOutXlimMode = "auto",
+    leaveOneOutXlimCustom = FALSE,
     leaveOneOutXlimLower = -20,
     leaveOneOutXlimUpper = 20,
-    leaveOneOutAddrowsMode = "auto",
+    leaveOneOutAddrowsCustom = FALSE,
     leaveOneOutAddrowsBelowOverall = 0,
     leaveOneOutColgap = 2,
     leaveOneOutColgapUnit = "mm",
@@ -1659,10 +1641,10 @@ metaCont <- function(
         labelC = labelC,
         labelLeft = labelLeft,
         labelRight = labelRight,
-        xlimMode = xlimMode,
+        xlimCustom = xlimCustom,
         xlimLower = xlimLower,
         xlimUpper = xlimUpper,
-        addrowsMode = addrowsMode,
+        addrowsCustom = addrowsCustom,
         addrowsBelowOverall = addrowsBelowOverall,
         colgap = colgap,
         colgapUnit = colgapUnit,
@@ -1687,10 +1669,10 @@ metaCont <- function(
         subgroupLabelC = subgroupLabelC,
         subgroupLabelLeft = subgroupLabelLeft,
         subgroupLabelRight = subgroupLabelRight,
-        subgroupXlimMode = subgroupXlimMode,
+        subgroupXlimCustom = subgroupXlimCustom,
         subgroupXlimLower = subgroupXlimLower,
         subgroupXlimUpper = subgroupXlimUpper,
-        subgroupAddrowsMode = subgroupAddrowsMode,
+        subgroupAddrowsCustom = subgroupAddrowsCustom,
         subgroupAddrowsBelowOverall = subgroupAddrowsBelowOverall,
         subgroupColgap = subgroupColgap,
         subgroupColgapUnit = subgroupColgapUnit,
@@ -1714,10 +1696,10 @@ metaCont <- function(
         leaveOneOutForestDetails = leaveOneOutForestDetails,
         leaveOneOutLabelLeft = leaveOneOutLabelLeft,
         leaveOneOutLabelRight = leaveOneOutLabelRight,
-        leaveOneOutXlimMode = leaveOneOutXlimMode,
+        leaveOneOutXlimCustom = leaveOneOutXlimCustom,
         leaveOneOutXlimLower = leaveOneOutXlimLower,
         leaveOneOutXlimUpper = leaveOneOutXlimUpper,
-        leaveOneOutAddrowsMode = leaveOneOutAddrowsMode,
+        leaveOneOutAddrowsCustom = leaveOneOutAddrowsCustom,
         leaveOneOutAddrowsBelowOverall = leaveOneOutAddrowsBelowOverall,
         leaveOneOutColgap = leaveOneOutColgap,
         leaveOneOutColgapUnit = leaveOneOutColgapUnit,
